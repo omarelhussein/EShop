@@ -3,5 +3,5 @@ package shop.domain;
 public class ArtikelService {
 
     
-    //Huhre
+    //Das wird Hure geschrieben
 }
