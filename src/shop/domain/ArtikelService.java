@@ -60,7 +60,6 @@ public class ArtikelService {
         return null;
     }
 
-
     /**
      * Artikel ausgeben (liste)
      */
