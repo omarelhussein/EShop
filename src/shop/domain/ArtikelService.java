@@ -4,4 +4,5 @@ public class ArtikelService {
 
     
     //Streber
+    //Den Kommentar ersetze
 }
