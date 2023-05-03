@@ -6,16 +6,17 @@ import shop.entities.Artikel;
 import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
+
 public class EShopCUI {
 
-    private ShopAPI shopAPI;
-    private Scanner in;
+    private final ShopAPI shopAPI;
+    private final Scanner in;
 
     public EShopCUI() {
         shopAPI = new ShopAPI();
         in = new Scanner(System.in);
     }
-    // eingaben
+
     /**
      * Liest die Eingaben des Nutzers in der Console
      */
@@ -23,7 +24,6 @@ public class EShopCUI {
         return in.nextLine();
     }
 
-    // ausgaben
     /**
      * gibt ein einfaches Menü aus
      * !MUSS NOCH ÜBERARBEITET WERDEN. PLAN IST ES ERST ZWISCHEN ARTIKEL, KUNDEN UND MITARBEITER BEFEHLEN
@@ -47,12 +47,11 @@ public class EShopCUI {
         System.out.print("> ");
         System.out.flush();
     }
-    // verarbeitung
+
     /**
      * Verarbeitet die Eingabe des Nutzers
-     * !UNVOLLSTÄNDIG UND MUSS NACH ÜBERARBEITUNG VON "gibMenueEinfach()" ÜBERARBEITET WERDEN!
      */
-
+     // TODO: !UNVOLLSTÄNDIG UND MUSS NACH ÜBERARBEITUNG VON "gibMenueEinfach()" ÜBERARBEITET WERDEN!
     private void verarbeitungEingabe(String input) {
         List<Artikel> ListeAnArtikeln;
         switch (input) {
@@ -70,10 +69,10 @@ public class EShopCUI {
     /**
      * Startet das Menue für die Befehle und gibt daraufhin den
      * Input des Nutzers in die methode "verarbeitungEingabe()" weiter.
-     *
+     * <p>
      * Wird so lange ausgeführt bis der Nutzer "q" eingibt um die while Schleife zu unterbrechen.
-     * !MUSS NOCH ÜBERARBEITET WERDEN WENN DIE MENUES ÜBERARBEITET WERDEN!
      */
+     // TODO: !MUSS NOCH ÜBERARBEITET WERDEN WENN DIE MENUES ÜBERARBEITET WERDEN!
     public void run() {
         // Variable für Eingaben von der Konsole
         String input = "";
@@ -85,7 +84,6 @@ public class EShopCUI {
                 input = eingabe();
                 verarbeitungEingabe(input);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } while (!input.equals("q"));
@@ -93,13 +91,8 @@ public class EShopCUI {
 
     public static void main(String[] args) {
         EShopCUI cui;
-        try {
-            cui = new EShopCUI("EShop");
-            cui.run();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        cui = new EShopCUI();
+        cui.run();
     }
 
 }
