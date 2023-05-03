@@ -5,7 +5,7 @@ public abstract class Person {
     private String name;
     private int persNr;
 
-    public Person(int persNr, String name) {                //Konstruktor
+    public Person(int persNr, String name) {
         this.name = name;
         this.persNr = persNr;
     }
@@ -30,7 +30,7 @@ public abstract class Person {
      * Personen vergleichen
      *
      * @param obj das Objekt zum Vergleichen. Hier werden nur die Personalnummern verglichen.
-     * @return
+     * @return true, wenn die Personen die gleiche Personalnummer haben, sonst false
      */
     @Override
     public boolean equals(Object obj) {
@@ -40,11 +40,6 @@ public abstract class Person {
         return false;
     }
 
-    /**
-     * Personendaten als String ausgeben
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return "PersNr: " + this.persNr + "\n" +
