@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
 
-public class EShopCUI {
+public class EShopCUI{
 
     private final ShopAPI shopAPI;
     private final Scanner in;

@@ -5,9 +5,12 @@ public abstract class Person {
     private String name;
     private int persNr;
 
-    public Person(int persNr, String name) {
+    private String passwort;
+
+    public Person(int persNr, String name, String passwort) {
         this.name = name;
         this.persNr = persNr;
+        this.passwort = passwort;
     }
 
     public void setName(String name) {                      //Ein- & Ausgabe
@@ -18,6 +21,8 @@ public abstract class Person {
         this.persNr = persNr;
     }
 
+    public void setPasswort(String passwort) { this.passwort = passwort; }
+
     public String getName() {
         return name;
     }
@@ -25,6 +30,10 @@ public abstract class Person {
     public int getPersNr() {
         return persNr;
     }
+
+    public String getPasswort() { return passwort;}
+
+
 
     /**
      * Personen vergleichen
