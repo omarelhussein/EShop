@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class ArtikelService {
 
-    List<Artikel> artikelList = new ArrayList<>();
+    private List<Artikel> artikelList = new ArrayList<>();
 
     /**
      * Artikel der Liste hinzufügen
@@ -30,7 +30,7 @@ public class ArtikelService {
      */
     public void removeArtikel(Artikel artikel) throws ArtikelNichtGefundenException {
         if (getArtikelByArtNr(artikel.getArtNr()) == null) {
-            throw new ArtikelNichtGefundenException("Artikel zum löschen wurde nicht gefunden");
+            throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
         artikelList.remove(artikel);
     }
@@ -78,6 +78,7 @@ public class ArtikelService {
                 .stream()
                 .filter(artikel -> artikel.getArtNr() == artikelNr)
                 .findFirst().orElse(null);
+//                .findFirst().orElseThrow(new ArtikelNichtGefundenException(artikelNr));
     }
 
     /**
@@ -91,7 +92,7 @@ public class ArtikelService {
         // die ID suchen, wenn nicht vorhanden dementsprechend fehlermeldung ausgeben
         var gefundenesArtikel = getArtikelByArtNr(artikel.getArtNr());
         if (gefundenesArtikel == null) {
-            throw new ArtikelNichtGefundenException("Artikel konnte nicht gefunden werden");
+            throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
         if (artikel.getBezeichnung() != null) {
             gefundenesArtikel.setBezeichnung(artikel.getBezeichnung());

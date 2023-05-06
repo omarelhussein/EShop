@@ -1,13 +1,21 @@
 package shop.entities;
 
+import shop.ui.cui.enums.AuswahlTyp;
+
 public abstract class Person {
 
     private String name;
     private int persNr;
+    private String nutzername;
+    private String passwort;
+    private String email;
 
-    public Person(int persNr, String name) {
+    public Person(int persNr, String name, String nutzername, String passwort, String email) {
         this.name = name;
         this.persNr = persNr;
+        this.nutzername = nutzername;
+        this.passwort = passwort;
+        this.email = email;
     }
 
     public void setName(String name) {                      //Ein- & Ausgabe
@@ -24,6 +32,30 @@ public abstract class Person {
 
     public int getPersNr() {
         return persNr;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNutzername() {
+        return nutzername;
+    }
+
+    public String getPasswort() {
+        return passwort;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setNutzername(String nutzername) {
+        this.nutzername = nutzername;
+    }
+
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
     }
 
     /**
@@ -44,6 +76,16 @@ public abstract class Person {
     public String toString() {
         return "PersNr: " + this.persNr + "\n" +
                 "Name: " + this.name + "\n";
+    }
+
+    public AuswahlTyp getTyp() {
+        if (this instanceof Mitarbeiter) {
+            return AuswahlTyp.MITARBEITER;
+        } else if (this instanceof Kunde) {
+            return AuswahlTyp.KUNDE;
+        } else {
+            return AuswahlTyp.START;
+        }
     }
 
 }
