@@ -3,7 +3,7 @@ package shop.ui.cui;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class EShopCUI {
+public class EShopCUI{
 
     private final EShopCUIMenue cuiMenue;
     private final Scanner in;

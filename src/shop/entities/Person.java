@@ -6,16 +6,13 @@ public abstract class Person {
 
     private String name;
     private int persNr;
-    private String nutzername;
-    private String passwort;
-    private String email;
 
-    public Person(int persNr, String name, String nutzername, String passwort, String email) {
+    private String passwort;
+
+    public Person(int persNr, String name, String passwort) {
         this.name = name;
         this.persNr = persNr;
-        this.nutzername = nutzername;
         this.passwort = passwort;
-        this.email = email;
     }
 
     public void setName(String name) {                      //Ein- & Ausgabe
@@ -26,6 +23,8 @@ public abstract class Person {
         this.persNr = persNr;
     }
 
+    public void setPasswort(String passwort) { this.passwort = passwort; }
+
     public String getName() {
         return name;
     }
@@ -34,29 +33,9 @@ public abstract class Person {
         return persNr;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getPasswort() { return passwort;}
 
-    public String getNutzername() {
-        return nutzername;
-    }
 
-    public String getPasswort() {
-        return passwort;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setNutzername(String nutzername) {
-        this.nutzername = nutzername;
-    }
-
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
-    }
 
     /**
      * Personen vergleichen
