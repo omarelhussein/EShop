@@ -10,11 +10,15 @@ public class WarenkorbService {
     List<Artikel> Warenkorb = new ArrayList<>();
 
     public void addArtikelToWarenkorb(Artikel artikel) throws IstKeinArtikelException {
-        if(artikel instanceof Artikel){
                 Warenkorb.add(artikel);
-        }
-        else {
-            throw new IstKeinArtikelException("Artikel ist kein valider Artikel.");
-        }
+    }
+
+
+    public void removeArtikelFromWarenkorb(){
+
+    }
+
+    public void showWarenkorb(){
+
     }
 }

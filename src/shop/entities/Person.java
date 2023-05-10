@@ -4,15 +4,20 @@ public abstract class Person {
 
     private String name;
     private int persNr;
-
     private String passwort;
 
-    public Person(int persNr, String name, String passwort) {
+    private String eMail;
+
+    public Person(int persNr, String email, String name, String passwort) {
         this.name = name;
         this.persNr = persNr;
         this.passwort = passwort;
+        this.eMail = email;
     }
 
+    public void setEmail(String eMail) {                      //Ein- & Ausgabe
+        this.eMail = eMail;
+    }
     public void setName(String name) {                      //Ein- & Ausgabe
         this.name = name;
     }
@@ -23,6 +28,9 @@ public abstract class Person {
 
     public void setPasswort(String passwort) { this.passwort = passwort; }
 
+    public String getEmail() {
+        return eMail;
+    }
     public String getName() {
         return name;
     }
