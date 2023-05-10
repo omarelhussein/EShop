@@ -105,5 +105,9 @@ public class ArtikelService {
 
     }
 
+    public artikelList getArtList() {
+        return this.artikelList;
+    }
+
 
 }

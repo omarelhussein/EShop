@@ -38,6 +38,7 @@ public class PersonenService {
             }
             else {
                 Person registrierendePerson = new Kunde(kundenNr, name, Adresse, Passwort);
+                WarenkorbService.NeuerKorb(kundenNr);
                 personList.add(registrierendePerson);
             }
         }
