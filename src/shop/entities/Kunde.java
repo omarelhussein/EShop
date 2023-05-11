@@ -4,8 +4,9 @@ public class Kunde extends Person {
 
     private String adresse;
 
-    public Kunde(int kundenNr, String name, String adresse, String passwort) {       //Konstruktor
-        super(kundenNr, name, passwort);
+
+    public Kunde(int kundenNr, String email, String name, String adresse, String passwort) {       //Konstruktor
+        super(kundenNr, email, name, passwort);
         this.adresse = adresse;
     }
 
