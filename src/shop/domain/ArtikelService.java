@@ -105,7 +105,7 @@ public class ArtikelService {
 
     }
 
-    public artikelList getArtList() {
+    public List<Artikel> getArtList() {
         return this.artikelList;
     }
 

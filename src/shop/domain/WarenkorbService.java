@@ -2,7 +2,6 @@ package shop.domain;
 
 import shop.domain.exceptions.warenkorb.IstKeinArtikelException;
 import shop.entities.Artikel;
-import shop.domain.ArtikelService;
 import shop.entities.Warenkorb;
 
 import java.util.ArrayList;
@@ -10,24 +9,28 @@ import java.util.List;
 
 public class WarenkorbService {
     List<Warenkorb> Koerbe = new ArrayList<>();
-    private ArtikelService artikelservice = new ArtikelService();
 
-    public void addArtikelToWarenkorb(Artikel artikel, int KundenNr) throws IstKeinArtikelException {
-            if(artikel instanceof Artikel) {
-                for (int i = 0; i < ArtikelService.getArtList(artikelservice).size(); i++) {
-                    if (ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel)) == artikel && Artikel.getBestand(ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel))) > artikel.getBestand(artikel)) {
+    private final ArtikelService artikelservice = new ArtikelService();
+    private final Warenkorb warenkorb = new Warenkorb(1);
+    private final Artikel artikels = new Artikel(1,"eins",1,1);
+
+
+    public void addArtikelToWarenkorb(Artikel artikel, int KundenNr, int Anzahl) throws IstKeinArtikelException {
+            if(artikel != null) {
+                for (int i = 0; i < artikelservice.getArtList().size(); i++) {
+                    if (artikel.getBestand() > Anzahl && Anzahl > 0) {
                         int k = 0;
-                        for (int i = 0; i < Koerbe.size(); i++) {
-                            if (KundenNr == Koerbe[i].KundenNummer) {
+                        for (int o = 0; i < Koerbe.size(); o++) {
+                            if (KundenNr == Koerbe.get(o).getKundenNummer()) {
 
-                                Koerbe[i].ArtikelImKorb.add(artikel);
+                                Koerbe.get(o).addArtikel(artikel);
                                 k = 1;
 
-                                ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel)).setBestand(Artikel.getBestand(ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel))) - artikel.getBestand(artikel))
+                                artikel.setBestand(artikel.getBestand() - Anzahl);
                             }
                         }
                         if (k == 0) {
-                            System.out.println("Es wurde kein Korb mit dieser Kundennummer gefunden.")
+                            System.out.println("Es wurde kein Korb mit dieser Kundennummer gefunden.");
                         }
                     } else {
                         throw new IstKeinArtikelException("Artikel ist kein valider Artikel.");
@@ -39,22 +42,22 @@ public class WarenkorbService {
             }
     }
 
-    public void RemoveArtikelFromWarenkorb(Artikel artikel, int KundenNr) throws IstKeinArtikelException {
-        if(artikel instanceof Artikel) {
-            for (int i = 0; i < ArtikelService.getArtList(artikelservice).size(); i++) {
-                if (ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel)) == artikel && Artikel.getBestand(ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel))) > artikel.getBestand(artikel)) {
+    public void RemoveArtikelFromWarenkorb(Artikel artikel, int KundenNr,int Anzahl) throws IstKeinArtikelException {
+        if(artikel != null) {
+            for (int i = 0; i < artikelservice.getArtList().size(); i++) {
+                if (artikel.getBestand() > Anzahl && Anzahl > 0) {
                     int k = 0;
-                    for (int i = 0; i < Koerbe.size(); i++) {
-                        if (KundenNr == Koerbe[i].KundenNummer) {
+                    for (Warenkorb value : Koerbe) {
+                        if (KundenNr == value.getKundenNummer()) {
 
-                            Koerbe[i].ArtikelImKorb.Artikelloeschen(artikel);
+                            value.Artikelloeschen(artikel);
                             k = 1;
 
-                            ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel)).setBestand(Artikel.getBestand(ArtikelService.getArtikelByArtNr(Artikel.getArtNr(artikel))) + artikel.getBestand(artikel))
+                            artikel.setBestand(artikel.getBestand() + Anzahl);
                         }
                     }
                     if (k == 0) {
-                        System.out.println("Es wurde kein Korb mit dieser Kundennummer gefunden.")
+                        System.out.println("Es wurde kein Korb mit dieser Kundennummer gefunden.");
                     }
                 } else {
                     throw new IstKeinArtikelException("Artikel ist kein valider Artikel.");
@@ -67,10 +70,10 @@ public class WarenkorbService {
     }
 
     public void NeuerKorb(int KundNummer) {
-        Koerbe[].add(new Warenkorb(KundNummer));
+        Koerbe.add(new Warenkorb(KundNummer));
     }
 
-    public Koerbe getKoerbe() {
+    public List<Warenkorb> getKoerbe() {
         return Koerbe;
     }
 

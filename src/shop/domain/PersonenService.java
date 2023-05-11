@@ -3,6 +3,7 @@ package shop.domain;
 import shop.domain.exceptions.personen.PasswortNameException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
 import shop.domain.exceptions.personen.GibtEsBereitsException;
+import shop.domain.WarenkorbService;
 import shop.entities.Kunde;
 import shop.entities.Mitarbeiter;
 import shop.entities.Person;
@@ -49,6 +50,8 @@ public class PersonenService {
         }
         Person registrierendePerson = new Kunde(kundenNr, email, name, Adresse, Passwort);
         personList.add(registrierendePerson);
+        WarenkorbService Warenkorb = new WarenkorbService();
+        Warenkorb.NeuerKorb(kundenNr);
 
     }
 
