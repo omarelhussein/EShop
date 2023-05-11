@@ -1,7 +1,5 @@
 package shop.entities;
 
-import shop.ui.cui.enums.AuswahlTyp;
-
 public abstract class Person {
 
     private String name;
@@ -55,16 +53,6 @@ public abstract class Person {
     public String toString() {
         return "PersNr: " + this.persNr + "\n" +
                 "Name: " + this.name + "\n";
-    }
-
-    public AuswahlTyp getTyp() {
-        if (this instanceof Mitarbeiter) {
-            return AuswahlTyp.MITARBEITER;
-        } else if (this instanceof Kunde) {
-            return AuswahlTyp.KUNDE;
-        } else {
-            return AuswahlTyp.START;
-        }
     }
 
 }

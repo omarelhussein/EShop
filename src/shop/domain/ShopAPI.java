@@ -51,13 +51,11 @@ public class ShopAPI {
         return new Kunde(1,
                 "Max Mustermann",
                 "Musterstraße 1",
-                "max",
-                "123",
-                "max@mustermann.com");
+                "123");
     }
 
     public Person registrieren(String name, String adresse, String nutzername, String passwort, String email) {
-        return new Kunde(1, name, adresse, nutzername, passwort, email);
+        return new Kunde(1, name, adresse, passwort);
     }
 
 }
