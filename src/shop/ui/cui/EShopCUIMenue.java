@@ -45,17 +45,14 @@ public class EShopCUIMenue {
     static class Kunde {
         public void menueAusgabe() {
             System.out.println("Bitte wählen Sie eine Option aus:");
-            System.out.println("1) Artikel");
-            System.out.println("2) Warenkorb");
-            System.out.println("3) Konto");
-            System.out.println("4) Zurück");
-            System.out.print("> ");
-        }
-
-        public void artikelAusgabe() {
-            System.out.println("Bitte wählen Sie eine Option aus:");
             System.out.println("1) Artikel anzeigen");
             System.out.println("2) Artikel suchen");
+            System.out.println("3) Warenkorb anzeigen");
+            System.out.println("4) Warenkorb bearbeiten");
+            System.out.println("5) Konto anzeigen");
+            System.out.println("6) Konto bearbeiten");
+            System.out.println("7) Zurück");
+            System.out.print("> ");
         }
 
         public void loginRegistrierenAusgabe() {

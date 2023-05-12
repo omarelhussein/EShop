@@ -1,6 +1,5 @@
 package shop.domain;
 
-import shop.domain.exceptions.artikel.ArtikelBereitsVorhandenException;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.entities.Artikel;
 
@@ -11,16 +10,15 @@ import java.util.stream.Collectors;
 
 public class ArtikelService {
 
-    private List<Artikel> artikelList = new ArrayList<>();
+    private final List<Artikel> artikelList = new ArrayList<>();
 
     /**
      * Artikel der Liste hinzufügen
      */
-    public void addArtikel(Artikel artikel) throws ArtikelBereitsVorhandenException {
-        if (getArtikelByArtNr(artikel.getArtNr()) == null) {
-            throw new ArtikelBereitsVorhandenException(
-                    "Artikel konnte nicht hinzugefügt werden, da einer mit der selben ID bereits existiert"
-            );
+    public void addArtikel(Artikel artikel) {
+        var gefundenerArtikel = getArtikelByArtNr(artikel.getArtNr());
+        if (gefundenerArtikel != null && gefundenerArtikel.getArtNr() == artikel.getArtNr()) {
+            artikelList.remove(gefundenerArtikel);
         }
         artikelList.add(artikel);
     }
@@ -61,16 +59,6 @@ public class ArtikelService {
     }
 
     /**
-     * Artikel ausgeben (liste)
-     */
-    public List<Artikel> alleArtikelAusgeben() {
-        for (Artikel artikel : artikelList) {
-            System.out.println(artikel.toString());
-        }
-        return artikelList;
-    }
-
-    /**
      * ein Artikel ausgeben (maybe mit sortierung)
      */
     public Artikel getArtikelByArtNr(int artikelNr) {
@@ -78,7 +66,13 @@ public class ArtikelService {
                 .stream()
                 .filter(artikel -> artikel.getArtNr() == artikelNr)
                 .findFirst().orElse(null);
-//                .findFirst().orElseThrow(new ArtikelNichtGefundenException(artikelNr));
+    }
+
+    public List<Artikel> getArtikelByQuery(String query) {
+        return artikelList
+                .stream()
+                .filter(artikel -> artikel.getBezeichnung().contains(query) || String.valueOf(artikel.getArtNr()).equals(query))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -106,7 +100,27 @@ public class ArtikelService {
 
     }
 
-    public List<Artikel> getArtList() {
+    /**
+     * Ändert den Bestand eines Artikels
+     *
+     * @param artikelNr Die Artikelnummer des Artikels dessen Bestand geändert werden soll
+     * @param menge     Die Menge, um die der Bestand geändert werden soll, kann auch negativ sein. Der Bestand darf nicht unter 0 fallen.
+     * @return true, wenn der Bestand geändert werden konnte, false, wenn der Bestand nicht geändert werden konnte, weil er unter 0 fallen würde
+     * @throws ArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer gefunden wurde
+     */
+    public boolean aendereArtikelBestand(int artikelNr, int menge) throws ArtikelNichtGefundenException {
+        var gefundenesArtikel = getArtikelByArtNr(artikelNr);
+        if (gefundenesArtikel == null) {
+            throw new ArtikelNichtGefundenException(artikelNr);
+        }
+        if (gefundenesArtikel.getBestand() + menge < 0) {
+            return false;
+        }
+        gefundenesArtikel.setBestand(gefundenesArtikel.getBestand() + menge);
+        return true;
+    }
+
+    public List<Artikel> getArtikelList() {
         return this.artikelList;
     }
 

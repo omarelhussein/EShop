@@ -1,9 +1,8 @@
 package shop.domain;
 
-import shop.domain.exceptions.artikel.ArtikelBereitsVorhandenException;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.entities.Artikel;
-import shop.entities.Kunde;
 import shop.entities.Person;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class ShopAPI {
         personenService = new PersonenService();
     }
 
-    public void addArtikel(Artikel artikel) throws ArtikelBereitsVorhandenException {
+    public void addArtikel(Artikel artikel) {
         artikelService.addArtikel(artikel);
     }
 
@@ -35,12 +34,16 @@ public class ShopAPI {
         return artikelService.sucheArtikelByArtNr(artNr);
     }
 
-    public List<Artikel> alleArtikelAusgeben() {
-        return artikelService.alleArtikelAusgeben();
+    public List<Artikel> getArtikelList() {
+        return artikelService.getArtikelList();
     }
 
     public Artikel getArtikelByArtNr(int artikelNr) {
         return artikelService.getArtikelByArtNr(artikelNr);
+    }
+
+    public List<Artikel> getArtikelByQuery(String query) {
+        return artikelService.getArtikelByQuery(query);
     }
 
     public boolean artikelVergleichen(Artikel artikel1, Artikel artikel2) {
@@ -48,14 +51,19 @@ public class ShopAPI {
     }
 
     public Person login(String nutzername, String passwort) {
-        return new Kunde(1,
-                "Max Mustermann",
-                "Musterstraße 1",
-                "123");
+        return personenService.login(nutzername, passwort);
     }
 
-    public Person registrieren(String name, String adresse, String nutzername, String passwort, String email) {
-        return new Kunde(1, name, adresse, passwort);
+
+    public Person registrieren(Person person) throws PersonVorhandenException {
+        return personenService.registerPerson(person);
     }
 
+    public int getNaechsteId() {
+        return personenService.getNaechsteId();
+    }
+
+    public boolean istEmailVerfuegbar(String email) {
+        return personenService.istEmailVerfuegbar(email);
+    }
 }

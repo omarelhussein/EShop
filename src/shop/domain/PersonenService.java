@@ -1,9 +1,7 @@
 package shop.domain;
 
-import shop.domain.exceptions.personen.PasswortNameException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
-import shop.domain.exceptions.personen.GibtEsBereitsException;
-import shop.domain.WarenkorbService;
+import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.entities.Kunde;
 import shop.entities.Mitarbeiter;
 import shop.entities.Person;
@@ -17,73 +15,61 @@ public class PersonenService {
 
     /**
      * Überprüft mithilfe einer for-Schleife alle Personen in der Personenliste,
-     * ob die eingegebene E-Mail mit der einer registrierten Person übereinstimmt falls die E-Mail mit der
-     * einer registrierten Person übereinstimmt wird das eingebene Passwort mit der Person überprüft
-     * trifft EMail und Passwort zu wird "true" returnt ansonsten false
+     * ob die eingegebene E-Mail mit der einer registrierten Person übereinstimmt, falls die E-Mail mit der
+     * einer registrierten Person übereinstimmt wird das eingegebene Passwort mit der Person überprüft
+     * trifft E-Mail und Passwort zu wird "true" return ansonsten false
      */
-    public boolean login(String email, String passwort) throws PasswortNameException {
-        for(Person persone: personList){
-            if (email.equals(persone.getEmail())){
-                if(passwort.equals(persone.getPasswort())){
-                    return true;
-                }
-            }
-            else {
-                throw new PasswortNameException("Passwort oder Benutzername war falsch");
+    public Person login(String email, String passwort) {
+        for (Person person : personList) {
+            if (email.equals(person.getEmail()) && passwort.equals(person.getPasswort())) {
+                return person;
             }
         }
-        return false;
+        return null;
     }
 
     /**
-     * Registriert einen Kunden, @Parameter sind kundenNr, email, name, Adresse und Passwort.
-     * Mithilfe einer for-Schleife wird jede Person darauf überprüft, ob die eingegebene E-Mail oder KundenNr bereits
-     * vergeben ist, wenn die KundenNr oder EMail vergeben ist wird eine Exception geworfen,
+     * Registriert eine Person. Überprüft, ob die eingegebene E-Mail oder KundenNr bereits
+     * vergeben ist, wenn die KundenNr oder E-Mail vergeben ist, wird eine Exception geworfen,
      * ansonsten wird ein neues KundenObjekt mit den eingegebenen Parametern erstellt und in
      * die PersonenListe hinzugefügt.
+     *
+     * @param person ist ein Objekt der Klasse {@link Person} und enthält die Attribute der zu registrierenden Person,
+     *               welches über eine der Kindklassen {@link Kunde} oder {@link Mitarbeiter} erstellt wird.
      */
-    public void registerKunde(int kundenNr, String email, String name, String Adresse, String Passwort) throws GibtEsBereitsException {
-        for(Person personKunde: personList) {
-            if (personKunde instanceof Kunde && (email.equals(personKunde.getEmail()) || personKunde.getPersNr() == kundenNr)) {
-                throw new GibtEsBereitsException("Der Name oder ist bereits vergeben");
+    public Person registerPerson(Person person) throws PersonVorhandenException {
+        for (Person aktuellePerson : personList) {
+            if (aktuellePerson.getEmail().trim().equalsIgnoreCase(person.getEmail().trim())) {
+                throw new PersonVorhandenException();
             }
         }
-        Person registrierendePerson = new Kunde(kundenNr, email, name, Adresse, Passwort);
-        personList.add(registrierendePerson);
-        WarenkorbService Warenkorb = new WarenkorbService();
-        Warenkorb.NeuerKorb(kundenNr);
-
+        personList.add(person);
+        // Wenn die Person ein Kunde ist, wird ein neuer Warenkorb erstellt
+        if (person instanceof Kunde) {
+            WarenkorbService warenkorbService = new WarenkorbService((Kunde) person);
+            warenkorbService.neuerKorb((Kunde) person);
+        }
+        return person;
     }
 
-    /**
-     * Registriert einen Mitarbeiter, @Parameter sind mitarbeiterNr, email, name und Passwort.
-     * Mithilfe einer for-Schleife wird jede Person darauf überprüft, ob die eingegebene E-Mail oder MitarbeiterNr bereits
-     * vergeben ist, wenn die MitarbeiterNr oder EMail vergeben ist wird eine Exception geworfen,
-     * ansonsten wird ein neues MitarbeiterObjekt mit den eingegebenen Parametern erstellt und in
-     * die PersonenListe hinzugefügt.
-     */
-    public void registerMitarbeiter(int mitarbeiterNr, String email, String name, String Passwort) throws GibtEsBereitsException {
-        for(Person personMitarbeiter: personList) {
-            if (personMitarbeiter instanceof Mitarbeiter && (email.equals(personMitarbeiter.getEmail()) || personMitarbeiter.getPersNr() == mitarbeiterNr)) {
-                throw new GibtEsBereitsException("Die E-Mail oder die MitarbeiterNr ist bereits vergeben");
+    public Person getPersonByPersNr(int persNr) {
+        for (Person person : personList) {
+            if (person.getPersNr() == persNr) {
+                return person;
             }
         }
-        Person registrierendePerson = new Mitarbeiter(mitarbeiterNr, email, name, Passwort);
-        personList.add(registrierendePerson);
-
+        return null;
     }
-
 
     /**
      * Initialisiert eine Mitarbeiter-Liste und überprüft mithilfe einer for-Schleife jede Person darauf,
      * ob sie ein Mitarbeiter ist. Wenn die Person ein Mitarbeiter ist, wird sie in die Mitarbeiter-Liste
      * hinzugefügt. Daraufhin wird die Mitarbeiter-Liste returnt.
      */
-    public List<Mitarbeiter> ShowMitarbeiter(){
+    public List<Mitarbeiter> ShowMitarbeiter() {
         List<Mitarbeiter> MitarbeiterList = new ArrayList<>();
-        for(Person personMitarbeiter: personList){
-            if(personMitarbeiter instanceof Mitarbeiter)
-                MitarbeiterList.add((Mitarbeiter)personMitarbeiter);
+        for (Person personMitarbeiter : personList) {
+            if (personMitarbeiter instanceof Mitarbeiter) MitarbeiterList.add((Mitarbeiter) personMitarbeiter);
         }
         return MitarbeiterList;
     }
@@ -92,11 +78,12 @@ public class PersonenService {
      * Überprüft ob die eingegebene Person ein Mitarbeiter ist, falls nein wird eine Exception geworfen,
      * sonst wird der Mitarbeiter aus der Personen-Liste entfernt
      */
-    public void removeMitarbeiter(Person mitarbeiter) throws PersonNichtGefundenException {
-        if (mitarbeiter instanceof Kunde) {
-            throw new PersonNichtGefundenException("Person zum löschen ist ein Kunde und kein Mitarbeiter");
+    public void removeMitarbeiter(int mitarbeiterNr) throws PersonNichtGefundenException {
+        var personToRemove = getPersonByPersNr(mitarbeiterNr);
+        if (!(personToRemove instanceof Mitarbeiter)) {
+            throw new PersonNichtGefundenException(mitarbeiterNr);
         }
-        personList.remove(mitarbeiter);
+        personList.remove(personToRemove);
     }
 
     /**
@@ -105,29 +92,51 @@ public class PersonenService {
      * und der kundenName übereinstimmt, falls ja wird der Kunde returnt, falls nein wurde die Person nicht
      * gefunden und es wird eine Exception geworfen
      */
-    public Kunde kundenSuchen(int kundenNr, String kundenName) throws PersonNichtGefundenException{
-        for(Person personKunde: personList){
-            if(personKunde instanceof Kunde && kundenName.equals(personKunde.getName()) && kundenNr == personKunde.getPersNr()){
-                return (Kunde)personKunde;
-            }
-            else {
-                throw new PersonNichtGefundenException("Person wurde nicht gefunden");
+    public Person personSuche(int persNr, String name) throws PersonNichtGefundenException {
+        for (Person person : personList) {
+            if (name.equalsIgnoreCase(person.getName()) && persNr == person.getPersNr()) {
+                return person;
             }
         }
-        return null;
+        throw new PersonNichtGefundenException(persNr);
     }
 
     /**
-     * Initialisiert eine Kunden-Liste und überprüft mithilfe einer for-Schleife jede Person darauf,
-     * ob sie ein Kunde ist. Wenn die Person ein Kunde ist, wird sie in die Kunden-Liste
-     * hinzugefügt. Daraufhin wird die Kunden-Liste returnt.
+     * Gibt eine Liste mit allen Kunden zurück die in der Personen-Liste sind.
      */
-    public List<Kunde> ShowKunden(){
-        List<Kunde> kundenList = new ArrayList<>();
-        for(Person personKunde: personList){
-            if(personKunde instanceof Kunde)
-                kundenList.add((Kunde)personKunde);
+    public List<Kunde> getKunden() {
+        return personList.stream()
+                .filter(person -> person instanceof Kunde)
+                .map(person -> (Kunde) person)
+                .toList();
+    }
+
+    /**
+     * Gibt eine Liste mit allen Mitarbeitern zurück die in der Personen-Liste sind.
+     */
+    public List<Mitarbeiter> getMitarbeiter() {
+        return personList.stream()
+                .filter(person -> person instanceof Mitarbeiter)
+                .map(person -> (Mitarbeiter) person)
+                .toList();
+    }
+
+    public int getNaechsteId() {
+        int max = 0;
+        for (Person person : personList) {
+            if (person.getPersNr() > max) {
+                max = person.getPersNr();
+            }
         }
-        return kundenList;
+        return max + 1;
+    }
+
+    public boolean istEmailVerfuegbar(String email) {
+        for (Person person : personList) {
+            if (person.getEmail().trim().equalsIgnoreCase(email.trim())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

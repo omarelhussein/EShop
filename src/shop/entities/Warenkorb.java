@@ -1,50 +1,51 @@
 package shop.entities;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Warenkorb {
-    private int produkteInWarenkorb;
-    private int preisIngesamt;
-    final int KundenNummer;
-    List<Artikel> ArtikelImKorb;
 
-    public Warenkorb(int Nummer){
-        KundenNummer = Nummer;
-        List<Artikel> ArtikelImKorb = new ArrayList<>();
+    private final Kunde kunde;
+    private List<WarenkorbArtikel> artikelList;
+
+    public Warenkorb(Kunde kunde) {
+        this.kunde = kunde;
     }
 
-    public void addArtikel(Artikel artikel) {
-        this.ArtikelImKorb.add(artikel);
+    public void addArtikel(WarenkorbArtikel artikel) {
+        this.artikelList.add(artikel);
     }
 
-    public void Artikelloeschen(Artikel artikel) {
-        int k=0;
-        for (int i=0; i< this.ArtikelImKorb.size(); i++) {
-            if (artikel == this.ArtikelImKorb.get(i)) {
-                this.ArtikelImKorb.remove(i);
-                k=1;
+    public boolean removeArtikel(WarenkorbArtikel artikel) {
+        if (artikel != null) {
+            return this.artikelList.remove(artikel);
+        }
+        return false;
+    }
+
+    public int getPreisIngesamt() {
+        int preis = 0;
+        for (WarenkorbArtikel value : this.artikelList) {
+            preis += value.getArtikel().getPreis() * value.getAnzahl();
+        }
+        return preis;
+    }
+
+    public List<Artikel> getArtikelList() {
+        List<Artikel> artikel = new ArrayList<>();
+        for (WarenkorbArtikel value : this.artikelList) {
+            if (value.getArtikel() != null) {
+                artikel.add(value.getArtikel());
             }
         }
-        if (k==0) {
-            System.out.println("Dieser Artikel befindet sich nicht im Warenkorb dieses Kunden.");
-        }
+        return artikel;
     }
 
-    public void setProdukteInWarenkorb(int eingabe){
-        this.produkteInWarenkorb = eingabe;
+    public List<WarenkorbArtikel> getWarenkorbArtikelList() {
+        return this.artikelList;
     }
 
-    public void setPreisIngesamt(int eingabe){
-        this.preisIngesamt = eingabe;
+    public Kunde getKunde() {
+        return this.kunde;
     }
-
-    public int getProdukteInWarenkorb(){ return this.produkteInWarenkorb;}
-
-    public int getPreisIngesamt(){ return this.preisIngesamt;}
-
-    public List<Artikel> getArtikelImKorb() {
-        return this.ArtikelImKorb;
-    }
-
-    public int getKundenNummer() {return this.KundenNummer;}
 }

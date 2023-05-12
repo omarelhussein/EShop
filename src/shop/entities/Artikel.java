@@ -42,22 +42,17 @@ public class Artikel {
         this.bestand = bestand;
     }
 
-    /**
-     * Artikeldaten als String ausgeben
-     *
-     * @return
-     */
     @Override
     public String toString() {
-        return "Artikel: " + artNr + "\n" + "Bezeichnung: " + this.bezeichnung + "\n" +
-                "Preis: " + this.preis + "€" + "\n" + "Bestand" + this.bestand + "stk";
+        return "Artikel: " + artNr + " / Bezeichnung: " + this.bezeichnung +
+                " / Preis: " + this.preis + " €" + " / Bestand: " + this.bestand +  " stk.";
     }
 
     /**
      * Artikel vergleichen
      *
      * @param obj das Objekt zum Vergleichen. Hier werden nur die Artikelnummern verglichen.
-     * @return
+     * @return true, wenn die Artikelnummern gleich sind, sonst false.
      */
     @Override
     public boolean equals(Object obj) {
