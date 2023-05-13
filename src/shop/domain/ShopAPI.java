@@ -37,19 +37,22 @@ public class ShopAPI {
     }
 
     public Artikel sucheArtikelByArtNr(int artNr) {
-        EreignisService.getInstance().sucheArtikelByNr(artNr);
+        EreignisService.getInstance().sucheArtikelByNrEreignis(artNr);
         return artikelService.sucheArtikelByArtNr(artNr);
     }
 
     public List<Artikel> getArtikelList() {
+        EreignisService.getInstance().getArtikelListEreignis();
         return artikelService.getArtikelList();
     }
 
     public Artikel getArtikelByArtNr(int artikelNr) {
+        EreignisService.getInstance().getArtikelByArtNrEreignis(artikelNr);
         return artikelService.getArtikelByArtNr(artikelNr);
     }
 
     public List<Artikel> getArtikelByQuery(String query) {
+        EreignisService.getInstance().getArtikelByArtQueryEreignis(query);
         return artikelService.getArtikelByQuery(query);
     }
 
