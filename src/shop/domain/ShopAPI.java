@@ -1,10 +1,12 @@
 package shop.domain;
 
+import shop.domain.EreignisService;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.entities.Artikel;
 import shop.entities.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShopAPI {
@@ -13,6 +15,7 @@ public class ShopAPI {
     private final ArtikelService artikelService;
     private final PersonenService personenService;
 
+
     public ShopAPI() {
         artikelService = new ArtikelService();
         personenService = new PersonenService();
@@ -20,17 +23,21 @@ public class ShopAPI {
 
     public void addArtikel(Artikel artikel) {
         artikelService.addArtikel(artikel);
+        EreignisService.getInstance().artikelAddEreignis(artikel);
     }
 
     public void removeArtikel(Artikel artikel) throws ArtikelNichtGefundenException {
         artikelService.removeArtikel(artikel);
+        EreignisService.getInstance().artikelRemoveEreignis(artikel);
     }
 
     public List<Artikel> sucheArtikelByName(String queryString) {
+        EreignisService.getInstance().sucheArtikelByNameEreignis(queryString);
         return artikelService.sucheArtikelByName(queryString);
     }
 
     public Artikel sucheArtikelByArtNr(int artNr) {
+        EreignisService.getInstance().sucheArtikelByNr(artNr);
         return artikelService.sucheArtikelByArtNr(artNr);
     }
 

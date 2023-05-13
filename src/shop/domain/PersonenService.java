@@ -13,6 +13,7 @@ public class PersonenService {
 
     List<Person> personList = new ArrayList<>();
 
+
     /**
      * Überprüft mithilfe einer for-Schleife alle Personen in der Personenliste,
      * ob die eingegebene E-Mail mit der einer registrierten Person übereinstimmt, falls die E-Mail mit der
@@ -22,6 +23,7 @@ public class PersonenService {
     public Person login(String email, String passwort) {
         for (Person person : personList) {
             if (email.equals(person.getEmail()) && passwort.equals(person.getPasswort())) {
+                EreignisService.getInstance().setPerson(person);
                 return person;
             }
         }
