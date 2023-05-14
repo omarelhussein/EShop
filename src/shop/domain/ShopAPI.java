@@ -76,4 +76,8 @@ public class ShopAPI {
     public boolean istEmailVerfuegbar(String email) {
         return personenService.istEmailVerfuegbar(email);
     }
+
+    public void kaufen() {
+
+    }
 }

@@ -103,4 +103,14 @@ public class WarenkorbService {
         return warenkorbList;
     }
 
+    public void WarenkorbLeeren(){
+        var iterator = warenkorbList.iterator();
+        while (iterator.hasNext()) {
+            var warenkorb = iterator.next();
+            if (warenkorb.getKunde() == aktuellerKunde) {
+                warenkorb = new Warenkorb(aktuellerKunde);
+            }
+        }
+    }
+
 }
