@@ -8,6 +8,7 @@ import shop.entities.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class PersonenService {
 
@@ -131,6 +132,14 @@ public class PersonenService {
                 .filter(person -> person instanceof Mitarbeiter)
                 .map(person -> (Mitarbeiter) person)
                 .toList();
+    }
+
+    public Stream<Person> suchePersonByQuery(String query) {
+        return personList.stream()
+                .filter(person -> person.getName().toLowerCase().contains(query.toLowerCase()) ||
+                        person.getEmail().toLowerCase().contains(query.toLowerCase()) ||
+                        String.valueOf(person.getPersNr()).contains(query)
+                );
     }
 
     public int getNaechsteId() {

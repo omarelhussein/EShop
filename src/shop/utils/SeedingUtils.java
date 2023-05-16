@@ -1,6 +1,7 @@
 package shop.utils;
 
 import shop.domain.ArtikelService;
+import shop.domain.EreignisService;
 import shop.entities.Artikel;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class SeedingUtils {
         artikelList.add(new Artikel(135, "Red Bull Watermelon", 1.99, 10));
         for (Artikel artikel : artikelList) {
             artikelService.addArtikel(artikel);
+            EreignisService.getInstance().artikelAddEreignis(artikel);
         }
     }
 

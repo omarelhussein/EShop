@@ -46,6 +46,14 @@ public class Warenkorb {
         return this.warenkorbArtikelList;
     }
 
+    public int getAnzahlArtikel() {
+        int anzahl = 0;
+        for (WarenkorbArtikel value : this.warenkorbArtikelList) {
+            anzahl += value.getAnzahl();
+        }
+        return anzahl;
+    }
+
     public Kunde getKunde() {
         return this.kunde;
     }

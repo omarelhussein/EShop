@@ -1,14 +1,13 @@
 package shop.domain;
 
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import shop.domain.exceptions.personen.PersonNichtGefundenException;
 import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
-import shop.entities.Artikel;
-import shop.entities.Kunde;
-import shop.entities.Person;
-import shop.entities.Warenkorb;
+import shop.entities.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShopAPI {
@@ -18,32 +17,36 @@ public class ShopAPI {
     private final PersonenService personenService;
     private final WarenkorbService warenkorbService;
     private Person eingeloggterNutzer;
+    private final EreignisService ereignisService;
+    private final BestellService bestellService;
 
 
     public ShopAPI() {
         artikelService = ArtikelService.getInstance();
         personenService = new PersonenService();
         warenkorbService = WarenkorbService.getInstance();
+        ereignisService = EreignisService.getInstance();
+        bestellService = new BestellService();
     }
 
     public void addArtikel(Artikel artikel) {
         artikelService.addArtikel(artikel);
-        EreignisService.getInstance().artikelAddEreignis(artikel);
+        ereignisService.artikelAddEreignis(artikel);
     }
 
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException {
         var artikel = artikelService.getArtikelByArtNr(artikelNr);
         artikelService.removeArtikel(artikel);
-        EreignisService.getInstance().artikelRemoveEreignis(artikel);
+        ereignisService.artikelRemoveEreignis(artikel);
     }
 
     public List<Artikel> getArtikelList() {
-        EreignisService.getInstance().getArtikelListEreignis();
+        ereignisService.getArtikelListEreignis();
         return artikelService.getArtikelList();
     }
 
     public List<Artikel> getArtikelByQuery(String query) {
-        EreignisService.getInstance().getArtikelByArtQueryEreignis(query);
+        ereignisService.sucheArtikelByArtQueryEreignis(query);
         return artikelService.sucheArtikelByQuery(query);
     }
 
@@ -67,7 +70,9 @@ public class ShopAPI {
     }
 
     public Person login(String nutzername, String passwort) {
-        return personenService.login(nutzername, passwort);
+        var login = personenService.login(nutzername, passwort);
+        ereignisService.getLoginEreignis();
+        return login;
     }
 
 
@@ -81,6 +86,10 @@ public class ShopAPI {
 
     public int getNaechsteArtikelId() {
         return artikelService.getNaechsteId();
+    }
+
+    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
+        artikelService.artikelAktualisieren(artikel);
     }
 
     public boolean istEmailVerfuegbar(String email) {
@@ -97,4 +106,37 @@ public class ShopAPI {
         return eingeloggterNutzer;
     }
 
+    public List<Mitarbeiter> getMitarbeiterList() {
+        return personenService.getMitarbeiter();
+    }
+
+    public List<Mitarbeiter> getMitarbeiterList(String suchbegriff) {
+        return personenService.suchePersonByQuery(suchbegriff)
+                .filter(Mitarbeiter.class::isInstance)
+                .map(Mitarbeiter.class::cast).toList();
+    }
+
+    public void mitarbeiterLoeschen(int mitarbeiterId) throws PersonNichtGefundenException {
+        if (eingeloggterNutzer.getPersNr() != mitarbeiterId) {
+            personenService.removeMitarbeiter(mitarbeiterId);
+            return;
+        }
+        throw new PersonNichtGefundenException(mitarbeiterId);
+    }
+
+    public void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException {
+        artikelService.aendereArtikelBestand(artikelId, bestand);
+    }
+
+    public ArrayList<Ereignis> getEreignisList() {
+        return ereignisService.kundeOderMitarbeiterEreignisListe();
+    }
+
+    public void rechnungErstellen() {
+        bestellService.rechnungErstellen();
+    }
+
+    public void kaufen() {
+        bestellService.kaufen();
+    }
 }

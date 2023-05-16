@@ -1,8 +1,8 @@
 package shop.ui.cui;
 
-import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import shop.domain.exceptions.personen.PersonNichtGefundenException;
 import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
@@ -10,7 +10,6 @@ import shop.entities.*;
 import shop.utils.SeedingUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,7 +44,7 @@ public class EShopCUI {
         switch (eingabe) {
             case "1" -> login(false);
             case "2" -> kundeRegistrieren();
-            case "3" -> run();
+            case "b" -> run();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
         if (shopAPI.getEingeloggterNutzer() == null) {
@@ -60,18 +59,18 @@ public class EShopCUI {
         String eingabe = eingabe();
         switch (eingabe) {
             case "1" -> login(true);
-            case "2" -> cuiMenue.bereichAuswahlAusgabe();
+            case "b" -> run();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
-        if (shopAPI.getEingeloggterNutzer() == null ||
-                !(shopAPI.getEingeloggterNutzer() instanceof Mitarbeiter)) {
-            loginRegistriereKunde();
-        } else {
+        if (shopAPI.getEingeloggterNutzer() != null &&
+                shopAPI.getEingeloggterNutzer() instanceof Mitarbeiter) {
             mitarbeiterMenueActions();
+        } else {
+            loginMitarbeiter();
         }
     }
 
-    private void mitarbeiterMenueActions() throws IOException {
+    private void mitarbeiterMenueActions() {
         mitarbeiterMenue.menueAusgabe();
         String eingabe;
         try {
@@ -83,14 +82,34 @@ public class EShopCUI {
         }
         switch (eingabe) {
             case "1" -> lagerverwaltungAusgabe();
-            case "2" -> artikelLoeschen();
-            case "3" -> artikelSuchen();
-            case "4" -> ereignisListAusgeben(EreignisService.getInstance().kundeOderMitarbeiterEreignisListe());
+            case "2" -> personalverwaltungAusgabe();
+            case "3" -> ereignisListAusgeben();
             case "x" -> logout();
             case "q" -> exit();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
         mitarbeiterMenueActions();
+    }
+
+    private void personalverwaltungAusgabe() {
+        mitarbeiterMenue.personalverwaltungAusgabe();
+        String eingabe;
+        try {
+            eingabe = eingabe();
+        } catch (IOException e) {
+            System.out.println("Fehler bei der Eingabe!");
+            personalverwaltungAusgabe();
+            return;
+        }
+        switch (eingabe) {
+            case "1" -> mitarbeiterListeAusgeben(shopAPI.getMitarbeiterList());
+            case "2" -> mitarbeiterSuchenAusgabe();
+            case "3" -> mitarbeiterRegistrieren();
+            case "4" -> mitarbeiterLoeschen();
+            case "b" -> mitarbeiterMenueActions();
+            default -> cuiMenue.falscheEingabeAusgabe();
+        }
+        personalverwaltungAusgabe();
     }
 
     private void lagerverwaltungAusgabe() {
@@ -103,6 +122,9 @@ public class EShopCUI {
                 case "2" -> artikelSuchen();
                 case "3" -> artikelAnlegen();
                 case "4" -> artikelLoeschen();
+                case "5" -> artikelBearbeiten();
+                case "6" -> artikelBestandAendern();
+                case "b" -> mitarbeiterMenueActions();
                 default -> cuiMenue.falscheEingabeAusgabe();
             }
         } catch (IOException e) {
@@ -111,6 +133,55 @@ public class EShopCUI {
             return;
         }
         lagerverwaltungAusgabe();
+    }
+
+    private void mitarbeiterListeAusgeben(List<Mitarbeiter> mitarbeiterListe) {
+        if (mitarbeiterListe.isEmpty()) {
+            System.out.println("Keine Mitarbeiter gefunden!");
+            return;
+        }
+        System.out.println("Mitarbeiter:");
+        for (Mitarbeiter mitarbeiter : mitarbeiterListe) {
+            System.out.println(mitarbeiter.toString());
+        }
+        System.out.println();
+    }
+
+    private void mitarbeiterSuchenAusgabe() {
+        System.out.print("Suchbegriff:\n> ");
+        String suchbegriff = in.nextLine();
+        mitarbeiterListeAusgeben(shopAPI.getMitarbeiterList(suchbegriff));
+    }
+
+    private void mitarbeiterRegistrieren() {
+        System.out.print("Name:\n> ");
+        String name = in.nextLine();
+        System.out.print("E-Mail:\n> ");
+        String email = in.nextLine();
+        System.out.print("Passwort:\n> ");
+        String passwort = in.nextLine();
+        try {
+            var id = shopAPI.getNaechstePersId();
+            shopAPI.registrieren(new Mitarbeiter(id, email, name, passwort));
+        } catch (PersonVorhandenException e) {
+            System.out.println("Mitarbeiter konnte nicht angelegt werden! Erneut versuchen? (j/n)\n> ");
+            String eingabe = in.nextLine();
+            if (eingabe.equals("j")) {
+                mitarbeiterRegistrieren();
+            }
+        }
+    }
+
+    private void mitarbeiterLoeschen() {
+        System.out.print("Mitarbeiter-ID:\n> ");
+        try {
+            int mitarbeiterId = Integer.parseInt(in.nextLine());
+            shopAPI.mitarbeiterLoeschen(mitarbeiterId);
+            System.out.println("Mitarbeiter erfolgreich gelöscht!");
+        } catch (PersonNichtGefundenException e) {
+            System.out.println("Mitarbeiter nicht gefunden!");
+        }
+        System.out.println();
     }
 
     private void artikelAnlegen() throws IOException {
@@ -125,14 +196,53 @@ public class EShopCUI {
         System.out.println("Artikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
     }
 
+    private void artikelBearbeiten() throws IOException {
+        System.out.print("Artikel-ID:\n> ");
+        try {
+            int artikelId = Integer.parseInt(in.nextLine());
+            System.out.print("Neue Bezeichnung (optional):\n> ");
+            String bezeichnung = nullIfEmpty(eingabe());
+            System.out.print("Neuer Preis (optional):\n> ");
+            String preis = nullIfEmpty(eingabe());
+            System.out.print("Neuer Bestand (optional):\n> ");
+            String bestand = nullIfEmpty(eingabe());
+            shopAPI.artikelAktualisieren(
+                    new Artikel(
+                            artikelId,
+                            bezeichnung,
+                            Double.parseDouble(preis == null ? "-1" : preis),
+                            Integer.parseInt(bestand == null ? "-1" : bestand)
+                    )
+            );
+        } catch (ArtikelNichtGefundenException e) {
+            System.out.println("Artikel nicht gefunden!");
+        }
+        System.out.println("Artikel erfolgreich bearbeitet!\n");
+    }
+
+    private void artikelBestandAendern() throws IOException {
+        System.out.print("Artikel-ID:\n> ");
+        try {
+            int artikelId = Integer.parseInt(in.nextLine());
+            System.out.print("Neuer Bestand:\n> ");
+            int bestand = Integer.parseInt(in.nextLine());
+            shopAPI.aendereArtikelBestand(artikelId, bestand);
+        } catch (ArtikelNichtGefundenException e) {
+            System.out.println("Artikel nicht gefunden!");
+        }
+    }
+
     private void artikelLoeschen() throws IOException {
-        System.out.print("Artikel-ID:\n>");
+        System.out.print("Artikel-ID:\n> ");
         try {
             int artikelId = Integer.parseInt(eingabe());
             shopAPI.removeArtikel(artikelId);
         } catch (ArtikelNichtGefundenException e) {
-            System.out.println("Artikel nicht gefunden, bitte erneut versuchen!");
-            artikelLoeschen();
+            System.out.println("Artikel nicht gefunden, ernuet versuchen? (j/n)");
+            String eingabe = in.nextLine();
+            if (eingabe.equals("j")) {
+                artikelLoeschen();
+            }
         } catch (NumberFormatException e) {
             System.out.println("Bitte geben Sie eine gültige Artikel-ID ein!");
             artikelLoeschen();
@@ -147,8 +257,13 @@ public class EShopCUI {
         System.out.println("Gesamtanzahl der ausgegebenen Artikel: " + artikelListe.size() + "\n");
     }
 
-    private void ereignisListAusgeben(ArrayList<Ereignis> ereignisListe){
-        for(Ereignis ereignis : ereignisListe){
+    private void ereignisListAusgeben() {
+        var ereignisListe = shopAPI.getEreignisList();
+        if (ereignisListe.isEmpty()) {
+            System.out.println("Keine Ereignisse vorhanden!");
+            return;
+        }
+        for (Ereignis ereignis : ereignisListe) {
             System.out.println(ereignis.toString());
         }
     }
@@ -177,10 +292,14 @@ public class EShopCUI {
         }
     }
 
-    private void logout() throws IOException {
+    private void logout() {
         shopAPI.setEingeloggterNutzer(null);
         System.out.println("Erfolgreich ausgeloggt!");
-        run();
+        try {
+            run();
+        } catch (IOException e) {
+            System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
+        }
     }
 
     private void kundeRegistrieren() {
@@ -241,6 +360,7 @@ public class EShopCUI {
                 case "3" -> warenkorbAnzeigen();
                 case "4" -> warenkorbArtikelHinzufuegen();
                 case "5" -> warenkorbBearbeiten();
+                case "6" -> warenkorbBestellen();
                 case "x" -> logout();
                 case "q" -> exit();
                 default -> cuiMenue.falscheEingabeAusgabe();
@@ -249,6 +369,30 @@ public class EShopCUI {
             System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
         }
         kundenMenueActions();
+    }
+
+    private void warenkorbBestellen() {
+        System.out.println("\nRechnung wird erstellt...");
+        try {
+            Thread.sleep(500); // Laden simulieren
+        } catch (InterruptedException e) {
+            // Ignorieren
+        }
+        shopAPI.rechnungErstellen();
+        System.out.println("Rechnung erfolgreich erstellt!");
+        // kauf bestätigen
+        System.out.print("\nBitte bestätigen Sie den Kauf. (j/n)\n> ");
+        try {
+            var eingabe = eingabe();
+            if (eingabe.equals("j")) {
+                shopAPI.kaufen();
+                System.out.println("Warenkorb erfolgreich bestellt! Vielen Dank für Ihren Einkauf!");
+            } else {
+                System.out.println("Kauf abgebrochen!");
+            }
+        } catch (IOException e) {
+            System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
+        }
     }
 
     private void warenkorbBearbeiten() {
@@ -309,14 +453,14 @@ public class EShopCUI {
     }
 
     private void warenkorbAnzeigen() {
-        var warenkorbArtikelList = shopAPI.getWarenkorb().getWarenkorbArtikelList();
-        if (warenkorbArtikelList.isEmpty()) {
+        var warenkorb = shopAPI.getWarenkorb();
+        if (warenkorb.getWarenkorbArtikelList().isEmpty()) {
             System.out.println("Warenkorb ist leer! \n");
         } else {
-            for (WarenkorbArtikel warenkorbArtikel : warenkorbArtikelList) {
+            for (WarenkorbArtikel warenkorbArtikel : warenkorb.getWarenkorbArtikelList()) {
                 System.out.println(warenkorbArtikel.toString());
             }
-            System.out.println("Gesamtanzahl der Artikel im Warenkorb: " + warenkorbArtikelList.size());
+            System.out.println("Gesamtanzahl der Artikel im Warenkorb: " + warenkorb.getAnzahlArtikel());
             System.out.println("Gesamtsumme: " + shopAPI.getWarenkorbGesamtpreis() + "€ \n");
         }
     }
@@ -338,6 +482,10 @@ public class EShopCUI {
     private void exit() {
         System.out.println("Auf Wiedersehen!");
         System.exit(0);
+    }
+
+    private String nullIfEmpty(String string) {
+        return string.trim().isEmpty() ? null : string;
     }
 
     public static void main(String[] args) throws IOException {

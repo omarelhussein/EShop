@@ -90,7 +90,7 @@ public class ArtikelService {
         return artikel1.equals(artikel2);
     }
 
-    public void artikelAktualisierung(Artikel artikel) throws ArtikelNichtGefundenException {
+    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
         // die ID suchen, wenn nicht vorhanden dementsprechend fehlermeldung ausgeben
         var gefundenesArtikel = getArtikelByArtNr(artikel.getArtNr());
         if (gefundenesArtikel == null) {
@@ -99,10 +99,10 @@ public class ArtikelService {
         if (artikel.getBezeichnung() != null) {
             gefundenesArtikel.setBezeichnung(artikel.getBezeichnung());
         }
-        if (artikel.getBestand() < 0) {
+        if (artikel.getBestand() > 0) {
             gefundenesArtikel.setBestand(artikel.getBestand());
         }
-        if (artikel.getPreis() < 0) {
+        if (artikel.getPreis() > 0) {
             gefundenesArtikel.setPreis(artikel.getPreis());
         }
 
@@ -111,20 +111,20 @@ public class ArtikelService {
     /**
      * Ändert den Bestand eines Artikels
      *
-     * @param artikelNr Die Artikelnummer des Artikels dessen Bestand geändert werden soll
-     * @param menge     Die Menge, um die der Bestand geändert werden soll, kann auch negativ sein. Der Bestand darf nicht unter 0 fallen.
+     * @param artikelNr    Die Artikelnummer des Artikels dessen Bestand geändert werden soll
+     * @param neuerBestand Der neue Bestand des Artikels
      * @return true, wenn der Bestand geändert werden konnte, false, wenn der Bestand nicht geändert werden konnte, weil er unter 0 fallen würde
      * @throws ArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer gefunden wurde
      */
-    public boolean aendereArtikelBestand(int artikelNr, int menge) throws ArtikelNichtGefundenException {
+    public boolean aendereArtikelBestand(int artikelNr, int neuerBestand) throws ArtikelNichtGefundenException {
         var gefundenesArtikel = getArtikelByArtNr(artikelNr);
         if (gefundenesArtikel == null) {
             throw new ArtikelNichtGefundenException(artikelNr);
         }
-        if (gefundenesArtikel.getBestand() + menge < 0) {
+        if (neuerBestand < 0) {
             return false;
         }
-        gefundenesArtikel.setBestand(gefundenesArtikel.getBestand() + menge);
+        gefundenesArtikel.setBestand(neuerBestand);
         return true;
     }
 

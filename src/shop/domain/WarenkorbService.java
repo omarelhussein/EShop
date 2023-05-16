@@ -35,7 +35,7 @@ public class WarenkorbService {
         if (artikel.getBestand() >= anzahl && anzahl > 0) {
             var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
             warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
-            return artikelservice.aendereArtikelBestand(artikelNr, -anzahl);
+            return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - anzahl);
         } else {
             throw new BestandUeberschrittenException(artikel.getBestand(), anzahl);
         }
@@ -51,7 +51,7 @@ public class WarenkorbService {
         while (iterator.hasNext()) {
             var warenkorbArtikel = iterator.next();
             if (artikel.getArtNr() != warenkorbArtikel.getArtikel().getArtNr()) continue;
-            artikelservice.aendereArtikelBestand(artikelNr, warenkorbArtikel.getAnzahl());
+            artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() + warenkorbArtikel.getAnzahl());
             iterator.remove();
             return true;
         }
@@ -73,16 +73,16 @@ public class WarenkorbService {
             throws ArtikelNichtGefundenException, BestandUeberschrittenException,
             WarenkorbArtikelNichtGefundenException {
         var warenkorbArtikel = getWarenkorbArtikelByArtNr(artikelNr);
-        // | -1 | -> 1
-        if (Math.abs(warenkorbArtikel.getAnzahl() - menge) > warenkorbArtikel.getArtikel().getBestand() + warenkorbArtikel.getAnzahl())
+        var tmpNeuBestand = warenkorbArtikel.getArtikel().getBestand() + warenkorbArtikel.getAnzahl();
+        if (tmpNeuBestand < 0 || tmpNeuBestand < menge)
             throw new BestandUeberschrittenException(warenkorbArtikel.getArtikel().getBestand(), menge);
         if (removeArtikelVomWarenkorb(artikelNr)) {
             if (menge > 0) {
                 legeArtikelImWarenkorb(artikelNr, menge);
-                return;
             }
+        } else {
+            throw new WarenkorbArtikelNichtGefundenException(artikelNr);
         }
-        throw new WarenkorbArtikelNichtGefundenException(artikelNr);
     }
 
     public WarenkorbArtikel getWarenkorbArtikelByArtNr(int artNr) throws WarenkorbArtikelNichtGefundenException {
