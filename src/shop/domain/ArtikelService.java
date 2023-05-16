@@ -10,15 +10,33 @@ import java.util.stream.Collectors;
 
 public class ArtikelService {
 
-    private final List<Artikel> artikelList = new ArrayList<>();
+    private final List<Artikel> artikelList;
+    private static ArtikelService instance;
+
+    private ArtikelService() {
+        artikelList = new ArrayList<>();
+    }
+
+    public synchronized static ArtikelService getInstance() {
+        if (instance == null) {
+            instance = new ArtikelService();
+        }
+        return instance;
+    }
+
 
     /**
      * Artikel der Liste hinzufügen
      */
     public void addArtikel(Artikel artikel) {
-        var gefundenerArtikel = getArtikelByArtNr(artikel.getArtNr());
-        if (gefundenerArtikel != null && gefundenerArtikel.getArtNr() == artikel.getArtNr()) {
-            artikelList.remove(gefundenerArtikel);
+        Artikel gefundenerArtikel;
+        try {
+            gefundenerArtikel = getArtikelByArtNr(artikel.getArtNr());
+            if (gefundenerArtikel.getArtNr() == artikel.getArtNr()) {
+                artikelList.remove(gefundenerArtikel);
+            }
+        } catch (ArtikelNichtGefundenException e) {
+            // do nothing - muss nicht gefunden werden
         }
         artikelList.add(artikel);
     }
@@ -31,17 +49,6 @@ public class ArtikelService {
             throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
         artikelList.remove(artikel);
-    }
-
-    /**
-     * Sucht einen Artikel nach Namen
-     *
-     * @param queryString Die Bezeichnung wonach Artikeln gesucht werden sollen
-     */
-    public List<Artikel> sucheArtikelByName(String queryString) {
-        return artikelList.stream()
-                .filter(it -> it.getBezeichnung().contains(queryString))
-                .collect(Collectors.toList());
     }
 
     /**
@@ -61,17 +68,18 @@ public class ArtikelService {
     /**
      * ein Artikel ausgeben (maybe mit sortierung)
      */
-    public Artikel getArtikelByArtNr(int artikelNr) {
+    public Artikel getArtikelByArtNr(int artikelNr) throws ArtikelNichtGefundenException {
         return artikelList
                 .stream()
                 .filter(artikel -> artikel.getArtNr() == artikelNr)
-                .findFirst().orElse(null);
+                .findFirst().orElseThrow(() -> new ArtikelNichtGefundenException(artikelNr));
     }
 
-    public List<Artikel> getArtikelByQuery(String query) {
+    public List<Artikel> sucheArtikelByQuery(String query) {
         return artikelList
                 .stream()
-                .filter(artikel -> artikel.getBezeichnung().contains(query) || String.valueOf(artikel.getArtNr()).equals(query))
+                .filter(artikel -> artikel.getBezeichnung().toLowerCase().trim().contains(query.toLowerCase().trim())
+                        || String.valueOf(artikel.getArtNr()).equals(query))
                 .collect(Collectors.toList());
     }
 
@@ -125,4 +133,13 @@ public class ArtikelService {
     }
 
 
+    public int getNaechsteId() {
+        int max = 0;
+        for (Artikel artikel : artikelList) {
+            if (artikel.getArtNr() > max) {
+                max = artikel.getArtNr();
+            }
+        }
+        return max + 1;
+    }
 }

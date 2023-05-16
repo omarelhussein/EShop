@@ -11,7 +11,12 @@ import java.util.List;
 
 public class PersonenService {
 
-    List<Person> personList = new ArrayList<>();
+    private final List<Person> personList = new ArrayList<>();
+    private final WarenkorbService warenkorbService;
+
+    public PersonenService() {
+        warenkorbService = WarenkorbService.getInstance();
+    }
 
 
     /**
@@ -24,6 +29,12 @@ public class PersonenService {
         for (Person person : personList) {
             if (email.equals(person.getEmail()) && passwort.equals(person.getPasswort())) {
                 EreignisService.getInstance().setPerson(person);
+                if (person instanceof Kunde) {
+                    warenkorbService.setAktuellerKunde((Kunde) person);
+                    if (warenkorbService.getWarenkorb() == null) {
+                        warenkorbService.neuerKorb((Kunde) person);
+                    }
+                }
                 return person;
             }
         }
@@ -48,7 +59,6 @@ public class PersonenService {
         personList.add(person);
         // Wenn die Person ein Kunde ist, wird ein neuer Warenkorb erstellt
         if (person instanceof Kunde) {
-            WarenkorbService warenkorbService = new WarenkorbService((Kunde) person);
             warenkorbService.neuerKorb((Kunde) person);
         }
         return person;
@@ -68,7 +78,7 @@ public class PersonenService {
      * ob sie ein Mitarbeiter ist. Wenn die Person ein Mitarbeiter ist, wird sie in die Mitarbeiter-Liste
      * hinzugefügt. Daraufhin wird die Mitarbeiter-Liste returnt.
      */
-    public List<Mitarbeiter> ShowMitarbeiter() {
+    public List<Mitarbeiter> showMitarbeiter() {
         List<Mitarbeiter> MitarbeiterList = new ArrayList<>();
         for (Person personMitarbeiter : personList) {
             if (personMitarbeiter instanceof Mitarbeiter) MitarbeiterList.add((Mitarbeiter) personMitarbeiter);
@@ -77,7 +87,7 @@ public class PersonenService {
     }
 
     /**
-     * Überprüft ob die eingegebene Person ein Mitarbeiter ist, falls nein wird eine Exception geworfen,
+     * Überprüft, ob die eingegebene Person ein Mitarbeiter ist, falls nein wird eine Exception geworfen,
      * sonst wird der Mitarbeiter aus der Personen-Liste entfernt
      */
     public void removeMitarbeiter(int mitarbeiterNr) throws PersonNichtGefundenException {
@@ -104,7 +114,7 @@ public class PersonenService {
     }
 
     /**
-     * Gibt eine Liste mit allen Kunden zurück die in der Personen-Liste sind.
+     * Gibt eine Liste mit allen Kunden zurück, die in der Personen-Liste sind.
      */
     public List<Kunde> getKunden() {
         return personList.stream()
@@ -114,7 +124,7 @@ public class PersonenService {
     }
 
     /**
-     * Gibt eine Liste mit allen Mitarbeitern zurück die in der Personen-Liste sind.
+     * Gibt eine Liste mit allen Mitarbeitern zurück, die in der Personen-Liste sind.
      */
     public List<Mitarbeiter> getMitarbeiter() {
         return personList.stream()

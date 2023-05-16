@@ -6,34 +6,35 @@ import java.util.List;
 public class Warenkorb {
 
     private final Kunde kunde;
-    private List<WarenkorbArtikel> artikelList;
+    private final List<WarenkorbArtikel> warenkorbArtikelList;
 
     public Warenkorb(Kunde kunde) {
         this.kunde = kunde;
+        this.warenkorbArtikelList = new ArrayList<>();
     }
 
     public void addArtikel(WarenkorbArtikel artikel) {
-        this.artikelList.add(artikel);
+        this.warenkorbArtikelList.add(artikel);
     }
 
     public boolean removeArtikel(WarenkorbArtikel artikel) {
         if (artikel != null) {
-            return this.artikelList.remove(artikel);
+            return this.warenkorbArtikelList.remove(artikel);
         }
         return false;
     }
 
-    public int getPreisIngesamt() {
-        int preis = 0;
-        for (WarenkorbArtikel value : this.artikelList) {
+    public double getGesamtSumme() {
+        double preis = 0;
+        for (WarenkorbArtikel value : this.warenkorbArtikelList) {
             preis += value.getArtikel().getPreis() * value.getAnzahl();
         }
-        return preis;
+        return Math.round(preis * 100.) / 100.;
     }
 
     public List<Artikel> getArtikelList() {
         List<Artikel> artikel = new ArrayList<>();
-        for (WarenkorbArtikel value : this.artikelList) {
+        for (WarenkorbArtikel value : this.warenkorbArtikelList) {
             if (value.getArtikel() != null) {
                 artikel.add(value.getArtikel());
             }
@@ -42,10 +43,15 @@ public class Warenkorb {
     }
 
     public List<WarenkorbArtikel> getWarenkorbArtikelList() {
-        return this.artikelList;
+        return this.warenkorbArtikelList;
     }
 
     public Kunde getKunde() {
         return this.kunde;
     }
+
+    public boolean istLeer() {
+        return this.warenkorbArtikelList.isEmpty();
+    }
+
 }

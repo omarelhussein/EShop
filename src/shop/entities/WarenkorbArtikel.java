@@ -33,4 +33,15 @@ public class WarenkorbArtikel {
     public void setArtikel(Artikel artikel) {
         this.artikel = artikel;
     }
+
+    public double getGesamtPreis() {
+        return Math.round(this.anzahl * this.artikel.getPreis() * 100.) / 100.;
+    }
+
+    @Override
+    public String toString() {
+        return "ArtikelNr: " + this.artikel.getArtNr() + " / Bezeichnung: " + this.artikel.getBezeichnung()
+                + " / Anzahl: " + this.anzahl + " / Stückpreis: " + this.artikel.getPreis() + "€ / Gesamtpreis: "
+                + getGesamtPreis() + "€";
+    }
 }
