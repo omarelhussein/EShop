@@ -39,5 +39,9 @@ public class Ereignis {
         this.description = description;
     }
 
+    public String toString(){
+        String ereignisString = this.getPersNr() + " " + this.getName() + " " + this.getDescription();
+        return ereignisString;
+    }
 }
 

@@ -3,6 +3,7 @@ package shop.domain;
 import shop.entities.Artikel;
 import shop.entities.Ereignis;
 import shop.entities.Mitarbeiter;
+import shop.entities.Kunde;
 import shop.entities.Person;
 
 import java.util.ArrayList;
@@ -76,6 +77,21 @@ public class EreignisService {
         ereignisList.add(loginEreignis);
     }
 
+    public ArrayList<Ereignis> kundeOderMitarbeiterEreignisListe(){
+        if(person instanceof Kunde){
+            ArrayList<Ereignis> kundenEreignisListe = new ArrayList<>();
+            for(Ereignis ereignis: getEreignisList()){
+                if(ereignis.getName().equals(person.getName())){
+                    kundenEreignisListe.add(ereignis);
+                }
+            }
+            return kundenEreignisListe;
+
+        }
+        else {
+            return getEreignisList();
+        }
+    }
 
     public void setPerson(Person person) {
         this.person = person;

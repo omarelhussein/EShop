@@ -1,5 +1,6 @@
 package shop.ui.cui;
 
+import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonVorhandenException;
@@ -9,6 +10,7 @@ import shop.entities.*;
 import shop.utils.SeedingUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -83,7 +85,7 @@ public class EShopCUI {
             case "1" -> lagerverwaltungAusgabe();
             case "2" -> artikelLoeschen();
             case "3" -> artikelSuchen();
-            case "4" -> artikelListeAusgeben(shopAPI.getArtikelList());
+            case "4" -> ereignisListAusgeben(EreignisService.getInstance().kundeOderMitarbeiterEreignisListe());
             case "x" -> logout();
             case "q" -> exit();
             default -> cuiMenue.falscheEingabeAusgabe();
@@ -143,6 +145,12 @@ public class EShopCUI {
             System.out.println(artikel.toString());
         }
         System.out.println("Gesamtanzahl der ausgegebenen Artikel: " + artikelListe.size() + "\n");
+    }
+
+    private void ereignisListAusgeben(ArrayList<Ereignis> ereignisListe){
+        for(Ereignis ereignis : ereignisListe){
+            System.out.println(ereignis.toString());
+        }
     }
 
     private boolean login(boolean istMitarbeiter) {
