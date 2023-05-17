@@ -361,6 +361,7 @@ public class EShopCUI {
                 case "4" -> warenkorbArtikelHinzufuegen();
                 case "5" -> warenkorbBearbeiten();
                 case "6" -> warenkorbBestellen();
+                case "7" -> ereignisListAusgeben();
                 case "x" -> logout();
                 case "q" -> exit();
                 default -> cuiMenue.falscheEingabeAusgabe();
