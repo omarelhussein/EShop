@@ -54,8 +54,9 @@ public class EreignisService {
     }
 
     private void addEreignis(Person person, String description) {
-        var beschreibungMitDatum = description + " am "
-                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"));
+        var beschreibungMitDatum = description + " Ereignis wurde am "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"))
+                + " erstellt.";
         Ereignis ereignis = new Ereignis(person, beschreibungMitDatum);
         ereignisList.add(ereignis);
     }
