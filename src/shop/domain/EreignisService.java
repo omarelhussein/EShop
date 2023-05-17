@@ -2,6 +2,8 @@ package shop.domain;
 
 import shop.entities.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class EreignisService {
@@ -52,7 +54,9 @@ public class EreignisService {
     }
 
     private void addEreignis(Person person, String description) {
-        Ereignis ereignis = new Ereignis(person, description);
+        var beschreibungMitDatum = description + " am "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"));
+        Ereignis ereignis = new Ereignis(person, beschreibungMitDatum);
         ereignisList.add(ereignis);
     }
 
