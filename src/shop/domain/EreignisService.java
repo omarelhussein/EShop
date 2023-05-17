@@ -28,23 +28,23 @@ public class EreignisService {
     }
 
     public void artikelAddEreignis(Artikel artikel) {
-        String description = "hat " + artikel.toString() + " hinzugefügt."; //placeholder
+        String description = "hat " + artikel.toString() + " hinzugefügt"; //placeholder
         addEreignis(person, description);
     }
 
     public void artikelRemoveEreignis(Artikel artikel) {
         String description = "hat " + artikel.getArtNr() +
-                " mit der Bezeichnung " + artikel.getBezeichnung() + " entfernt."; //placeholder
+                " mit der Bezeichnung " + artikel.getBezeichnung() + " entfernt"; //placeholder
         addEreignis(person, description);
     }
 
     public void getArtikelListEreignis() {
-        String description = "hat Artikelliste ausgegeben."; //placeholder
+        String description = "hat Artikelliste ausgegeben"; //placeholder
         addEreignis(person, description);
     }
 
     public void sucheArtikelByArtQueryEreignis(String query) {
-        String description = "hat Artikel mit dem Suchbegriff " + query + " gesucht."; //placeholder
+        String description = "hat Artikel mit dem Suchbegriff " + query + " gesucht"; //placeholder
         addEreignis(person, description);
     }
 

@@ -1,5 +1,6 @@
 package shop.ui.cui;
 
+import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
@@ -338,6 +339,7 @@ public class EShopCUI {
                     passwort
             ));
             shopAPI.setEingeloggterNutzer(registrierterNutzer);
+            EreignisService.getInstance().setPerson(registrierterNutzer);
             System.out.println("Erfolgreich registriert!");
             return;
         } catch (PersonVorhandenException e) {
