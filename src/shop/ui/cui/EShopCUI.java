@@ -385,7 +385,7 @@ public class EShopCUI {
         } catch (InterruptedException e) {
             // Ignorieren
         }
-        shopAPI.rechnungErstellen();
+        System.out.print(shopAPI.rechnungErstellen());
         System.out.println("Rechnung erfolgreich erstellt!");
         // kauf bestätigen
         System.out.print("\nBitte bestätigen Sie den Kauf. (j/n)\n> ");

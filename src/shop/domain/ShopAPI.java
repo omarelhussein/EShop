@@ -132,8 +132,8 @@ public class ShopAPI {
         return ereignisService.kundeOderMitarbeiterEreignisListe();
     }
 
-    public void rechnungErstellen() {
-        bestellService.rechnungErstellen();
+    public String rechnungErstellen() {
+        return bestellService.rechnungtoString();
     }
 
     public void kaufen() {

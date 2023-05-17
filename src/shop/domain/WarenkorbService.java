@@ -133,4 +133,6 @@ public class WarenkorbService {
         neuerKorb(aktuellerKunde);
     }
 
+    public Kunde getAktuellerKunde() {return aktuellerKunde;}
+
 }
