@@ -372,6 +372,10 @@ public class EShopCUI {
     }
 
     private void warenkorbBestellen() {
+        if (shopAPI.getWarenkorb().istLeer()) {
+            System.out.println("Warenkorb ist leer! Bitte zuerst Artikel hinzufügen und dann bestellen!");
+            return;
+        }
         System.out.println("\nRechnung wird erstellt...");
         try {
             Thread.sleep(500); // Laden simulieren
