@@ -190,11 +190,33 @@ public class EShopCUI {
         String bezeichnung = eingabe();
         System.out.print("Preis:\n> ");
         double preis = Double.parseDouble(eingabe());
-        System.out.print("Bestand:\n> ");
+        System.out.print("Bestand: (Anzahl der Packs bei Massenartikeln)\n> ");
         int bestand = Integer.parseInt(eingabe());
-        var artikel = new Artikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand);
-        shopAPI.addArtikel(artikel);
-        System.out.println("Artikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
+
+        if (Massenart()) {
+            System.out.print("Packgröße:\n> ");
+            int pgroesse = Integer.parseInt(eingabe());
+            var artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand*pgroesse, pgroesse);
+            shopAPI.addArtikel(artikel);
+            System.out.println("Massenartikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
+        } else {
+            var artikel = new Artikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand);
+            shopAPI.addArtikel(artikel);
+            System.out.println("Artikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
+        }
+    }
+
+    private boolean Massenart() throws IOException {
+        System.out.print("Massenartikel?(ja/nein)\n> ");
+        if(eingabe().equals("ja")) {
+            return true;
+        } else if (eingabe().equals("nein")) {
+            return false;
+        } else {
+            System.out.print("Bitte wiederhole die Eingabe. \n");
+            return Massenart();
+        }
+
     }
 
     private void artikelBearbeiten() throws IOException {
@@ -207,14 +229,29 @@ public class EShopCUI {
             String preis = nullIfEmpty(eingabe());
             System.out.print("Neuer Bestand (optional):\n> ");
             String bestand = nullIfEmpty(eingabe());
-            shopAPI.artikelAktualisieren(
-                    new Artikel(
-                            artikelId,
-                            bezeichnung,
-                            Double.parseDouble(preis == null ? "-1" : preis),
-                            Integer.parseInt(bestand == null ? "-1" : bestand)
-                    )
-            );
+
+            if (Massenart()) {
+                System.out.print("Packgröße (optional):\n> ");
+                String packgr = nullIfEmpty(eingabe());
+                shopAPI.artikelAktualisieren(
+                        new Massenartikel(
+                                artikelId,
+                                bezeichnung,
+                                Double.parseDouble(preis == null ? "-1" : preis),
+                                Integer.parseInt(bestand == null ? "-1" : bestand),
+                                Integer.parseInt(packgr == null ? "-1" : packgr)
+                        )
+                );
+            } else {
+                shopAPI.artikelAktualisieren(
+                        new Artikel(
+                                artikelId,
+                                bezeichnung,
+                                Double.parseDouble(preis == null ? "-1" : preis),
+                                Integer.parseInt(bestand == null ? "-1" : bestand)
+                        )
+                );
+            }
         } catch (ArtikelNichtGefundenException e) {
             System.out.println("Artikel nicht gefunden!");
         }
@@ -429,7 +466,7 @@ public class EShopCUI {
             System.out.print("\nBitte geben Sie die Artikel-ID ein. (0 zum Abbrechen)\n> ");
             var artikelId = Integer.parseInt(eingabe());
             if (artikelId == 0) return;
-            System.out.print("Bitte geben Sie die Anzahl ein:\n> ");
+            System.out.print("Bitte geben Sie die Anzahl ein: (Anzahl der Packs bei Massenartikeln)\n> ");
             var anzahl = Integer.parseInt(eingabe());
             var erfolg = shopAPI.addArtikelToWarenkorb(artikelId, anzahl);
             if (erfolg) {

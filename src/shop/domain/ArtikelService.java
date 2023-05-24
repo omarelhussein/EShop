@@ -2,6 +2,7 @@ package shop.domain;
 
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.entities.Artikel;
+import shop.entities.Massenartikel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -104,6 +105,11 @@ public class ArtikelService {
         }
         if (artikel.getPreis() > 0) {
             gefundenesArtikel.setPreis(artikel.getPreis());
+        }
+        if (artikel instanceof Massenartikel) {
+            if (((Massenartikel) artikel).getPackgroesse() > 0) {
+                ((Massenartikel)gefundenesArtikel).setPackgroesse(((Massenartikel) artikel).getPackgroesse());
+            }
         }
 
     }

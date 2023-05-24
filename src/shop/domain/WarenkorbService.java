@@ -4,6 +4,7 @@ import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.Kunde;
+import shop.entities.Massenartikel;
 import shop.entities.Warenkorb;
 import shop.entities.WarenkorbArtikel;
 
@@ -32,12 +33,23 @@ public class WarenkorbService {
             throws ArtikelNichtGefundenException, BestandUeberschrittenException {
         var artikel = artikelservice.getArtikelByArtNr(artikelNr);
         if (artikel == null) throw new ArtikelNichtGefundenException(artikelNr);
-        if (artikel.getBestand() >= anzahl && anzahl > 0) {
-            var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
-            warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
-            return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - anzahl);
+
+        if (artikel instanceof Massenartikel) {
+            if (artikel.getBestand() >= anzahl*((Massenartikel) artikel).getPackgroesse() && anzahl > 0) {
+                var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
+                warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl*((Massenartikel) artikel).getPackgroesse()));
+                return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - ((Massenartikel) artikel).getPackgroesse()*anzahl);
+            } else {
+                throw new BestandUeberschrittenException(artikel.getBestand(), anzahl);
+            }
         } else {
-            throw new BestandUeberschrittenException(artikel.getBestand(), anzahl);
+            if (artikel.getBestand() >= anzahl && anzahl > 0) {
+                var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
+                warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
+                return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - anzahl);
+            } else {
+                throw new BestandUeberschrittenException(artikel.getBestand(), anzahl);
+            }
         }
     }
 
