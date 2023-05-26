@@ -1,5 +1,6 @@
 package shop.ui.cui;
 
+import shop.domain.BestandshistorieService;
 import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
@@ -99,7 +100,7 @@ public class EShopCUI {
             eingabe = eingabe();
         } catch (IOException e) {
             System.out.println("Fehler bei der Eingabe!");
-            personalverwaltungAusgabe();
+            lagerverwaltungAusgabe();
             return;
         }
         switch (eingabe) {
@@ -125,16 +126,40 @@ public class EShopCUI {
                 case "4" -> artikelLoeschen();
                 case "5" -> artikelBearbeiten();
                 case "6" -> artikelBestandAendern();
+                case "7" -> artikelBestandhistorieSuchen();
                 case "b" -> mitarbeiterMenueActions();
                 default -> cuiMenue.falscheEingabeAusgabe();
             }
-        } catch (IOException e) {
+        } catch (IOException | ArtikelNichtGefundenException e) {
             System.out.println("Fehler bei der Eingabe!");
             lagerverwaltungAusgabe();
             return;
         }
         lagerverwaltungAusgabe();
     }
+
+    public void artikelBestandhistorieSuchen() throws ArtikelNichtGefundenException, IOException, NumberFormatException {
+        System.out.println("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.");
+        try {
+        int suchId = Integer.parseInt(in.nextLine());
+            artikelBestandListeAusgeben(shopAPI.artikelBestandSuche(suchId));
+        } catch (NumberFormatException | ArtikelNichtGefundenException e) {
+            System.out.println("Fehler bei der Eingabe!");
+            lagerverwaltungAusgabe();
+        }
+    }
+
+    private void artikelBestandListeAusgeben(Bestandshistorie history){
+        if (history.getDatum().isEmpty() || history.getBestandshistoryList().isEmpty()){
+            System.out.println("Keinen Bestand gefunden!");
+            return;
+        }
+        System.out.println("Bestandshistorie: ");
+        history.stringMachen();
+
+        System.out.println();
+    }
+
 
     private void mitarbeiterListeAusgeben(List<Mitarbeiter> mitarbeiterListe) {
         if (mitarbeiterListe.isEmpty()) {
@@ -173,53 +198,78 @@ public class EShopCUI {
         }
     }
 
-    private void mitarbeiterLoeschen() {
+    private void mitarbeiterLoeschen() throws NumberFormatException {
         System.out.print("Mitarbeiter-ID:\n> ");
         try {
             int mitarbeiterId = Integer.parseInt(in.nextLine());
             shopAPI.mitarbeiterLoeschen(mitarbeiterId);
             System.out.println("Mitarbeiter erfolgreich gelöscht!");
-        } catch (PersonNichtGefundenException e) {
-            System.out.println("Mitarbeiter nicht gefunden!");
+        } catch (PersonNichtGefundenException | NumberFormatException e) {
+            System.out.println("Mitarbeiter nicht gefunden oder Format falsch!");
+            lagerverwaltungAusgabe();
         }
         System.out.println();
     }
 
-    private void artikelAnlegen() throws IOException {
+    private void artikelAnlegen() throws IOException, NumberFormatException {
         System.out.print("Bezeichnung:\n> ");
         String bezeichnung = eingabe();
         System.out.print("Preis:\n> ");
-        double preis = Double.parseDouble(eingabe());
-        System.out.print("Bestand: (Anzahl der Packs bei Massenartikeln)\n> ");
-        int bestand = Integer.parseInt(eingabe());
+        try {
+            double preis = Double.parseDouble(eingabe());
+            System.out.print("Bestand: (Anzahl der Packs bei Massenartikeln)\n> ");
+            int bestand = Integer.parseInt(eingabe());
 
-        if (Massenart()) {
-            System.out.print("Packgröße:\n> ");
-            int pgroesse = Integer.parseInt(eingabe());
-            var artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand*pgroesse, pgroesse);
-            shopAPI.addArtikel(artikel);
-            System.out.println("Massenartikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
-        } else {
-            var artikel = new Artikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand);
-            shopAPI.addArtikel(artikel);
-            System.out.println("Artikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
+            if (Massenart()) {
+                System.out.print("Packgröße:\n> ");
+                int pgroesse = Integer.parseInt(eingabe());
+                var artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand * pgroesse, pgroesse);
+                shopAPI.addArtikel(artikel);
+                System.out.println("Massenartikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
+            } else {
+                var artikel = new Artikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand);
+                shopAPI.addArtikel(artikel);
+                System.out.println("Artikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Fehler beim Format");
+            lagerverwaltungAusgabe();
         }
     }
 
     private boolean Massenart() throws IOException {
-        System.out.print("Massenartikel?(ja/nein)\n> ");
-        if(eingabe().equals("ja")) {
-            return true;
-        } else if (eingabe().equals("nein")) {
-            return false;
-        } else {
-            System.out.print("Bitte wiederhole die Eingabe. \n");
+        System.out.print("Massenartikel?(j/n)\n> ");
+        String eingabe;
+        try {
+            eingabe = eingabe();
+        } catch (IOException e) {
+            System.out.println("Fehler bei der Eingabe!");
+            return Massenart();
+        }
+        switch(eingabe){
+            case "j" : return true;
+            case "n" : return false;
+            default : System.out.println("Bitte wiederhole die Eingabe. \n");
             return Massenart();
         }
 
+        /*
+        if(eingabe().equals("j")) {
+            return true;
+        }
+        if (eingabe().equals("n")) {
+            return false;
+        }
+        else {
+            System.out.print("Bitte wiederhole die Eingabe. \n");
+            return Massenart();
+        }
+         */
     }
 
-    private void artikelBearbeiten() throws IOException {
+
+
+    private void artikelBearbeiten() throws IOException, NumberFormatException {
         System.out.print("Artikel-ID:\n> ");
         try {
             int artikelId = Integer.parseInt(in.nextLine());
@@ -252,21 +302,23 @@ public class EShopCUI {
                         )
                 );
             }
-        } catch (ArtikelNichtGefundenException e) {
-            System.out.println("Artikel nicht gefunden!");
+        } catch (ArtikelNichtGefundenException | NumberFormatException e) {
+            System.out.println("Artikel nicht gefunden oder Eingabe Falsch!");
+            lagerverwaltungAusgabe();
         }
         System.out.println("Artikel erfolgreich bearbeitet!\n");
     }
 
-    private void artikelBestandAendern() throws IOException {
+    private void artikelBestandAendern() throws IOException, NumberFormatException {
         System.out.print("Artikel-ID:\n> ");
         try {
             int artikelId = Integer.parseInt(in.nextLine());
             System.out.print("Neuer Bestand:\n> ");
             int bestand = Integer.parseInt(in.nextLine());
             shopAPI.aendereArtikelBestand(artikelId, bestand);
-        } catch (ArtikelNichtGefundenException e) {
-            System.out.println("Artikel nicht gefunden!");
+        } catch (ArtikelNichtGefundenException | NumberFormatException e) {
+            System.out.println("Artikel nicht gefunden oder Eingabe falsch!");
+            lagerverwaltungAusgabe();
         }
     }
 
@@ -283,7 +335,7 @@ public class EShopCUI {
             }
         } catch (NumberFormatException e) {
             System.out.println("Bitte geben Sie eine gültige Artikel-ID ein!");
-            artikelLoeschen();
+            lagerverwaltungAusgabe();
         }
         System.out.println("Artikel erfolgreich gelöscht!");
     }
@@ -309,7 +361,7 @@ public class EShopCUI {
     private boolean login(boolean istMitarbeiter) {
         try {
             System.out.println();
-            System.out.print("Bitte geben Sie Ihren Nutzernamen ein:\n> ");
+            System.out.print("Bitte geben Sie Ihre E-Mail-Adresse ein:\n> ");
             var nutzername = eingabe();
             System.out.print("Bitte geben Sie Ihr Passwort ein:\n> ");
             var passwort = eingabe();

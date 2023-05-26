@@ -6,12 +6,14 @@ public class Artikel {
     private final int artNr;
     private String bezeichnung;
     private int bestand;
+    private Bestandshistorie bestandshistory;
 
     public Artikel(int artNr, String bezeichnung, double preis, int bestand) {      //Konstruktor
         this.artNr = artNr;
         this.bezeichnung = bezeichnung;
         this.bestand = bestand;
         this.preis = preis;
+        bestandshistory = new Bestandshistorie(this);
     }
 
     public double getPreis() {                                     //Ein- & Ausgabe
@@ -20,6 +22,10 @@ public class Artikel {
 
     public int getArtNr() {
         return artNr;
+    }
+
+    public Bestandshistorie getBestandshistory(){
+        return this.bestandshistory;
     }
 
     public int getBestand() {

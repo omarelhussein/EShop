@@ -31,7 +31,8 @@ public class EShopCUIMenue {
             System.out.println("3) Artikel hinzufügen");
             System.out.println("4) Artikel löschen");
             System.out.println("5) Artikel bearbeiten");
-            System.out.println("6) Artikel Bestand bearbeiten");
+            System.out.println("6) Artikelbestand bearbeiten");
+            System.out.println("7) Artikelbestandshistorie anzeigen");
             System.out.println("b) Zurück");
             System.out.print("> ");
         }

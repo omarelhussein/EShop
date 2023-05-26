@@ -123,14 +123,14 @@ public class ArtikelService {
      * @throws ArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer gefunden wurde
      */
     public boolean aendereArtikelBestand(int artikelNr, int neuerBestand) throws ArtikelNichtGefundenException {
-        var gefundenesArtikel = getArtikelByArtNr(artikelNr);
-        if (gefundenesArtikel == null) {
+        var gefundenerArtikel = getArtikelByArtNr(artikelNr);
+        if (gefundenerArtikel == null) {
             throw new ArtikelNichtGefundenException(artikelNr);
         }
         if (neuerBestand < 0) {
             return false;
         }
-        gefundenesArtikel.setBestand(neuerBestand);
+        gefundenerArtikel.setBestand(neuerBestand);
         return true;
     }
 

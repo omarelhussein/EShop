@@ -30,27 +30,28 @@ public class ShopAPI {
     }
 
     public void addArtikel(Artikel artikel) {
+        ereignisService.getInstance().artikelAddEreignis(artikel);
         artikelService.addArtikel(artikel);
-        ereignisService.artikelAddEreignis(artikel);
     }
 
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException {
         var artikel = artikelService.getArtikelByArtNr(artikelNr);
+        ereignisService.getInstance().artikelRemoveEreignis(artikel);
         artikelService.removeArtikel(artikel);
-        ereignisService.artikelRemoveEreignis(artikel);
     }
 
     public List<Artikel> getArtikelList() {
-        ereignisService.getArtikelListEreignis();
+        ereignisService.getInstance().getArtikelListEreignis(artikelService.getArtikelList());
         return artikelService.getArtikelList();
     }
 
     public List<Artikel> getArtikelByQuery(String query) {
-        ereignisService.sucheArtikelByArtQueryEreignis(query);
+        ereignisService.getInstance().sucheArtikelByArtQueryEreignis(artikelService.sucheArtikelByQuery(query), query);
         return artikelService.sucheArtikelByQuery(query);
     }
 
     public Warenkorb getWarenkorb() {
+        ereignisService.getInstance().warenkorbAusgabeEreignis(warenkorbService.getWarenkorb());
         return warenkorbService.getWarenkorb();
     }
 
@@ -60,18 +61,21 @@ public class ShopAPI {
 
     public boolean addArtikelToWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException {
-        return warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
+        var placeholder = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
+        EreignisService.getInstance().addArtikelWarenkorbEreignis(artikelService.getInstance().getArtikelByArtNr(artikelNr));
+        return placeholder;
     }
 
     public void aendereArtikelAnzahlImWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
             WarenkorbArtikelNichtGefundenException {
+        EreignisService.getInstance().warenkorbArtikelAnzahlEreignis(warenkorbService.getWarenkorb());
         warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
     }
 
     public Person login(String nutzername, String passwort) {
         var login = personenService.login(nutzername, passwort);
-        ereignisService.getLoginEreignis();
+        ereignisService.getInstance().loginEreignis(login);
         return login;
     }
 
@@ -107,10 +111,14 @@ public class ShopAPI {
     }
 
     public List<Mitarbeiter> getMitarbeiterList() {
+        EreignisService.getInstance().mitarbeiterAusgebenEreignis(personenService.getMitarbeiter());
         return personenService.getMitarbeiter();
     }
 
     public List<Mitarbeiter> getMitarbeiterList(String suchbegriff) {
+        EreignisService.getInstance().mitarbeiterSuchenEreignis(personenService.suchePersonByQuery(suchbegriff)
+                .filter(Mitarbeiter.class::isInstance)
+                .map(Mitarbeiter.class::cast).toList(), suchbegriff);
         return personenService.suchePersonByQuery(suchbegriff)
                 .filter(Mitarbeiter.class::isInstance)
                 .map(Mitarbeiter.class::cast).toList();
@@ -118,6 +126,7 @@ public class ShopAPI {
 
     public void mitarbeiterLoeschen(int mitarbeiterId) throws PersonNichtGefundenException {
         if (eingeloggterNutzer.getPersNr() != mitarbeiterId) {
+            EreignisService.getInstance().mitarbeiterLoeschenEreignis(mitarbeiterId);
             personenService.removeMitarbeiter(mitarbeiterId);
             return;
         }
@@ -126,9 +135,11 @@ public class ShopAPI {
 
     public void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException {
         artikelService.aendereArtikelBestand(artikelId, bestand);
+        EreignisService.getInstance().bestandAenderungEreignis(ArtikelService.getInstance().getArtikelByArtNr(artikelId));
     }
 
     public ArrayList<Ereignis> getEreignisList() {
+        EreignisService.getInstance().ereignislistAusgabeEreignis(ereignisService.kundeOderMitarbeiterEreignisListe());
         return ereignisService.kundeOderMitarbeiterEreignisListe();
     }
 
@@ -137,6 +148,11 @@ public class ShopAPI {
     }
 
     public void kaufen() {
+        EreignisService.getInstance().gekauftEreignis(ArtikelService.getInstance().getArtikelList());
         bestellService.kaufen();
+    }
+
+    public Bestandshistorie artikelBestandSuche(int ArtNr) throws ArtikelNichtGefundenException {
+        return BestandshistorieService.getInstance().suchBestandshistorie(ArtNr);
     }
 }
