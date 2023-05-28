@@ -409,21 +409,12 @@ public class EShopCUI {
             } while (!emailVerfuegbar);
             System.out.print("Bitte geben Sie Ihr Passwort ein:\n> ");
             var passwort = eingabe();
-            var adresseValid = false;
-            do {
-                System.out.print("Bitte geben Sie Ihre Adresse ein (Straße Hausnummer Postleitzahl Stadt):\n> ");
-                var adresse = eingabe();
-                var adresseSplit = adresse.split(" ");
-                adresseValid = adresseSplit.length == 4;
-                if (!adresseValid) {
-                    System.out.println("Fehlerhafte Eingabe! Bitte versuchen Sie es erneut.");
-                }
-            } while (!adresseValid);
+
             var registrierterNutzer = shopAPI.registrieren(new Kunde(
                     shopAPI.getNaechstePersId(),
                     email,
                     name,
-                    new Adresse("Musterstrasse", "1", "2222", "Musterstadt"),
+                    Adress(),
                     passwort
             ));
             shopAPI.setEingeloggterNutzer(registrierterNutzer);
@@ -438,6 +429,18 @@ public class EShopCUI {
             throw new RuntimeException(e);
         }
         kundeRegistrieren();
+    }
+
+    private Adresse Adress() throws IOException {                                                    //Adressenobjekt erstellen
+        System.out.print("Adresse:\nBitte geben Sie Ihre Straße ein:\n ");
+        var Strasse = eingabe();
+        System.out.print("Bitte geben Sie Ihre Hausnummer ein:\n> ");
+        var Hausnummer = eingabe();
+        System.out.print("Bitte geben Sie Ihre Postleitzahl ein:\n> ");
+        var Postleitzahl = eingabe();
+        System.out.print("Bitte geben Sie Ihren Herkunftsort ein:\n> ");
+        var Stadt = eingabe();
+        return(new Adresse(Strasse,Hausnummer,Postleitzahl,Stadt));
     }
 
     private void kundenMenueActions() {
