@@ -1,6 +1,5 @@
 package shop.ui.cui;
 
-import shop.domain.BestandshistorieService;
 import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
@@ -149,8 +148,8 @@ public class EShopCUI {
         }
     }
 
-    private void artikelBestandListeAusgeben(Bestandshistorie history){
-        if (history.getDatum().isEmpty() || history.getBestandshistoryList().isEmpty()){
+    private void artikelBestandListeAusgeben(BestandsHistorie history){
+        if (history.getDatum().isEmpty() || history.getBestandsHistorieListe().isEmpty()){
             System.out.println("Keinen Bestand gefunden!");
             return;
         }

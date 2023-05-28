@@ -152,7 +152,7 @@ public class ShopAPI {
         bestellService.kaufen();
     }
 
-    public Bestandshistorie artikelBestandSuche(int ArtNr) throws ArtikelNichtGefundenException {
+    public BestandsHistorie artikelBestandSuche(int ArtNr) throws ArtikelNichtGefundenException {
         return BestandshistorieService.getInstance().suchBestandshistorie(ArtNr);
     }
 }

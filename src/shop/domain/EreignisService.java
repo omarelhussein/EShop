@@ -28,14 +28,14 @@ public class EreignisService {
     }
 
     public void artikelAddEreignis(Artikel artikel) {
-        String description = "hat " + artikel.toString() + " hinzugefügt"; //placeholder
-        Ereignis ereignis = addEreignis(person, artikel, description, "Bestandveraenderung");
+        String description = "hat " + artikel.toString() + " hinzugefügt";
+        addEreignis(person, artikel, description, EreignisArt.BESTAND_VERAENDERUNG);
     }
 
     public void artikelRemoveEreignis(Artikel artikel) {
         String description = "hat " + artikel.getArtNr() +
-                " mit der Bezeichnung " + artikel.getBezeichnung() + " entfernt"; //placeholder
-        Ereignis ereignis = addEreignis(person, artikel, description);
+                " mit der Bezeichnung " + artikel.getBezeichnung() + " entfernt";
+        addEreignis(person, artikel, description);
     }
 
     public void getArtikelListEreignis(Object artikelListe) {
@@ -53,19 +53,15 @@ public class EreignisService {
         addEreignis(person, loginStatus, description);
     }
 
-    private Ereignis addEreignis(Person person, Object obj, String description) {
-        String datum = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"));
-        var beschreibungMitDatum = description + ". Ereignis wurde am " + datum + " erstellt.";
-        Ereignis ereignis = new Ereignis(person, obj, beschreibungMitDatum, datum);
-        ereignisList.add(ereignis);
-        BestandshistorieService.getInstance().addBestandHistorie();
-        return ereignis;
+    private Ereignis addEreignis(Person person, Object obj, String beschreibung) {
+        return addEreignis(person, obj, beschreibung, null);
     }
 
-    private Ereignis addEreignis(Person person, Object obj, String description, String ereignisArt) {
-        String datum = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"));
-        var beschreibungMitDatum = description + ". Ereignis wurde am " + datum + " erstellt.";
-        Ereignis ereignis = new Ereignis(person, obj, beschreibungMitDatum, ereignisArt, datum);
+    private Ereignis addEreignis(Person person, Object obj, String beschreibung, EreignisArt ereignisArt) {
+        var now = LocalDateTime.now();
+        String datum = now.format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"));
+        var beschreibungMitDatum = beschreibung + ". Ereignis wurde am " + datum + " erstellt.";
+        Ereignis ereignis = new Ereignis(person, obj, beschreibungMitDatum, ereignisArt, now);
         ereignisList.add(ereignis);
         BestandshistorieService.getInstance().addBestandHistorie();
         return ereignis;
@@ -81,9 +77,9 @@ public class EreignisService {
             }
             return kundenEreignisListe;
         } else {
-            if(person instanceof Mitarbeiter){
+            if (person instanceof Mitarbeiter) {
                 ArrayList<Ereignis> mitarbeiterEreignisListe = new ArrayList<>();
-                for(Ereignis ereignis : getEreignisList()) {
+                for (Ereignis ereignis : getEreignisList()) {
                     if (ereignis.getPerson() instanceof Mitarbeiter) {
                         mitarbeiterEreignisListe.add(ereignis);
                     }
@@ -94,49 +90,49 @@ public class EreignisService {
         }
     }
 
-    public void warenkorbAusgabeEreignis(Object warenkorb){
+    public void warenkorbAusgabeEreignis(Object warenkorb) {
         String description = "hat seinen Warenkorb ausgegeben";
         addEreignis(person, warenkorb, description);
     }
 
-    public void warenkorbArtikelAnzahlEreignis(Object warenkorb){
+    public void warenkorbArtikelAnzahlEreignis(Object warenkorb) {
         String description = "hat Artikelanzahl im Warenkorb verändert";
         addEreignis(person, warenkorb, description);
     }
 
-    public void addArtikelWarenkorbEreignis(Object artikel){
+    public void addArtikelWarenkorbEreignis(Object artikel) {
         String description = "hat einen Artikel zum Warenkorb hinzugefügt";
         addEreignis(person, artikel, description);
     }
 
-    public void mitarbeiterAusgebenEreignis(List<Mitarbeiter> mitarbeiterListe){
+    public void mitarbeiterAusgebenEreignis(List<Mitarbeiter> mitarbeiterListe) {
         String description = "hat Mitarbeiterliste ausgegeben";
         addEreignis(person, mitarbeiterListe, description);
     }
 
-    public void mitarbeiterSuchenEreignis(List<Mitarbeiter> gesuchterMitarbeiter, String suchbegriff){
+    public void mitarbeiterSuchenEreignis(List<Mitarbeiter> gesuchterMitarbeiter, String suchbegriff) {
         String description = "hat " + suchbegriff + "über Mitarbeitersuche gesucht";
         addEreignis(person, gesuchterMitarbeiter, description);
     }
 
-    public void mitarbeiterLoeschenEreignis(int mitarbeiterId){
+    public void mitarbeiterLoeschenEreignis(int mitarbeiterId) {
         String description = "hat Mitarbeiter mit der ID: " + mitarbeiterId + "gelöscht";
         addEreignis(person, mitarbeiterId, description);
     }
 
-    public void bestandAenderungEreignis(Artikel artikel){
+    public void bestandAenderungEreignis(Artikel artikel) {
         String description = "hat den Bestand von Artikel " + artikel.getArtNr() + " " + artikel.getBezeichnung() + "auf " + artikel.getBestand() + "geaendert";
-        Ereignis ereignis = addEreignis(person, artikel, description, "Bestandveraenderung");
+        addEreignis(person, artikel, description, EreignisArt.BESTAND_VERAENDERUNG);
     }
 
-    public void ereignislistAusgabeEreignis(List<Ereignis> liste){
+    public void ereignislistAusgabeEreignis(List<Ereignis> liste) {
         String description = "hat die EreignisListe ausgegeben";
         addEreignis(person, liste, description);
     }
 
-    public void gekauftEreignis(List<Artikel> artikelListe){
+    public void gekauftEreignis(List<Artikel> artikelListe) {
         String description = "hat gekauft";
-        Ereignis ereignis = addEreignis(person, artikelListe, description, "BestandUpdate");
+        addEreignis(person, artikelListe, description, EreignisArt.BESTAND_AKTUALISIERUNG);
     }
 
     public void setPerson(Person person) {

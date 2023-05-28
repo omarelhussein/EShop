@@ -1,25 +1,26 @@
 package shop.entities;
 
+import java.time.LocalDateTime;
+
 public class Ereignis {
 
     private Person person;
     private int persNr;
     private String name;
-
     private Object extraInfo;
-    private String datum;
-    private String ereignisArt;
+    private LocalDateTime datum;
+    private EreignisArt ereignisArt;
     private String description;
 
-    public Ereignis(Person person, Object object,  String description, String datum) {
+    public Ereignis(Person person, Object object, String description, LocalDateTime datum) {
         this.person = person;
         this.description = description;
         this.extraInfo = object;
-        this.ereignisArt = "";
         this.datum = datum;
 
     }
-    public Ereignis(Person person, Object object,  String description, String ereignisArt, String datum) {
+
+    public Ereignis(Person person, Object object, String description, EreignisArt ereignisArt, LocalDateTime datum) {
         this.person = person;
         this.description = description;
         this.extraInfo = object;
@@ -31,7 +32,7 @@ public class Ereignis {
         return this.person.getPersNr();
     }
 
-    public String getDatum(){
+    public LocalDateTime getDatum() {
         return this.datum;
     }
 
@@ -40,38 +41,43 @@ public class Ereignis {
         return this.person.getName();
     }
 
-    public Object getObject(){
+    public Object getObject() {
         return this.extraInfo;
     }
 
-    public void setObjectBestand(int bestand){
-        if(this.extraInfo instanceof Artikel){
+    public void setObjectBestand(int bestand) {
+        if (this.extraInfo instanceof Artikel) {
             ((Artikel) this.extraInfo).setBestand(bestand);
         }
     }
-    public int getObjectBestand(){
-        if(this.extraInfo instanceof Artikel){
+
+    public int getObjectBestand() {
+        if (this.extraInfo instanceof Artikel) {
             return ((Artikel) this.extraInfo).getBestand();
         }
         return 0;
     }
 
-    public Bestandshistorie getBestandshistorie(){
-        return ((Artikel) this.extraInfo).getBestandshistory();
+    public BestandsHistorie getBestandshistorie() {
+        return ((Artikel) this.extraInfo).getBestandsHistorie();
     }
-    public void setObject(Object object){
+
+    public void setObject(Object object) {
         this.extraInfo = object;
     }
-    public Person getPerson(){
+
+    public Person getPerson() {
         return this.person;
     }
 
-    public String getEreignisArt(){
+    public EreignisArt getEreignisArt() {
         return this.ereignisArt;
     }
-    public void setEreignisArt(String ereignisArt){
+
+    public void setEreignisArt(EreignisArt ereignisArt) {
         this.ereignisArt = ereignisArt;
     }
+
     public String getDescription() {
         return this.description;
     }
