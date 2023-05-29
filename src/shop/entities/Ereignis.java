@@ -5,25 +5,23 @@ import java.time.LocalDateTime;
 public class Ereignis {
 
     private Person person;
-    private int persNr;
-    private String name;
-    private Object extraInfo;
+    private Object object;
     private LocalDateTime datum;
     private EreignisArt ereignisArt;
     private String description;
+    private int anzahl;
 
     public Ereignis(Person person, Object object, String description, LocalDateTime datum) {
         this.person = person;
         this.description = description;
-        this.extraInfo = object;
+        this.object = object;
         this.datum = datum;
-
     }
 
     public Ereignis(Person person, Object object, String description, EreignisArt ereignisArt, LocalDateTime datum) {
         this.person = person;
         this.description = description;
-        this.extraInfo = object;
+        this.object = object;
         this.ereignisArt = ereignisArt;
         this.datum = datum;
     }
@@ -42,28 +40,19 @@ public class Ereignis {
     }
 
     public Object getObject() {
-        return this.extraInfo;
-    }
-
-    public void setObjectBestand(int bestand) {
-        if (this.extraInfo instanceof Artikel) {
-            ((Artikel) this.extraInfo).setBestand(bestand);
-        }
+        return this.object;
     }
 
     public int getObjectBestand() {
-        if (this.extraInfo instanceof Artikel) {
-            return ((Artikel) this.extraInfo).getBestand();
+        if (this.object instanceof Artikel) {
+            return ((Artikel) this.object).getBestand();
         }
         return 0;
     }
 
-    public BestandsHistorie getBestandshistorie() {
-        return ((Artikel) this.extraInfo).getBestandsHistorie();
-    }
 
     public void setObject(Object object) {
-        this.extraInfo = object;
+        this.object = object;
     }
 
     public Person getPerson() {

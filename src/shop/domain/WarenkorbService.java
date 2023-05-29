@@ -3,10 +3,7 @@ package shop.domain;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
-import shop.entities.Kunde;
-import shop.entities.Massenartikel;
-import shop.entities.Warenkorb;
-import shop.entities.WarenkorbArtikel;
+import shop.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,6 @@ import java.util.List;
 public class WarenkorbService {
     private final List<Warenkorb> warenkorbList = new ArrayList<>();
     private final ArtikelService artikelservice;
-    private Kunde aktuellerKunde;
     private static WarenkorbService instance;
 
     private WarenkorbService() {
@@ -30,21 +26,25 @@ public class WarenkorbService {
 
 
     public boolean legeArtikelImWarenkorb(int artikelNr, int anzahl)
-            throws ArtikelNichtGefundenException, BestandUeberschrittenException {
+            throws ArtikelNichtGefundenException, BestandUeberschrittenException, WarenkorbArtikelNichtGefundenException {
         var artikel = artikelservice.getArtikelByArtNr(artikelNr);
         if (artikel == null) throw new ArtikelNichtGefundenException(artikelNr);
 
+        if (getWarenkorbArtikelByArtNr2(artikelNr) != null) {
+            return false;
+        }
+
         if (artikel instanceof Massenartikel) {
-            if (artikel.getBestand() >= anzahl*((Massenartikel) artikel).getPackgroesse() && anzahl > 0) {
-                var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
-                warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl*((Massenartikel) artikel).getPackgroesse()));
-                return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - ((Massenartikel) artikel).getPackgroesse()*anzahl);
+            if (artikel.getBestand() >= anzahl * ((Massenartikel) artikel).getPackgroesse() && anzahl > 0) {
+                var warenkorb = getWarenkorbByKundenNr(UserContext.getUser().getPersNr());
+                warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl * ((Massenartikel) artikel).getPackgroesse()));
+                return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - ((Massenartikel) artikel).getPackgroesse() * anzahl);
             } else {
                 throw new BestandUeberschrittenException(artikel.getBestand(), anzahl);
             }
         } else {
             if (artikel.getBestand() >= anzahl && anzahl > 0) {
-                var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
+                var warenkorb = getWarenkorbByKundenNr(UserContext.getUser().getPersNr());
                 warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
                 return artikelservice.aendereArtikelBestand(artikelNr, artikel.getBestand() - anzahl);
             } else {
@@ -108,6 +108,17 @@ public class WarenkorbService {
         throw new WarenkorbArtikelNichtGefundenException(artNr);
     }
 
+    public WarenkorbArtikel getWarenkorbArtikelByArtNr2(int artNr) {
+        var warenkorb = getWarenkorb();
+        var warenkorbArtikelList = warenkorb.getWarenkorbArtikelList();
+        for (WarenkorbArtikel warenkorbArtikel : warenkorbArtikelList) {
+            if (warenkorbArtikel.getArtikel().getArtNr() == artNr) {
+                return warenkorbArtikel;
+            }
+        }
+        return null;
+    }
+
     public Warenkorb getWarenkorbByKundenNr(int kundenNr) {
         for (Warenkorb value : warenkorbList) {
             if (kundenNr == value.getKunde().getPersNr()) {
@@ -118,11 +129,13 @@ public class WarenkorbService {
     }
 
     public Warenkorb getWarenkorb() {
-        var warenkorb = getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
-        if (warenkorb == null) {
-            neuerKorb(aktuellerKunde);
+        var user = UserContext.getUser();
+        if (user == null || user instanceof Mitarbeiter) return null;
+        var warenkorb = getWarenkorbByKundenNr(user.getPersNr());
+        if (warenkorb == null && user instanceof Kunde kunde) {
+            neuerKorb(kunde);
         }
-        return getWarenkorbByKundenNr(aktuellerKunde.getPersNr());
+        return getWarenkorbByKundenNr(user.getPersNr());
     }
 
     public void neuerKorb(Kunde kunde) {
@@ -133,18 +146,15 @@ public class WarenkorbService {
         warenkorbList.add(new Warenkorb(kunde));
     }
 
-    public void setAktuellerKunde(Kunde aktuellerKunde) {
-        this.aktuellerKunde = aktuellerKunde;
-    }
-
     public List<Warenkorb> getWarenkorbList() {
         return warenkorbList;
     }
 
     public void warenkorbLeeren() {
-        neuerKorb(aktuellerKunde);
+        if (UserContext.getUser() instanceof Kunde kunde) {
+            neuerKorb(kunde);
+        }
     }
 
-    public Kunde getAktuellerKunde() {return aktuellerKunde;}
 
 }

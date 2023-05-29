@@ -1,6 +1,5 @@
 package shop.ui.cui;
 
-import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
@@ -48,7 +47,7 @@ public class EShopCUI {
             case "b" -> run();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
-        if (shopAPI.getEingeloggterNutzer() == null) {
+        if (UserContext.getUser() == null) {
             loginRegistriereKunde();
         } else {
             kundenMenueActions();
@@ -63,8 +62,8 @@ public class EShopCUI {
             case "b" -> run();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
-        if (shopAPI.getEingeloggterNutzer() != null &&
-                shopAPI.getEingeloggterNutzer() instanceof Mitarbeiter) {
+        if (UserContext.getUser() != null &&
+                UserContext.getUser() instanceof Mitarbeiter) {
             mitarbeiterMenueActions();
         } else {
             loginMitarbeiter();
@@ -140,22 +139,19 @@ public class EShopCUI {
     public void artikelBestandhistorieSuchen() throws ArtikelNichtGefundenException, IOException, NumberFormatException {
         System.out.println("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.");
         try {
-        int suchId = Integer.parseInt(in.nextLine());
-            artikelBestandListeAusgeben(shopAPI.artikelBestandSuche(suchId));
-        } catch (NumberFormatException | ArtikelNichtGefundenException e) {
+            int suchId = Integer.parseInt(eingabe());
+            artikelBestandListeAusgeben(shopAPI.getArtikelByArtNr(suchId));
+        } catch (NumberFormatException e) {
             System.out.println("Fehler bei der Eingabe!");
             lagerverwaltungAusgabe();
         }
     }
 
-    private void artikelBestandListeAusgeben(BestandsHistorie history){
-        if (history.getDatum().isEmpty() || history.getBestandsHistorieListe().isEmpty()){
-            System.out.println("Keinen Bestand gefunden!");
-            return;
-        }
+    private void artikelBestandListeAusgeben(Artikel artikel) {
         System.out.println("Bestandshistorie: ");
-        history.stringMachen();
-
+        for (BestandshistorieItem bestandsHistorieItem : artikel.getBestandshistorie()) {
+            System.out.println(artikel + " / History: " + bestandsHistorieItem.toString());
+        }
         System.out.println();
     }
 
@@ -219,7 +215,7 @@ public class EShopCUI {
             System.out.print("Bestand: (Anzahl der Packs bei Massenartikeln)\n> ");
             int bestand = Integer.parseInt(eingabe());
 
-            if (Massenart()) {
+            if (massenArtikelAusgabe()) {
                 System.out.print("Packgröße:\n> ");
                 int pgroesse = Integer.parseInt(eingabe());
                 var artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand * pgroesse, pgroesse);
@@ -236,20 +232,23 @@ public class EShopCUI {
         }
     }
 
-    private boolean Massenart() throws IOException {
+    private boolean massenArtikelAusgabe() throws IOException {
         System.out.print("Massenartikel?(j/n)\n> ");
         String eingabe;
         try {
             eingabe = eingabe();
         } catch (IOException e) {
             System.out.println("Fehler bei der Eingabe!");
-            return Massenart();
+            return massenArtikelAusgabe();
         }
-        switch(eingabe){
-            case "j" : return true;
-            case "n" : return false;
-            default : System.out.println("Bitte wiederhole die Eingabe. \n");
-            return Massenart();
+        switch (eingabe) {
+            case "j":
+                return true;
+            case "n":
+                return false;
+            default:
+                System.out.println("Bitte wiederhole die Eingabe. \n");
+                return massenArtikelAusgabe();
         }
 
         /*
@@ -267,7 +266,6 @@ public class EShopCUI {
     }
 
 
-
     private void artikelBearbeiten() throws IOException, NumberFormatException {
         System.out.print("Artikel-ID:\n> ");
         try {
@@ -279,26 +277,17 @@ public class EShopCUI {
             System.out.print("Neuer Bestand (optional):\n> ");
             String bestand = nullIfEmpty(eingabe());
 
-            if (Massenart()) {
+            double neuerPreis = Double.parseDouble(preis == null ? "-1" : preis);
+            int neuerBestand = Integer.parseInt(bestand == null ? "-1" : bestand);
+            if (massenArtikelAusgabe()) {
                 System.out.print("Packgröße (optional):\n> ");
                 String packgr = nullIfEmpty(eingabe());
                 shopAPI.artikelAktualisieren(
-                        new Massenartikel(
-                                artikelId,
-                                bezeichnung,
-                                Double.parseDouble(preis == null ? "-1" : preis),
-                                Integer.parseInt(bestand == null ? "-1" : bestand),
-                                Integer.parseInt(packgr == null ? "-1" : packgr)
-                        )
+                        new Massenartikel(artikelId, bezeichnung, neuerPreis, neuerBestand, Integer.parseInt(packgr == null ? "-1" : packgr))
                 );
             } else {
                 shopAPI.artikelAktualisieren(
-                        new Artikel(
-                                artikelId,
-                                bezeichnung,
-                                Double.parseDouble(preis == null ? "-1" : preis),
-                                Integer.parseInt(bestand == null ? "-1" : bestand)
-                        )
+                        new Artikel(artikelId, bezeichnung, neuerPreis, neuerBestand)
                 );
             }
         } catch (ArtikelNichtGefundenException | NumberFormatException e) {
@@ -327,10 +316,11 @@ public class EShopCUI {
             int artikelId = Integer.parseInt(eingabe());
             shopAPI.removeArtikel(artikelId);
         } catch (ArtikelNichtGefundenException e) {
-            System.out.println("Artikel nicht gefunden, ernuet versuchen? (j/n)");
+            System.out.println("Artikel nicht gefunden, erneut versuchen? (j/n)");
             String eingabe = in.nextLine();
             if (eingabe.equals("j")) {
                 artikelLoeschen();
+                System.out.println("Artikel erfolgreich gelöscht!");
             }
         } catch (NumberFormatException e) {
             System.out.println("Bitte geben Sie eine gültige Artikel-ID ein!");
@@ -364,11 +354,11 @@ public class EShopCUI {
             var nutzername = eingabe();
             System.out.print("Bitte geben Sie Ihr Passwort ein:\n> ");
             var passwort = eingabe();
-            shopAPI.setEingeloggterNutzer(shopAPI.login(nutzername, passwort));
-            if (shopAPI.getEingeloggterNutzer() == null) {
+            shopAPI.login(nutzername, passwort);
+            if (UserContext.getUser() == null) {
                 System.out.println("Nutzername oder Passwort falsch!");
                 return false;
-            } else if (istMitarbeiter && shopAPI.getEingeloggterNutzer() instanceof Kunde) {
+            } else if (istMitarbeiter && UserContext.getUser() instanceof Kunde) {
                 System.out.println("Sie sind nicht berechtigt sich in diesem Bereich einzuloggen!");
                 return false;
             } else {
@@ -382,7 +372,7 @@ public class EShopCUI {
     }
 
     private void logout() {
-        shopAPI.setEingeloggterNutzer(null);
+        UserContext.clearUser();
         System.out.println("Erfolgreich ausgeloggt!");
         try {
             run();
@@ -417,8 +407,7 @@ public class EShopCUI {
                     Adress(),
                     passwort
             ));
-            shopAPI.setEingeloggterNutzer(registrierterNutzer);
-            EreignisService.getInstance().setPerson(registrierterNutzer);
+            UserContext.setUser(registrierterNutzer);
             System.out.println("Erfolgreich registriert!");
             return;
         } catch (PersonVorhandenException e) {
@@ -431,7 +420,7 @@ public class EShopCUI {
         kundeRegistrieren();
     }
 
-    private Adresse Adress() throws IOException {                                                    //Adressenobjekt erstellen
+    private Adresse Adress() throws IOException {
         System.out.print("Adresse:\nBitte geben Sie Ihre Straße ein:\n ");
         var Strasse = eingabe();
         System.out.print("Bitte geben Sie Ihre Hausnummer ein:\n> ");
@@ -440,7 +429,13 @@ public class EShopCUI {
         var Postleitzahl = eingabe();
         System.out.print("Bitte geben Sie Ihren Herkunftsort ein:\n> ");
         var Stadt = eingabe();
-        return(new Adresse(Strasse,Hausnummer,Postleitzahl,Stadt));
+
+        System.out.print("\nBitte überprüfen sie ihre Eingabe:\n\n" +
+                Strasse + " " + Hausnummer + " " + Postleitzahl + " " + Stadt + "\n\n" +
+                "Ist diese Adresse richtig?(j/n)");
+        if (eingabe().equals("j")) {
+            return (new Adresse(Strasse, Hausnummer, Postleitzahl, Stadt));
+        } else return Adress();
     }
 
     private void kundenMenueActions() {
@@ -528,14 +523,16 @@ public class EShopCUI {
             } else {
                 System.out.println("Artikel konnte leider nicht hinzugefügt werden!");
             }
-        } catch (ArtikelNichtGefundenException | BestandUeberschrittenException e) {
+        } catch (ArtikelNichtGefundenException | BestandUeberschrittenException |
+                 WarenkorbArtikelNichtGefundenException e) {
             System.out.println(e.getMessage());
             warenkorbArtikelHinzufuegen();
         } catch (NumberFormatException e) {
             System.out.println("Bitte geben Sie eine gültige Artikel-ID ein!");
             warenkorbArtikelHinzufuegen();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
+            warenkorbArtikelHinzufuegen();
         }
     }
 

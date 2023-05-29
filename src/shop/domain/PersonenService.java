@@ -29,13 +29,6 @@ public class PersonenService {
     public Person login(String email, String passwort) {
         for (Person person : personList) {
             if (email.equals(person.getEmail()) && passwort.equals(person.getPasswort())) {
-                EreignisService.getInstance().setPerson(person);
-                if (person instanceof Kunde) {
-                    warenkorbService.setAktuellerKunde((Kunde) person);
-                    if (warenkorbService.getWarenkorb() == null) {
-                        warenkorbService.neuerKorb((Kunde) person);
-                    }
-                }
                 return person;
             }
         }
@@ -59,8 +52,8 @@ public class PersonenService {
         }
         personList.add(person);
         // Wenn die Person ein Kunde ist, wird ein neuer Warenkorb erstellt
-        if (person instanceof Kunde) {
-            warenkorbService.neuerKorb((Kunde) person);
+        if (person instanceof Kunde kunde) {
+            warenkorbService.neuerKorb(kunde);
         }
         return person;
     }

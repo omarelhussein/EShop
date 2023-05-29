@@ -1,19 +1,23 @@
 package shop.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Artikel {
 
     private double preis;
     private final int artNr;
     private String bezeichnung;
     private int bestand;
-    private BestandsHistorie bestandsHistorie;
+    private List<BestandshistorieItem> bestandshistorie;
 
     public Artikel(int artNr, String bezeichnung, double preis, int bestand) {
         this.artNr = artNr;
         this.bezeichnung = bezeichnung;
         this.bestand = bestand;
         this.preis = preis;
-        bestandsHistorie = new BestandsHistorie(this);
+        bestandshistorie = new ArrayList<>();
+        bestandshistorie.add(new BestandshistorieItem(bestand));
     }
 
     public double getPreis() {                                     //Ein- & Ausgabe
@@ -22,10 +26,6 @@ public class Artikel {
 
     public int getArtNr() {
         return artNr;
-    }
-
-    public BestandsHistorie getBestandsHistorie(){
-        return this.bestandsHistorie;
     }
 
     public int getBestand() {
@@ -48,10 +48,14 @@ public class Artikel {
         this.bestand = bestand;
     }
 
+    public List<BestandshistorieItem> getBestandshistorie() {
+        return bestandshistorie;
+    }
+
     @Override
     public String toString() {
         return "Artikel: " + artNr + " / Bezeichnung: " + this.bezeichnung +
-                " / Preis: " + this.preis + " €" + " / Bestand: " + this.bestand +  " stk.";
+                " / Preis: " + this.preis + " €" + " / Bestand: " + this.bestand + " stk.";
     }
 
     /**

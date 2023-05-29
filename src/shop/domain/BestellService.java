@@ -1,7 +1,6 @@
 package shop.domain;
 
 import shop.entities.Rechnung;
-import shop.entities.WarenkorbArtikel;
 
 public class BestellService {
 
@@ -12,6 +11,7 @@ public class BestellService {
     }
 
     public void kaufen() {
+        EreignisService.getInstance().gekauftEreignis(warenkorbservice.getWarenkorb().getArtikelList());
         warenkorbservice.warenkorbLeeren();
     }
 
