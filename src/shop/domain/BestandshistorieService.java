@@ -25,9 +25,9 @@ public class BestandshistorieService {
                 ((Artikel) ereignis.getObject()).getBestandshistorie().add(bestandshistorie);
             }
             case KAUF -> {
-                for (Artikel artikel : ArtikelService.getInstance().getArtikelList()) {
-                    if(artikel.getArtNr() == ((Artikel)ereignis.getObject()).getArtNr()) {
-                        var bestandshistorie = new BestandshistorieItem(ereignis.getObjectBestand());
+                for (Artikel artikel : ((List<Artikel>)ereignis.getObject())) {
+                    if(artikel.getBestandshistorie().get(artikel.getBestandshistorie().size() - 1).getBestand() != artikel.getBestand()) {
+                        var bestandshistorie = new BestandshistorieItem(artikel.getBestand());
                         artikel.getBestandshistorie().add(bestandshistorie);
                     }
                 }

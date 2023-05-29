@@ -14,7 +14,7 @@ public class Kunde extends Person {
     }
 
     public Adresse getAdresse() {
-        return adresse;
+        return this.adresse;
     }
 
 }
