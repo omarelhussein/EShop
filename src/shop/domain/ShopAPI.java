@@ -7,7 +7,9 @@ import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
+import shop.persistence.FilePersistenceManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class ShopAPI {
     private final EreignisService ereignisService;
     private final BestellService bestellService;
     private final BestandshistorieService bestandshistorieService;
+    private final FilePersistenceManager filepersistencemanager;
 
 
     public ShopAPI() {
@@ -28,11 +31,14 @@ public class ShopAPI {
         ereignisService = EreignisService.getInstance();
         bestellService = new BestellService();
         bestandshistorieService = new BestandshistorieService();
+        filepersistencemanager = new FilePersistenceManager();
     }
 
-    public void addArtikel(Artikel artikel) {
+    public void addArtikel(Artikel artikel) throws IOException {
         artikelService.addArtikel(artikel);
         ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
+        filepersistencemanager.artikelspeichern();
+
     }
 
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException {
