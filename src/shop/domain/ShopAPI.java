@@ -41,7 +41,7 @@ public class ShopAPI {
 
     }
 
-    public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException {
+    public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException, IOException {
         try {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
             ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
@@ -50,6 +50,7 @@ public class ShopAPI {
             ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikelNr, false);
             throw e;
         }
+        filePersistenceManager.artikelspeichern();
     }
 
     public List<Artikel> getArtikelList() {
@@ -137,7 +138,7 @@ public class ShopAPI {
         return artikelService.getNaechsteId();
     }
 
-    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
+    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException, IOException {
         try {
             artikelService.artikelAktualisieren(artikel);
             EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, true);
@@ -145,6 +146,7 @@ public class ShopAPI {
             EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
             throw e;
         }
+        filePersistenceManager.artikelspeichern();
     }
 
     public boolean istNutzernameVerfuegbar(String nutzername) {
@@ -177,7 +179,7 @@ public class ShopAPI {
         throw new PersonNichtGefundenException(mitarbeiterId);
     }
 
-    public void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException {
+    public void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException, IOException {
         try {
             var erfolg = artikelService.aendereArtikelBestand(artikelId, bestand, false);
             var artikel = artikelService.getArtikelByArtNr(artikelId);
@@ -186,6 +188,7 @@ public class ShopAPI {
             EreignisService.getInstance().addEreignis(EreignisTyp.BESTANDAENDERUNG, null, false);
             throw e;
         }
+        filePersistenceManager.artikelspeichern();
     }
 
     public ArrayList<Ereignis> getEreignisList() {

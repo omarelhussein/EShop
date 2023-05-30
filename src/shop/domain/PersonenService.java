@@ -18,8 +18,6 @@ public class PersonenService {
     public PersonenService() {
         warenkorbService = WarenkorbService.getInstance();
     }
-
-
     /**
      * Überprüft mithilfe einer for-Schleife alle Personen in der Personenliste,
      * ob der eingegebene Nutzername mit der einer registrierten Person übereinstimmt, falls der Nutzername mit der
@@ -129,5 +127,9 @@ public class PersonenService {
             }
         }
         return true;
+    }
+
+    public List<Person> getPersonList(){
+        return this.personList;
     }
 }
