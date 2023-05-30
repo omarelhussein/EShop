@@ -1,6 +1,7 @@
 package shop.entities;
 
 import shop.domain.WarenkorbService;
+import shop.utils.StringUtils;
 
 public class Rechnung {
 
@@ -11,17 +12,20 @@ public class Rechnung {
     }
 
     public String toString() {
-        String rechner = "";
+        String rechnung = "\t" + StringUtils.lineSeparator(50);
         var kunde = (Kunde) UserContext.getUser();
-        rechner += ("\nRechnung\n" + kunde.getName() + "\n" + kunde.getAdresse() + kunde.getEmail() + "\n \n Artikel:\n");
+        rechnung += ("\n\t\t\t\t\tRechnung\n\n\t\tKunde: " + kunde.getName() + "\n\t\tAdresse: " + kunde.getAdresse() + "\n\t\tNutzername: "
+                     + kunde.getNutzername() + "\n\n\t\tGekaufte Artikel:\n");
         for (WarenkorbArtikel warenkorbArtikel : this.warenkorb.getWarenkorbArtikelList()) {
             var artikel = warenkorbArtikel.getArtikel();
-            rechner += ("Name: " + artikel.getBezeichnung() + "  x"
-                    + warenkorbArtikel.getAnzahl() +
-                    "  Einzelpreis: " + artikel.getPreis() + "€" +
-                    "  Gesamtpreis: " + warenkorbArtikel.getGesamtPreis() + "€\n");
+            rechnung += ("\t\t\t-\t" + artikel.getBezeichnung() + ":\n\t\t\t\t\tx" + warenkorbArtikel.getAnzahl() +
+                         "\tEinzelpreis: " + artikel.getPreis() + "€" +
+                         "\n\t\t\t\t\t\tGesamtpreis: " + warenkorbArtikel.getGesamtPreis() + "€\n");
         }
-        rechner += ("\nGesamtsumme: " + warenkorb.getGesamtSumme() + "€\n");
-        return rechner;
+        rechnung += ("\n\t\t\tGesamtsumme: " + warenkorb.getGesamtSumme() + "€\n");
+        rechnung += ("\n\t\t\tVielen Dank für Ihren Einkauf!\n");
+        rechnung += "\t" + StringUtils.lineSeparator(50);
+        rechnung += "\n";
+        return rechnung;
     }
 }

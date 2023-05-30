@@ -8,6 +8,7 @@ import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
 import shop.utils.SeedingUtils;
+import shop.utils.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,7 +64,7 @@ public class EShopCUI {
             default -> cuiMenue.falscheEingabeAusgabe();
         }
         if (UserContext.getUser() != null &&
-                UserContext.getUser() instanceof Mitarbeiter) {
+            UserContext.getUser() instanceof Mitarbeiter) {
             mitarbeiterMenueActions();
         } else {
             loginMitarbeiter();
@@ -137,20 +138,20 @@ public class EShopCUI {
     }
 
     public void artikelBestandhistorieSuchen() throws ArtikelNichtGefundenException, IOException, NumberFormatException {
-        System.out.println("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.");
+        System.out.print("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.\n> ");
         try {
             int suchId = Integer.parseInt(eingabe());
             artikelBestandListeAusgeben(shopAPI.getArtikelByArtNr(suchId));
         } catch (NumberFormatException e) {
-            System.out.println("Fehler bei der Eingabe!");
-            lagerverwaltungAusgabe();
+            System.out.println("Ungültige Eingabe!");
         }
     }
 
     private void artikelBestandListeAusgeben(Artikel artikel) {
-        System.out.println("Bestandshistorie: ");
+        System.out.println("Bestandshistorie für Artikel \""
+                           + artikel.getBezeichnung() + "\" mit der Artikelnummer \"" + artikel.getArtNr() + "\":\n");
         for (BestandshistorieItem bestandsHistorieItem : artikel.getBestandshistorie()) {
-            System.out.println(artikel + " / History: " + bestandsHistorieItem.toString());
+            System.out.println(bestandsHistorieItem.toString());
         }
         System.out.println();
     }
@@ -177,13 +178,13 @@ public class EShopCUI {
     private void mitarbeiterRegistrieren() {
         System.out.print("Name:\n> ");
         String name = in.nextLine();
-        System.out.print("E-Mail:\n> ");
-        String email = in.nextLine();
+        System.out.print("Nutzername:\n> ");
+        String nutzername = in.nextLine();
         System.out.print("Passwort:\n> ");
         String passwort = in.nextLine();
         try {
             var id = shopAPI.getNaechstePersId();
-            shopAPI.registrieren(new Mitarbeiter(id, email, name, passwort));
+            shopAPI.registrieren(new Mitarbeiter(id, nutzername, name, passwort));
         } catch (PersonVorhandenException e) {
             System.out.println("Mitarbeiter konnte nicht angelegt werden! Erneut versuchen? (j/n)\n> ");
             String eingabe = in.nextLine();
@@ -193,15 +194,21 @@ public class EShopCUI {
         }
     }
 
-    private void mitarbeiterLoeschen() throws NumberFormatException {
-        System.out.print("Mitarbeiter-ID:\n> ");
+    private void mitarbeiterLoeschen() {
+        System.out.print("Mitarbeiter-ID (0 zum Abbrechen):\n> ");
         try {
             int mitarbeiterId = Integer.parseInt(in.nextLine());
+            if (mitarbeiterId == 0) {
+                return;
+            }
             shopAPI.mitarbeiterLoeschen(mitarbeiterId);
             System.out.println("Mitarbeiter erfolgreich gelöscht!");
-        } catch (PersonNichtGefundenException | NumberFormatException e) {
-            System.out.println("Mitarbeiter nicht gefunden oder Format falsch!");
-            lagerverwaltungAusgabe();
+        } catch (PersonNichtGefundenException e) {
+            System.out.println("Mitarbeiter nicht gefunden!");
+            mitarbeiterLoeschen();
+        } catch (NumberFormatException e) {
+            System.out.println("Fehler bei der Eingabe!");
+            mitarbeiterLoeschen();
         }
         System.out.println();
     }
@@ -209,7 +216,7 @@ public class EShopCUI {
     private void artikelAnlegen() throws IOException, NumberFormatException {
         System.out.print("Bezeichnung:\n> ");
         String bezeichnung = eingabe();
-        System.out.print("Preis:\n> ");
+        System.out.print("Preis (Einzelstückpreis bei Massenartikeln):\n> ");
         try {
             double preis = Double.parseDouble(eingabe());
             System.out.print("Bestand: (Anzahl der Packs bei Massenartikeln)\n> ");
@@ -333,7 +340,7 @@ public class EShopCUI {
         for (Artikel artikel : artikelListe) {
             System.out.println(artikel.toString());
         }
-        System.out.println("Gesamtanzahl der ausgegebenen Artikel: " + artikelListe.size() + "\n");
+        System.out.println("\ni) Gesamtanzahl der ausgegebenen Artikel: " + artikelListe.size() + "\n");
     }
 
     private void ereignisListAusgeben() {
@@ -342,6 +349,7 @@ public class EShopCUI {
             System.out.println("Keine Ereignisse vorhanden!");
             return;
         }
+        System.out.println(StringUtils.lineSeparator(20, " ~"));
         for (Ereignis ereignis : ereignisListe) {
             System.out.println(ereignis.toString());
         }
@@ -350,7 +358,7 @@ public class EShopCUI {
     private boolean login(boolean istMitarbeiter) {
         try {
             System.out.println();
-            System.out.print("Bitte geben Sie Ihre E-Mail-Adresse ein:\n> ");
+            System.out.print("Bitte geben Sie Ihr Nutzername ein:\n> ");
             var nutzername = eingabe();
             System.out.print("Bitte geben Sie Ihr Passwort ein:\n> ");
             var passwort = eingabe();
@@ -372,7 +380,7 @@ public class EShopCUI {
     }
 
     private void logout() {
-        UserContext.clearUser();
+        shopAPI.logout();
         System.out.println("Erfolgreich ausgeloggt!");
         try {
             run();
@@ -386,32 +394,32 @@ public class EShopCUI {
             System.out.println();
             System.out.print("Bitte geben Sie Ihren Namen ein:\n> ");
             var name = eingabe();
-            var emailVerfuegbar = false;
-            var email = "";
+            var nutzernameVerfuegbar = false;
+            var nutzername = "";
             do {
-                System.out.print("Bitte geben Sie Ihre E-Mail-Adresse ein:\n> ");
-                email = eingabe();
-                emailVerfuegbar = shopAPI.istEmailVerfuegbar(email);
-                if (!emailVerfuegbar) {
-                    System.out.println("Email bereits vergeben! Bitte versuchen Sie es erneut.");
+                System.out.print("Bitte geben Sie Ihr Nutzername ein:\n> ");
+                nutzername = eingabe();
+                nutzernameVerfuegbar = shopAPI.istNutzernameVerfuegbar(nutzername);
+                if (!nutzernameVerfuegbar) {
+                    System.out.println("Nutzername bereits vergeben! Bitte versuchen Sie es erneut.");
                     Thread.sleep(500); // Damit der Nutzer die Fehlermeldung lesen kann, wird kurz gewartet
                 }
-            } while (!emailVerfuegbar);
+            } while (!nutzernameVerfuegbar);
             System.out.print("Bitte geben Sie Ihr Passwort ein:\n> ");
             var passwort = eingabe();
 
             var registrierterNutzer = shopAPI.registrieren(new Kunde(
                     shopAPI.getNaechstePersId(),
-                    email,
+                    nutzername,
                     name,
-                    Adress(),
+                    adresseAusgabe(),
                     passwort
             ));
             UserContext.setUser(registrierterNutzer);
             System.out.println("Erfolgreich registriert!");
             return;
         } catch (PersonVorhandenException e) {
-            System.out.println("Email bereits vergeben!");
+            System.out.println("Nutzername bereits vergeben!");
         } catch (IOException e) {
             System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
         } catch (InterruptedException e) {
@@ -420,7 +428,7 @@ public class EShopCUI {
         kundeRegistrieren();
     }
 
-    private Adresse Adress() throws IOException {
+    private Adresse adresseAusgabe() throws IOException {
         System.out.print("Adresse:\nBitte geben Sie Ihre Straße ein:\n ");
         var Strasse = eingabe();
         System.out.print("Bitte geben Sie Ihre Hausnummer ein:\n> ");
@@ -431,11 +439,11 @@ public class EShopCUI {
         var Stadt = eingabe();
 
         System.out.print("\nBitte überprüfen sie ihre Eingabe:\n\n" +
-                Strasse + " " + Hausnummer + " " + Postleitzahl + " " + Stadt + "\n\n" +
-                "Ist diese Adresse richtig?(j/n)");
+                         Strasse + " " + Hausnummer + " " + Postleitzahl + " " + Stadt + "\n\n" +
+                         "Ist diese Adresse richtig?(j/n)\n> ");
         if (eingabe().equals("j")) {
             return (new Adresse(Strasse, Hausnummer, Postleitzahl, Stadt));
-        } else return Adress();
+        } else return adresseAusgabe();
     }
 
     private void kundenMenueActions() {
@@ -472,7 +480,7 @@ public class EShopCUI {
             // Ignorieren
         }
         System.out.print(shopAPI.rechnungErstellen());
-        System.out.println("Rechnung erfolgreich erstellt!");
+        System.out.println("\nRechnung erfolgreich erstellt!");
         // kauf bestätigen
         System.out.print("\nBitte bestätigen Sie den Kauf. (j/n)\n> ");
         try {
@@ -485,6 +493,8 @@ public class EShopCUI {
             }
         } catch (IOException e) {
             System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
+        } catch (BestandUeberschrittenException | ArtikelNichtGefundenException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -555,8 +565,8 @@ public class EShopCUI {
             for (WarenkorbArtikel warenkorbArtikel : warenkorb.getWarenkorbArtikelList()) {
                 System.out.println(warenkorbArtikel.toString());
             }
-            System.out.println("Gesamtanzahl der Artikel im Warenkorb: " + warenkorb.getAnzahlArtikel());
-            System.out.println("Gesamtsumme: " + shopAPI.getWarenkorbGesamtpreis() + "€ \n");
+            System.out.println("\ni) Gesamtanzahl der Artikel im Warenkorb: " + warenkorb.getAnzahlArtikel());
+            System.out.println("i) Gesamtsumme: " + shopAPI.getWarenkorbGesamtpreis() + "€ \n");
         }
     }
 

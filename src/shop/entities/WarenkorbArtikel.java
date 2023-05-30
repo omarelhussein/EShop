@@ -35,7 +35,11 @@ public class WarenkorbArtikel {
     }
 
     public double getGesamtPreis() {
-        return Math.round(this.anzahl * this.artikel.getPreis() * 100.) / 100.;
+        var gesamtPreis = this.anzahl * this.artikel.getPreis();
+        if (this.artikel instanceof Massenartikel massenartikel) {
+            gesamtPreis *= massenartikel.getPackgroesse();
+        }
+        return Math.round(gesamtPreis * 100.) / 100.;
     }
 
     @Override

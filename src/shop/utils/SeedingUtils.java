@@ -3,6 +3,8 @@ package shop.utils;
 import shop.domain.ArtikelService;
 import shop.domain.EreignisService;
 import shop.entities.Artikel;
+import shop.entities.EreignisTyp;
+import shop.entities.Massenartikel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,10 @@ public class SeedingUtils {
         artikelList.add(new Artikel(133, "Schwarztee", 3.99, 10));
         artikelList.add(new Artikel(134, "Grüntee", 3.99, 10));
         artikelList.add(new Artikel(135, "Red Bull Watermelon", 1.99, 10));
+        artikelList.add(new Massenartikel(135, "Red Bull (4er)", 1.99, 10, 4));
         for (Artikel artikel : artikelList) {
             artikelService.addArtikel(artikel);
-            EreignisService.getInstance().artikelAddEreignis(artikel);
+            EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
         }
     }
 

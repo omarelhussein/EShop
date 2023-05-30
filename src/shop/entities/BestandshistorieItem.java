@@ -1,18 +1,18 @@
 package shop.entities;
 
+import shop.utils.StringUtils;
+
 import java.time.LocalDateTime;
 
 public class BestandshistorieItem {
-    private int bestand;
-    private LocalDateTime datum;
+    private final int bestand;
+    private final LocalDateTime datum;
+    private final boolean istKauf;
 
-    public BestandshistorieItem(int bestand) {
-        setBestand(bestand);
-    }
-
-    public void setBestand(int bestand) {
+    public BestandshistorieItem(int bestand, boolean istKauf) {
         this.bestand = bestand;
         this.datum = LocalDateTime.now();
+        this.istKauf = istKauf;
     }
 
     public int getBestand() {
@@ -23,9 +23,14 @@ public class BestandshistorieItem {
         return datum;
     }
 
+    public boolean istKauf() {
+        return istKauf;
+    }
+
     @Override
     public String toString() {
-        return "Bestand: " + bestand + " / Datum: " + datum;
+        return "\t\t- Am " + StringUtils.formatDate(datum) + " war der Bestand " + bestand + " Stück "
+               + (istKauf ? "[Kauf]" : "[Ein/Auslagerung]") + ".";
     }
 }
 

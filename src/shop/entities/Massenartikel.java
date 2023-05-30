@@ -1,19 +1,20 @@
 package shop.entities;
 
-public class Massenartikel extends Artikel{
+public class Massenartikel extends Artikel {
 
     private int packgroesse;
 
     public Massenartikel(int artNr, String bezeichnung, double preis, int bestand, int pgroesse) {
-        super(artNr, bezeichnung, preis, bestand);
+        super(artNr, bezeichnung, preis, bestand * pgroesse);
         packgroesse = pgroesse;
     }
 
     @Override
     public String toString() {
         return "Artikel: " + getArtNr() + " / Bezeichnung: " + getBezeichnung() +
-                " / Preis: " + getPreis() + " €" + " / Bestand: " + getBestand() +  " stk." +
-                " / Packgröße: " + packgroesse + " stk." + " / Packpreis: " + packgroesse*getPreis() + " €";
+               " / Preis: " + getPreis() + " €" + " / Bestand: " + getBestand() + " stk." +
+               " / Packgröße: " + packgroesse + " stk." + " / Packpreis: "
+               + (Math.round((packgroesse * getPreis()) * 100.) / 100.) + " €";
     }
 
     public void setPackgroesse(int pgroesse) {

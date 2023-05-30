@@ -17,11 +17,11 @@ public class Artikel {
         this.bestand = bestand;
         this.preis = preis;
         bestandshistorie = new ArrayList<>();
-        bestandshistorie.add(new BestandshistorieItem(bestand));
+        bestandshistorie.add(new BestandshistorieItem(bestand, false));
     }
 
-    public double getPreis() {                                     //Ein- & Ausgabe
-        return preis;
+    public double getPreis() {
+        return Math.round(preis * 100.) / 100.;
     }
 
     public int getArtNr() {

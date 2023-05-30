@@ -6,17 +6,17 @@ public abstract class Person {
     private int persNr;
     private String passwort;
 
-    private String email;
+    private String nutzername;
 
-    public Person(int persNr, String email, String name, String passwort) {
+    public Person(int persNr, String nutzername, String name, String passwort) {
         this.name = name;
         this.persNr = persNr;
         this.passwort = passwort;
-        this.email = email;
+        this.nutzername = nutzername;
     }
 
-    public void setEmail(String eMail) {                      //Ein- & Ausgabe
-        this.email = eMail;
+    public void setNutzername(String nutzername) {
+        this.nutzername = nutzername;
     }
 
     public void setName(String name) {                      //Ein- & Ausgabe
@@ -31,8 +31,8 @@ public abstract class Person {
         this.passwort = passwort;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNutzername() {
+        return nutzername;
     }
 
     public String getName() {
@@ -65,7 +65,7 @@ public abstract class Person {
     @Override
     public String toString() {
         return "PersNr: " + this.persNr + " / " +
-                " Name: " + this.name + " / E-Mail: " + email;
+                " Name: " + this.name + " / Nutzername: " + nutzername;
     }
 
 }

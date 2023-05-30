@@ -22,13 +22,13 @@ public class PersonenService {
 
     /**
      * Überprüft mithilfe einer for-Schleife alle Personen in der Personenliste,
-     * ob die eingegebene E-Mail mit der einer registrierten Person übereinstimmt, falls die E-Mail mit der
+     * ob der eingegebene Nutzername mit der einer registrierten Person übereinstimmt, falls der Nutzername mit der
      * einer registrierten Person übereinstimmt wird das eingegebene Passwort mit der Person überprüft
-     * trifft E-Mail und Passwort zu wird "true" return ansonsten false
+     * trifft Nutzername und Passwort zu wird "true" return ansonsten false
      */
-    public Person login(String email, String passwort) {
+    public Person login(String nutzername, String passwort) {
         for (Person person : personList) {
-            if (email.equals(person.getEmail()) && passwort.equals(person.getPasswort())) {
+            if (nutzername.equals(person.getNutzername()) && passwort.equals(person.getPasswort())) {
                 return person;
             }
         }
@@ -36,8 +36,8 @@ public class PersonenService {
     }
 
     /**
-     * Registriert eine Person. Überprüft, ob die eingegebene E-Mail oder KundenNr bereits
-     * vergeben ist, wenn die KundenNr oder E-Mail vergeben ist, wird eine Exception geworfen,
+     * Registriert eine Person. Überprüft, ob der eingegebene Nutzername oder KundenNr bereits
+     * vergeben ist, wenn die KundenNr oder Nutzername vergeben ist, wird eine Exception geworfen,
      * ansonsten wird ein neues KundenObjekt mit den eingegebenen Parametern erstellt und in
      * die PersonenListe hinzugefügt.
      *
@@ -46,7 +46,7 @@ public class PersonenService {
      */
     public Person registerPerson(Person person) throws PersonVorhandenException {
         for (Person aktuellePerson : personList) {
-            if (aktuellePerson.getEmail().trim().equalsIgnoreCase(person.getEmail().trim())) {
+            if (aktuellePerson.getNutzername().trim().equalsIgnoreCase(person.getNutzername().trim())) {
                 throw new PersonVorhandenException();
             }
         }
@@ -65,19 +65,6 @@ public class PersonenService {
             }
         }
         return null;
-    }
-
-    /**
-     * Initialisiert eine Mitarbeiter-Liste und überprüft mithilfe einer for-Schleife jede Person darauf,
-     * ob sie ein Mitarbeiter ist. Wenn die Person ein Mitarbeiter ist, wird sie in die Mitarbeiter-Liste
-     * hinzugefügt. Daraufhin wird die Mitarbeiter-Liste returnt.
-     */
-    public List<Mitarbeiter> showMitarbeiter() {
-        List<Mitarbeiter> MitarbeiterList = new ArrayList<>();
-        for (Person personMitarbeiter : personList) {
-            if (personMitarbeiter instanceof Mitarbeiter) MitarbeiterList.add((Mitarbeiter) personMitarbeiter);
-        }
-        return MitarbeiterList;
     }
 
     /**
@@ -108,16 +95,6 @@ public class PersonenService {
     }
 
     /**
-     * Gibt eine Liste mit allen Kunden zurück, die in der Personen-Liste sind.
-     */
-    public List<Kunde> getKunden() {
-        return personList.stream()
-                .filter(person -> person instanceof Kunde)
-                .map(person -> (Kunde) person)
-                .toList();
-    }
-
-    /**
      * Gibt eine Liste mit allen Mitarbeitern zurück, die in der Personen-Liste sind.
      */
     public List<Mitarbeiter> getMitarbeiter() {
@@ -130,7 +107,7 @@ public class PersonenService {
     public Stream<Person> suchePersonByQuery(String query) {
         return personList.stream()
                 .filter(person -> person.getName().toLowerCase().contains(query.toLowerCase()) ||
-                        person.getEmail().toLowerCase().contains(query.toLowerCase()) ||
+                        person.getNutzername().toLowerCase().contains(query.toLowerCase()) ||
                         String.valueOf(person.getPersNr()).contains(query)
                 );
     }
@@ -145,9 +122,9 @@ public class PersonenService {
         return max + 1;
     }
 
-    public boolean istEmailVerfuegbar(String email) {
+    public boolean istNutzernameVerfuegbar(String nutzername) {
         for (Person person : personList) {
-            if (person.getEmail().trim().equalsIgnoreCase(email.trim())) {
+            if (person.getNutzername().trim().equalsIgnoreCase(nutzername.trim())) {
                 return false;
             }
         }

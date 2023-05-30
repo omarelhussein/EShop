@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ShopAPI {
 
-    // Artikeln
     private final ArtikelService artikelService;
     private final PersonenService personenService;
     private final WarenkorbService warenkorbService;
@@ -29,33 +28,49 @@ public class ShopAPI {
     }
 
     public void addArtikel(Artikel artikel) {
-        ereignisService.artikelAddEreignis(artikel);
         artikelService.addArtikel(artikel);
+        ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
     }
 
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException {
-        var artikel = artikelService.getArtikelByArtNr(artikelNr);
-        ereignisService.artikelRemoveEreignis(artikel);
-        artikelService.removeArtikel(artikel);
+        try {
+            var artikel = artikelService.getArtikelByArtNr(artikelNr);
+            ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
+            artikelService.removeArtikel(artikel);
+        } catch (ArtikelNichtGefundenException e) {
+            ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikelNr, false);
+            throw e;
+        }
     }
 
     public List<Artikel> getArtikelList() {
-        ereignisService.getArtikelListEreignis(artikelService.getArtikelList());
-        return artikelService.getArtikelList();
+        var artikelListe = artikelService.getArtikelList();
+        ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, artikelService.getArtikelList().size(), artikelListe != null);
+        return artikelListe;
     }
 
     public List<Artikel> getArtikelByQuery(String query) {
-        ereignisService.sucheArtikelByArtQueryEreignis(artikelService.sucheArtikelByQuery(query), query);
-        return artikelService.sucheArtikelByQuery(query);
+        var artikelListe = artikelService.sucheArtikelByQuery(query);
+        ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, query, artikelListe != null);
+        ereignisService.addEreignis(EreignisTyp.ARTIKEL_SUCHEN, query, artikelListe != null);
+        return artikelListe;
     }
 
     public Artikel getArtikelByArtNr(int artikelNr) throws ArtikelNichtGefundenException {
-        return artikelService.getArtikelByArtNr(artikelNr);
+        try {
+            var artikel = artikelService.getArtikelByArtNr(artikelNr);
+            ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, artikel, true);
+            return artikel;
+        } catch (ArtikelNichtGefundenException e) {
+            ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, artikelNr, false);
+            throw e;
+        }
     }
 
     public Warenkorb getWarenkorb() {
-        ereignisService.warenkorbAusgabeEreignis(warenkorbService.getWarenkorb());
-        return warenkorbService.getWarenkorb();
+        var warenkorb = warenkorbService.getWarenkorb();
+        ereignisService.addEreignis(EreignisTyp.WARENKORB_ANZEIGEN, warenkorbService.getWarenkorb(), warenkorb != null);
+        return warenkorb;
     }
 
     public double getWarenkorbGesamtpreis() {
@@ -64,28 +79,40 @@ public class ShopAPI {
 
     public boolean addArtikelToWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException, WarenkorbArtikelNichtGefundenException {
-        var placeholder = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
-        EreignisService.getInstance()
-                .addArtikelWarenkorbEreignis(ArtikelService.getInstance().getArtikelByArtNr(artikelNr));
-        return placeholder;
+        try {
+            var erfolg = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
+            EreignisService.getInstance()
+                    .addEreignis(EreignisTyp.WARENKORB_HINZUFUEGEN, ArtikelService.getInstance().getArtikelByArtNr(artikelNr), erfolg);
+            return erfolg;
+        } catch (Exception e) {
+            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_HINZUFUEGEN, artikelNr, false);
+            throw e;
+        }
     }
 
     public void aendereArtikelAnzahlImWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
             WarenkorbArtikelNichtGefundenException {
-        EreignisService.getInstance().warenkorbArtikelAnzahlEreignis(warenkorbService.getWarenkorb());
-        warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
+        try {
+            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
+            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, warenkorbService.getWarenkorb(), true);
+        } catch (Exception e) {
+            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, warenkorbService.getWarenkorb(), false);
+            throw e;
+        }
     }
 
-    public Person login(String nutzername, String passwort) {
+    public void login(String nutzername, String passwort) {
         var login = personenService.login(nutzername, passwort);
-        if (login == null) return null;
+        if (login == null) {
+            EreignisService.getInstance().addEreignis(EreignisTyp.LOGIN, null, false);
+            return;
+        }
         UserContext.setUser(login);
         if (warenkorbService.getWarenkorb() == null && login instanceof Kunde kunde) {
             warenkorbService.neuerKorb(kunde);
         }
-        EreignisService.getInstance().loginEreignis(login);
-        return login;
+        EreignisService.getInstance().addEreignis(EreignisTyp.LOGIN, login, true);
     }
 
 
@@ -102,22 +129,27 @@ public class ShopAPI {
     }
 
     public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
-        artikelService.artikelAktualisieren(artikel);
+        try {
+            artikelService.artikelAktualisieren(artikel);
+            EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, true);
+        } catch (ArtikelNichtGefundenException e) {
+            EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
+            throw e;
+        }
     }
 
-    public boolean istEmailVerfuegbar(String email) {
-        return personenService.istEmailVerfuegbar(email);
+    public boolean istNutzernameVerfuegbar(String nutzername) {
+        return personenService.istNutzernameVerfuegbar(nutzername);
     }
 
     public List<Mitarbeiter> getMitarbeiterList() {
-        EreignisService.getInstance().mitarbeiterAusgebenEreignis(personenService.getMitarbeiter());
-        return personenService.getMitarbeiter();
+        var mitarbeiterListe = personenService.getMitarbeiter();
+        EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_ANZEIGEN, mitarbeiterListe.size(), true);
+        return mitarbeiterListe;
     }
 
     public List<Mitarbeiter> getMitarbeiterList(String suchbegriff) {
-        EreignisService.getInstance().mitarbeiterSuchenEreignis(personenService.suchePersonByQuery(suchbegriff)
-                .filter(Mitarbeiter.class::isInstance)
-                .map(Mitarbeiter.class::cast).toList(), suchbegriff);
+        EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_SUCHEN, suchbegriff, true);
         return personenService.suchePersonByQuery(suchbegriff)
                 .filter(Mitarbeiter.class::isInstance)
                 .map(Mitarbeiter.class::cast).toList();
@@ -125,30 +157,53 @@ public class ShopAPI {
 
     public void mitarbeiterLoeschen(int mitarbeiterId) throws PersonNichtGefundenException {
         if (UserContext.getUser().getPersNr() != mitarbeiterId) {
-            EreignisService.getInstance().mitarbeiterLoeschenEreignis(mitarbeiterId);
-            personenService.removeMitarbeiter(mitarbeiterId);
-            return;
+            var person = personenService.getPersonByPersNr(mitarbeiterId);
+            if (person instanceof Mitarbeiter mitarbeiter) {
+                personenService.removeMitarbeiter(mitarbeiterId);
+                EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_LOESCHEN, mitarbeiter, true);
+                return;
+            }
         }
+        EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_LOESCHEN, null, false);
         throw new PersonNichtGefundenException(mitarbeiterId);
     }
 
     public void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException {
-        artikelService.aendereArtikelBestand(artikelId, bestand);
-        EreignisService.getInstance().bestandAenderungEreignis(ArtikelService.getInstance().getArtikelByArtNr(artikelId));
+        try {
+            var erfolg = artikelService.aendereArtikelBestand(artikelId, bestand, false);
+            var artikel = artikelService.getArtikelByArtNr(artikelId);
+            EreignisService.getInstance().addEreignis(EreignisTyp.BESTANDAENDERUNG, artikel, erfolg);
+        } catch (ArtikelNichtGefundenException e) {
+            EreignisService.getInstance().addEreignis(EreignisTyp.BESTANDAENDERUNG, null, false);
+            throw e;
+        }
     }
 
     public ArrayList<Ereignis> getEreignisList() {
-        EreignisService.getInstance().ereignislistAusgabeEreignis(ereignisService.kundeOderMitarbeiterEreignisListe());
-        return ereignisService.kundeOderMitarbeiterEreignisListe();
+        var ereignisListe = ereignisService.kundeOderMitarbeiterEreignisListe();
+        EreignisService.getInstance().addEreignis(EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
+        return ereignisListe;
     }
 
     public String rechnungErstellen() {
-        return bestellService.rechnungtoString();
+        return bestellService.rechnungToString();
     }
 
-    public void kaufen() {
-        EreignisService.getInstance().gekauftEreignis(ArtikelService.getInstance().getArtikelList());
-        bestellService.kaufen();
+    public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException {
+        try {
+            var warenkorbListGroesse = WarenkorbService.getInstance().getWarenkorbList().size();
+            bestellService.kaufen();
+            EreignisService.getInstance()
+                    .addEreignis(EreignisTyp.KAUF, warenkorbListGroesse, true);
+        } catch (Exception e) {
+            EreignisService.getInstance()
+                    .addEreignis(EreignisTyp.KAUF, WarenkorbService.getInstance().getWarenkorbList().size(), false);
+            throw e;
+        }
     }
 
+    public void logout() {
+        UserContext.clearUser();
+        EreignisService.getInstance().addEreignis(EreignisTyp.LOGOUT, null, true);
+    }
 }

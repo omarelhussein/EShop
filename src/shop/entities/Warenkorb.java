@@ -27,7 +27,7 @@ public class Warenkorb {
     public double getGesamtSumme() {
         double preis = 0;
         for (WarenkorbArtikel value : this.warenkorbArtikelList) {
-            preis += value.getArtikel().getPreis() * value.getAnzahl();
+            preis += value.getGesamtPreis();
         }
         return Math.round(preis * 100.) / 100.;
     }

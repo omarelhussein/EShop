@@ -2,6 +2,7 @@ package shop.domain;
 
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.entities.Artikel;
+import shop.entities.BestandshistorieItem;
 import shop.entities.Massenartikel;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class ArtikelService {
         return artikelList
                 .stream()
                 .filter(artikel -> artikel.getBezeichnung().toLowerCase().trim().contains(query.toLowerCase().trim())
-                        || String.valueOf(artikel.getArtNr()).equals(query))
+                                   || String.valueOf(artikel.getArtNr()).equals(query))
                 .collect(Collectors.toList());
     }
 
@@ -93,25 +94,27 @@ public class ArtikelService {
 
     public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
         // die ID suchen, wenn nicht vorhanden dementsprechend fehlermeldung ausgeben
-        var gefundenesArtikel = getArtikelByArtNr(artikel.getArtNr());
-        if (gefundenesArtikel == null) {
+        var artikelByArtNr = getArtikelByArtNr(artikel.getArtNr());
+        if (artikelByArtNr == null) {
             throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
         if (artikel.getBezeichnung() != null) {
-            gefundenesArtikel.setBezeichnung(artikel.getBezeichnung());
+            artikelByArtNr.setBezeichnung(artikel.getBezeichnung());
         }
         if (artikel.getBestand() > 0) {
-            gefundenesArtikel.setBestand(artikel.getBestand());
+            if (artikel.getBestand() != artikelByArtNr.getBestand()) {
+                artikelByArtNr.getBestandshistorie().add(new BestandshistorieItem(artikel.getBestand(), false));
+            }
+            artikelByArtNr.setBestand(artikel.getBestand());
         }
         if (artikel.getPreis() > 0) {
-            gefundenesArtikel.setPreis(artikel.getPreis());
+            artikelByArtNr.setPreis(artikel.getPreis());
         }
         if (artikel instanceof Massenartikel) {
             if (((Massenartikel) artikel).getPackgroesse() > 0) {
-                ((Massenartikel)gefundenesArtikel).setPackgroesse(((Massenartikel) artikel).getPackgroesse());
+                ((Massenartikel) artikelByArtNr).setPackgroesse(((Massenartikel) artikel).getPackgroesse());
             }
         }
-
     }
 
     /**
@@ -122,15 +125,13 @@ public class ArtikelService {
      * @return true, wenn der Bestand geändert werden konnte, false, wenn der Bestand nicht geändert werden konnte, weil er unter 0 fallen würde
      * @throws ArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer gefunden wurde
      */
-    public boolean aendereArtikelBestand(int artikelNr, int neuerBestand) throws ArtikelNichtGefundenException {
+    public boolean aendereArtikelBestand(int artikelNr, int neuerBestand, boolean istKauf) throws ArtikelNichtGefundenException {
         var gefundenerArtikel = getArtikelByArtNr(artikelNr);
-        if (gefundenerArtikel == null) {
-            throw new ArtikelNichtGefundenException(artikelNr);
-        }
         if (neuerBestand < 0) {
             return false;
         }
         gefundenerArtikel.setBestand(neuerBestand);
+        gefundenerArtikel.getBestandshistorie().add(new BestandshistorieItem(neuerBestand, istKauf));
         return true;
     }
 
