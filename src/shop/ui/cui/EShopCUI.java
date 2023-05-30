@@ -13,6 +13,7 @@ import shop.utils.StringUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class EShopCUI {
 
@@ -21,7 +22,6 @@ public class EShopCUI {
     private final EShopCUIMenue.Kunde kundenMenue;
     private final EShopCUIMenue.Mitarbeiter mitarbeiterMenue;
     private final Scanner in;
-    private final SeedingUtils seedingUtils;
 
     public EShopCUI() {
         this.cuiMenue = new EShopCUIMenue();
@@ -29,7 +29,7 @@ public class EShopCUI {
         in = new Scanner(System.in);
         kundenMenue = new EShopCUIMenue.Kunde();
         mitarbeiterMenue = new EShopCUIMenue.Mitarbeiter();
-        seedingUtils = new SeedingUtils();
+        new SeedingUtils(); // Nur initialisieren, die Daten werden automatisch angelegt
     }
 
     /**
@@ -129,7 +129,7 @@ public class EShopCUI {
                 case "b" -> mitarbeiterMenueActions();
                 default -> cuiMenue.falscheEingabeAusgabe();
             }
-        } catch (IOException | ArtikelNichtGefundenException e) {
+        } catch (IOException e) {
             System.out.println("Fehler bei der Eingabe!");
             lagerverwaltungAusgabe();
             return;
@@ -137,23 +137,39 @@ public class EShopCUI {
         lagerverwaltungAusgabe();
     }
 
-    public void artikelBestandhistorieSuchen() throws ArtikelNichtGefundenException, IOException, NumberFormatException {
-        System.out.print("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.\n> ");
+    public void artikelBestandhistorieSuchen() throws IOException {
         try {
+            System.out.print("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.\n> ");
             int suchId = Integer.parseInt(eingabe());
-            artikelBestandListeAusgeben(shopAPI.getArtikelByArtNr(suchId));
+            System.out.print("Geben sie die Anzahl der Tage ein, die sie zurückblicken wollen (optional).\n> ");
+            String tage = eingabe();
+            System.out.print("Geben sie an, ob sie nur Käufe (k) oder Ein-/Auslagerungen (e) sehen wollen (optional).\n> ");
+            String istKauf = eingabe();
+            artikelBestandListeAusgeben(suchId, tage.isEmpty() ? 0 : Integer.parseInt(tage), istKaufFromString(istKauf));
         } catch (NumberFormatException e) {
             System.out.println("Ungültige Eingabe!");
         }
     }
 
-    private void artikelBestandListeAusgeben(Artikel artikel) {
-        System.out.println("Bestandshistorie für Artikel \""
-                           + artikel.getBezeichnung() + "\" mit der Artikelnummer \"" + artikel.getArtNr() + "\":\n");
-        for (BestandshistorieItem bestandsHistorieItem : artikel.getBestandshistorie()) {
-            System.out.println(bestandsHistorieItem.toString());
+    private void artikelBestandListeAusgeben(int artNr, int tage, Boolean istKauf) {
+        try {
+            var bestandshistorieGruppiert = shopAPI.sucheBestandshistorie(artNr, tage, istKauf)
+                    .stream().collect(Collectors.groupingBy(ArtikelHistorie::artikel)); // gruppiert nach Artikel
+            for (var gruppierung : bestandshistorieGruppiert.entrySet()) {
+                var artikel = gruppierung.getKey();
+                System.out.println(
+                        "Bestandshistorie für Artikel \"" + artikel.getBezeichnung()
+                        + "\" mit der Artikelnummer \"" + artikel.getArtNr() + "\":\n"
+                );
+                for (var artikelHistorie : gruppierung.getValue()) {
+                    System.out.println(artikelHistorie.bestandshistorieItem().toString());
+                }
+            }
+            System.out.println();
+        } catch (ArtikelNichtGefundenException e) {
+            System.out.println(e.getMessage());
+            lagerverwaltungAusgabe();
         }
-        System.out.println();
     }
 
 
@@ -591,6 +607,12 @@ public class EShopCUI {
 
     private String nullIfEmpty(String string) {
         return string.trim().isEmpty() ? null : string;
+    }
+
+    private Boolean istKaufFromString(String string) {
+        if (string.equals("k")) return true;
+        if (string.equals("e")) return false;
+        return null;
     }
 
     public static void main(String[] args) throws IOException {

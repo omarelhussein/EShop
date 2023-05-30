@@ -23,6 +23,9 @@ public class BestandshistorieItem {
         return datum;
     }
 
+    /**
+     * Gibt an, ob die Bestandsänderung ein Kauf war.
+     */
     public boolean istKauf() {
         return istKauf;
     }

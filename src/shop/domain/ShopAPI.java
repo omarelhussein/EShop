@@ -17,6 +17,7 @@ public class ShopAPI {
     private final WarenkorbService warenkorbService;
     private final EreignisService ereignisService;
     private final BestellService bestellService;
+    private final BestandshistorieService bestandshistorieService;
 
 
     public ShopAPI() {
@@ -25,6 +26,7 @@ public class ShopAPI {
         warenkorbService = WarenkorbService.getInstance();
         ereignisService = EreignisService.getInstance();
         bestellService = new BestellService();
+        bestandshistorieService = new BestandshistorieService();
     }
 
     public void addArtikel(Artikel artikel) {
@@ -200,6 +202,10 @@ public class ShopAPI {
                     .addEreignis(EreignisTyp.KAUF, WarenkorbService.getInstance().getWarenkorbList().size(), false);
             throw e;
         }
+    }
+
+    public List<ArtikelHistorie> sucheBestandshistorie(int artNr, int tage, Boolean istKauf) throws ArtikelNichtGefundenException {
+        return bestandshistorieService.suchBestandshistorie(artNr, tage, istKauf);
     }
 
     public void logout() {
