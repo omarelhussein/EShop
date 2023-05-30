@@ -1,9 +1,10 @@
 package shop.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Artikel {
+public class Artikel implements Serializable {
 
     private double preis;
     private final int artNr;

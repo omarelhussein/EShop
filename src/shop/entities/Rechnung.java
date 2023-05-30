@@ -1,31 +1,96 @@
 package shop.entities;
 
-import shop.domain.WarenkorbService;
 import shop.utils.StringUtils;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 public class Rechnung {
-
     private final Warenkorb warenkorb;
+    private final Kunde kunde;
+    private final LocalDateTime rechnungsDatum;
+    private final int rechnungsNr;
+    private final String rechnungsTitel;
 
-    public Rechnung() {
-        warenkorb = WarenkorbService.getInstance().getWarenkorb();
+    public Rechnung(Warenkorb warenkorb, Kunde kunde, int rechnungsNr) {
+        this.warenkorb = warenkorb.deepCopy(); // erstellen einer Kopie des Warenkorbs für spätere Verwendung
+        this.kunde = kunde;
+        this.rechnungsDatum = LocalDateTime.now();
+        this.rechnungsNr = rechnungsNr;
+        this.rechnungsTitel = "Rechnung: " + rechnungsNr;
     }
 
+    public Warenkorb getWarenkorb() {
+        return warenkorb;
+    }
+
+    public Kunde getKunde() {
+        return kunde;
+    }
+
+    public LocalDateTime getRechnungsDatum() {
+        return rechnungsDatum;
+    }
+
+    public int getRechnungsNr() {
+        return rechnungsNr;
+    }
+
+    public String getRechnungsTitel() {
+        return rechnungsTitel;
+    }
+
+    @Override
     public String toString() {
-        String rechnung = "\t" + StringUtils.lineSeparator(50);
-        var kunde = (Kunde) UserContext.getUser();
-        rechnung += ("\n\t\t\t\t\tRechnung\n\n\t\tKunde: " + kunde.getName() + "\n\t\tAdresse: " + kunde.getAdresse() + "\n\t\tNutzername: "
-                     + kunde.getNutzername() + "\n\n\t\tGekaufte Artikel:\n");
+        StringBuilder rechnung = new StringBuilder("\t" + StringUtils.lineSeparator(50));
+        rechnung.append("\n")
+                .append(StringUtils.tabulator(5)).append(rechnungsTitel).append("\n\n")
+                .append(StringUtils.tabulator(2)).append("Kunde: ").append(kunde.getName())
+                .append("\n\t\tAdresse: ").append(kunde.getAdresse())
+                .append("\n\t\tNutzername: ").append(kunde.getNutzername())
+                .append("\n\n\t\tGekaufte Artikel:\n");
         for (WarenkorbArtikel warenkorbArtikel : this.warenkorb.getWarenkorbArtikelList()) {
             var artikel = warenkorbArtikel.getArtikel();
-            rechnung += ("\t\t\t-\t" + artikel.getBezeichnung() + ":\n\t\t\t\t\tx" + warenkorbArtikel.getAnzahl() +
-                         "\tEinzelpreis: " + artikel.getPreis() + "€" +
-                         "\n\t\t\t\t\t\tGesamtpreis: " + warenkorbArtikel.getGesamtPreis() + "€\n");
+            rechnung.append(StringUtils.tabulator(3))
+                    .append("-\t").append(artikel.getBezeichnung()).append(":\n")
+                    .append(StringUtils.tabulator(5))
+                    .append("x").append(warenkorbArtikel.getAnzahl())
+                    .append("\tEinzelpreis: ").append(artikel.getPreis()).append("€")
+                    .append("\n").append(StringUtils.tabulator(6))
+                    .append("Gesamtpreis: ").append(warenkorbArtikel.getGesamtPreis()).append("€\n");
         }
-        rechnung += ("\n\t\t\tGesamtsumme: " + warenkorb.getGesamtSumme() + "€\n");
-        rechnung += ("\n\t\t\tVielen Dank für Ihren Einkauf!\n");
-        rechnung += "\t" + StringUtils.lineSeparator(50);
-        rechnung += "\n";
-        return rechnung;
+        rechnung.append("\n").append(StringUtils.tabulator(3))
+                .append("Gesamtsumme: ").append(warenkorb.getGesamtSumme()).append("€\n")
+                .append("\n").append(StringUtils.tabulator(3))
+                .append("Rechnungsdatum: ").append(StringUtils.formatDate(this.rechnungsDatum)).append("\n")
+                .append(StringUtils.tabulator(3))
+                .append("Vielen Dank für Ihren Einkauf!\n")
+                .append("\t")
+                .append(StringUtils.lineSeparator(50))
+                .append("\n");
+        return rechnung.toString();
     }
+
+    public Warenkorb warenkorb() {
+        return warenkorb;
+    }
+
+    public Kunde kunde() {
+        return kunde;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (Rechnung) obj;
+        return Objects.equals(this.warenkorb, that.warenkorb) &&
+               Objects.equals(this.kunde, that.kunde);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(warenkorb, kunde);
+    }
+
 }

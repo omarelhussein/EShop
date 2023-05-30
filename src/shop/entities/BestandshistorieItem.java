@@ -2,9 +2,10 @@ package shop.entities;
 
 import shop.utils.StringUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class BestandshistorieItem {
+public class BestandshistorieItem implements Serializable {
     private final int bestand;
     private final LocalDateTime datum;
     private final boolean istKauf;

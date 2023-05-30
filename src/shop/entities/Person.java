@@ -1,6 +1,8 @@
 package shop.entities;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person implements Serializable {
 
     private String name;
     private int persNr;
@@ -13,6 +15,10 @@ public abstract class Person {
         this.persNr = persNr;
         this.passwort = passwort;
         this.nutzername = nutzername;
+    }
+
+    public Person() {
+        // no-args constructor for serialization
     }
 
     public void setNutzername(String nutzername) {

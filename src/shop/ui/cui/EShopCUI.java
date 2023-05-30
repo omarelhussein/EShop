@@ -5,6 +5,7 @@ import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
 import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
+import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
 import shop.utils.SeedingUtils;
@@ -473,7 +474,8 @@ public class EShopCUI {
                 case "4" -> warenkorbArtikelHinzufuegen();
                 case "5" -> warenkorbBearbeiten();
                 case "6" -> warenkorbBestellen();
-                case "7" -> ereignisListAusgeben();
+                case "r" -> rechnungListAusgeben();
+                case "e" -> ereignisListAusgeben();
                 case "x" -> logout();
                 case "q" -> exit();
                 default -> cuiMenue.falscheEingabeAusgabe();
@@ -482,6 +484,31 @@ public class EShopCUI {
             System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
         }
         kundenMenueActions();
+    }
+
+    private void rechnungListAusgeben() {
+        var rechnungen = shopAPI.getRechnungenByKunde(UserContext.getUser().getPersNr());
+        if (rechnungen.isEmpty()) {
+            System.out.println("Sie haben noch keine Rechnungen. Erst wenn Sie etwas bestellt haben, werden hier Rechnungen angezeigt.");
+            return;
+        }
+        System.out.println("\nRechnungen:");
+        for (Rechnung rechnung : rechnungen) {
+            System.out.println("\"" + rechnung.getRechnungsTitel() + "\" - Erstellt am: " + StringUtils.formatDate(rechnung.getRechnungsDatum()));
+        }
+        System.out.print("\nWelche Rechnung möchten Sie sich ansehen? (Bitte geben Sie die Rechnungsnummer ein, 0 zum Abbrechen)\n> ");
+        try {
+            var eingabe = eingabe();
+            if (eingabe.equals("0")) {
+                return;
+            }
+            var rechnung = shopAPI.getRechnungByRechnungsNr(Integer.parseInt(eingabe));
+            System.out.println("\n" + rechnung.toString());
+        } catch (IOException e) {
+            System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
+        } catch (RechnungNichtGefundenException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void warenkorbBestellen() {
@@ -495,7 +522,7 @@ public class EShopCUI {
         } catch (InterruptedException e) {
             // Ignorieren
         }
-        System.out.print(shopAPI.rechnungErstellen());
+        System.out.print(shopAPI.erstelleRechnung().toString());
         System.out.println("\nRechnung erfolgreich erstellt!");
         // kauf bestätigen
         System.out.print("\nBitte bestätigen Sie den Kauf. (j/n)\n> ");

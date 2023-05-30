@@ -4,6 +4,7 @@ import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
 import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
+import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
 
@@ -187,8 +188,16 @@ public class ShopAPI {
         return ereignisListe;
     }
 
-    public String rechnungErstellen() {
-        return bestellService.rechnungToString();
+    public Rechnung erstelleRechnung() {
+        return bestellService.erstelleRechnung();
+    }
+
+    public List<Rechnung> getRechnungenByKunde(int kundenNr) {
+        return bestellService.getRechnungenByKunde(kundenNr);
+    }
+
+    public Rechnung getRechnungByRechnungsNr(int rechnungsNr) throws RechnungNichtGefundenException {
+        return bestellService.getRechnung(rechnungsNr);
     }
 
     public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException {

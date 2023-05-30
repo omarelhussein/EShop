@@ -78,7 +78,8 @@ public class EShopCUIMenue {
             System.out.println("[ 4 ]\tZum Warenkorb hinzufügen");
             System.out.println("[ 5 ]\tWarenkorb bearbeiten");
             System.out.println("[ 6 ]\tBestellen");
-            System.out.println("[ 7 ]\tEreignisse");
+            System.out.println("[ r ]\tRechnungen Anzeigen");
+            System.out.println("[ e ]\tEreignisse");
             //System.out.println("8) Bestellungen anzeigen"); // TODO: Bestellungen anzeigen
             //System.out.println("7) Konto anzeigen");
             //System.out.println("8) Konto bearbeiten");

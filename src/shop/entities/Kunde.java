@@ -1,5 +1,7 @@
 package shop.entities;
 
+import java.io.Serializable;
+
 public class Kunde extends Person {
 
     private Adresse adresse;

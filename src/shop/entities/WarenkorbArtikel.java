@@ -1,6 +1,8 @@
 package shop.entities;
 
-public class WarenkorbArtikel {
+import java.io.Serializable;
+
+public class WarenkorbArtikel implements Serializable {
 
     private Artikel artikel;
     private int anzahl;

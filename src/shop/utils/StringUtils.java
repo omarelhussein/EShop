@@ -25,4 +25,8 @@ public class StringUtils {
         return localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy 'um' HH:mm 'Uhr'"));
     }
 
+    public static String tabulator(int length) {
+        return "\t".repeat(Math.max(0, length));
+    }
+
 }
