@@ -7,7 +7,7 @@ import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
-import shop.persistence.FilePersistenceManager;
+import shop.entities.enums.EreignisTyp;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,42 +15,47 @@ import java.util.List;
 
 public class ShopAPI {
 
-    private final ArtikelService artikelService;
-    private final PersonenService personenService;
+    private final BaseService artikelService;
+    private final BaseService personenService;
     private final WarenkorbService warenkorbService;
     private final EreignisService ereignisService;
     private final BestellService bestellService;
     private final BestandshistorieService bestandshistorieService;
-    private final FilePersistenceManager filepersistencemanager;
 
 
-    public ShopAPI() {
+    public ShopAPI() throws IOException {
         artikelService = ArtikelService.getInstance();
         personenService = new PersonenService();
         warenkorbService = WarenkorbService.getInstance();
         ereignisService = EreignisService.getInstance();
         bestellService = new BestellService();
         bestandshistorieService = new BestandshistorieService();
-        filepersistencemanager = new FilePersistenceManager();
     }
 
-    public void addArtikel(Artikel artikel) throws IOException {
+    public void speichern() {
+        try {
+            artikelService.save();
+            personenService.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addArtikel(Artikel artikel) {
         artikelService.addArtikel(artikel);
         ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
-        filepersistencemanager.artikelspeichern();
 
     }
 
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException, IOException {
         try {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
-            ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
             artikelService.removeArtikel(artikel);
+            ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
         } catch (ArtikelNichtGefundenException e) {
             ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikelNr, false);
             throw e;
         }
-        filePersistenceManager.artikelspeichern();
     }
 
     public List<Artikel> getArtikelList() {
@@ -88,7 +93,8 @@ public class ShopAPI {
     }
 
     public boolean addArtikelToWarenkorb(int artikelNr, int anzahl)
-            throws BestandUeberschrittenException, ArtikelNichtGefundenException, WarenkorbArtikelNichtGefundenException {
+            throws BestandUeberschrittenException, ArtikelNichtGefundenException,
+            WarenkorbArtikelNichtGefundenException, IOException {
         try {
             var erfolg = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
             EreignisService.getInstance()
@@ -105,9 +111,9 @@ public class ShopAPI {
             WarenkorbArtikelNichtGefundenException {
         try {
             warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
-            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, warenkorbService.getWarenkorb(), true);
+            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
         } catch (Exception e) {
-            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, warenkorbService.getWarenkorb(), false);
+            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);
             throw e;
         }
     }
@@ -146,7 +152,6 @@ public class ShopAPI {
             EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
             throw e;
         }
-        filePersistenceManager.artikelspeichern();
     }
 
     public boolean istNutzernameVerfuegbar(String nutzername) {
@@ -188,7 +193,6 @@ public class ShopAPI {
             EreignisService.getInstance().addEreignis(EreignisTyp.BESTANDAENDERUNG, null, false);
             throw e;
         }
-        filePersistenceManager.artikelspeichern();
     }
 
     public ArrayList<Ereignis> getEreignisList() {
@@ -209,7 +213,7 @@ public class ShopAPI {
         return bestellService.getRechnung(rechnungsNr);
     }
 
-    public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException {
+    public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
         try {
             var warenkorbListGroesse = WarenkorbService.getInstance().getWarenkorbList().size();
             bestellService.kaufen();
@@ -222,7 +226,8 @@ public class ShopAPI {
         }
     }
 
-    public List<ArtikelHistorie> sucheBestandshistorie(int artNr, int tage, Boolean istKauf) throws ArtikelNichtGefundenException {
+    public List<ArtikelHistorie> sucheBestandshistorie(int artNr, int tage, Boolean istKauf)
+            throws ArtikelNichtGefundenException, IOException {
         return bestandshistorieService.suchBestandshistorie(artNr, tage, istKauf);
     }
 

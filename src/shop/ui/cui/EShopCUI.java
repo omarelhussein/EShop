@@ -24,9 +24,12 @@ public class EShopCUI {
     private final EShopCUIMenue.Mitarbeiter mitarbeiterMenue;
     private final Scanner in;
 
-    public EShopCUI() {
+    public EShopCUI() throws IOException {
         this.cuiMenue = new EShopCUIMenue();
         shopAPI = new ShopAPI();
+        // Dies ist ein Ereignis. Es fügt ein sogenanntes shutdownHook, welches bedeutet, dass beim Beenden des
+        // programs (auch unerwartet crashes), die methode speichern von der shopAPI aufgerufen wird.
+        Runtime.getRuntime().addShutdownHook(new Thread(shopAPI::speichern));
         in = new Scanner(System.in);
         kundenMenue = new EShopCUIMenue.Kunde();
         mitarbeiterMenue = new EShopCUIMenue.Mitarbeiter();
@@ -152,7 +155,7 @@ public class EShopCUI {
         }
     }
 
-    private void artikelBestandListeAusgeben(int artNr, int tage, Boolean istKauf) {
+    private void artikelBestandListeAusgeben(int artNr, int tage, Boolean istKauf) throws IOException {
         try {
             var bestandshistorieGruppiert = shopAPI.sucheBestandshistorie(artNr, tage, istKauf)
                     .stream().collect(Collectors.groupingBy(ArtikelHistorie::artikel)); // gruppiert nach Artikel
@@ -642,17 +645,20 @@ public class EShopCUI {
         return null;
     }
 
-    public static void main(String[] args) throws IOException {
-        EShopCUI cui = new EShopCUI();
+    public static void main(String[] args) {
+
         try {
+            EShopCUI cui = new EShopCUI();
             cui.shopAPI.registrieren(new Mitarbeiter(1, "admin", "admin", "admin"));
             cui.shopAPI.registrieren(new Kunde(2, "kunde", "kunde", new Adresse(
                     "Musterstrasse", "1", "2222", "Musterstadt"
             ), "kunde"));
+            cui.run();
         } catch (PersonVorhandenException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        cui.run();
     }
 
 }

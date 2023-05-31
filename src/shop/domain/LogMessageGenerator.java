@@ -7,12 +7,13 @@ public class LogMessageGenerator {
 
     public static String generateLogMessage(Ereignis ereignis) {
         var builder = new StringBuilder();
-        var object = ereignis.object();
+        /*var object = ereignis.object();
         var ereignisTyp = ereignis.ereignisTyp();
 
         switch (ereignisTyp) {
             case BESTANDAENDERUNG -> {
                 if (object instanceof Artikel artikel) {
+                    EreignisService.getInstance().getBestandhistorieItemList().add
                     builder.append("Bestand von Artikel ").append(artikel.getBezeichnung())
                             .append(" mit Artikelnummer ").append(artikel.getArtNr())
                             .append(" wurde auf ").append(artikel.getBestand()).append(" geändert.");
@@ -46,7 +47,7 @@ public class LogMessageGenerator {
                             .append(" wurde angelegt.");
                 }
             }
-        }
+        }*/
         return builder.toString();
     }
 

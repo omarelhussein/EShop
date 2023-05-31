@@ -6,6 +6,7 @@ import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
 import shop.entities.Rechnung;
 import shop.entities.WarenkorbArtikel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class BestellService {
     private final WarenkorbService warenkorbservice;
     private final List<Rechnung> rechnungen;
 
-    public BestellService() {
+    public BestellService() throws IOException {
         warenkorbservice = WarenkorbService.getInstance();
         rechnungen = new ArrayList<>();
     }

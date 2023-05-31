@@ -5,6 +5,7 @@ import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +14,12 @@ public class WarenkorbService {
     private final ArtikelService artikelservice;
     private static WarenkorbService instance;
 
-    private WarenkorbService() {
+
+    private WarenkorbService() throws IOException {
         artikelservice = ArtikelService.getInstance();
     }
 
-    public synchronized static WarenkorbService getInstance() {
+    public synchronized static WarenkorbService getInstance() throws IOException {
         if (instance == null) {
             instance = new WarenkorbService();
         }

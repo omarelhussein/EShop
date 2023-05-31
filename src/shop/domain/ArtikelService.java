@@ -4,43 +4,40 @@ import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.entities.Artikel;
 import shop.entities.BestandshistorieItem;
 import shop.entities.Massenartikel;
+import shop.persistence.FilePersistenceManager;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ArtikelService {
+public class ArtikelService implements BaseService {
 
     private final List<Artikel> artikelList;
     private static ArtikelService instance;
+    private final FilePersistenceManager<Artikel> persistenceManager;
 
-    private ArtikelService() {
-        artikelList = new ArrayList<>();
+    private ArtikelService() throws IOException {
+        persistenceManager = new FilePersistenceManager<>("artikel.csv");
+        artikelList = persistenceManager.readAll(Artikel.class);
     }
 
-    public synchronized static ArtikelService getInstance() {
+    public synchronized static ArtikelService getInstance() throws IOException {
         if (instance == null) {
             instance = new ArtikelService();
         }
         return instance;
     }
 
-
     /**
      * Artikel der Liste hinzufügen
      */
     public void addArtikel(Artikel artikel) {
-        Artikel gefundenerArtikel;
         try {
-            gefundenerArtikel = getArtikelByArtNr(artikel.getArtNr());
-            if (gefundenerArtikel.getArtNr() == artikel.getArtNr()) {
-                artikelList.remove(gefundenerArtikel);
-            }
+            getArtikelByArtNr(artikel.getArtNr());
         } catch (ArtikelNichtGefundenException e) {
-            // do nothing - muss nicht gefunden werden
+            artikelList.add(artikel);
         }
-        artikelList.add(artikel);
     }
 
     /**
@@ -50,6 +47,7 @@ public class ArtikelService {
         if (getArtikelByArtNr(artikel.getArtNr()) == null) {
             throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
+        artikel.setBestand(0);
         artikelList.remove(artikel);
     }
 
@@ -92,7 +90,7 @@ public class ArtikelService {
         return artikel1.equals(artikel2);
     }
 
-    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
+    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException, IOException {
         // die ID suchen, wenn nicht vorhanden dementsprechend fehlermeldung ausgeben
         var artikelByArtNr = getArtikelByArtNr(artikel.getArtNr());
         if (artikelByArtNr == null) {
@@ -149,4 +147,10 @@ public class ArtikelService {
         }
         return max + 1;
     }
+
+    @Override
+    public void save() throws IOException {
+        persistenceManager.replaceAll(artikelList);
+    }
+
 }

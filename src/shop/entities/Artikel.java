@@ -1,24 +1,25 @@
 package shop.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import shop.domain.EreignisService;
+import shop.persistence.CSVSerializable;
 
-public class Artikel implements Serializable {
+import java.io.Serializable;
+
+public class Artikel implements Serializable, CSVSerializable {
 
     private double preis;
-    private final int artNr;
+    private int artNr;
     private String bezeichnung;
     private int bestand;
-    private List<BestandshistorieItem> bestandshistorie;
 
     public Artikel(int artNr, String bezeichnung, double preis, int bestand) {
         this.artNr = artNr;
         this.bezeichnung = bezeichnung;
         this.bestand = bestand;
         this.preis = preis;
-        bestandshistorie = new ArrayList<>();
-        bestandshistorie.add(new BestandshistorieItem(bestand, false));
+    }
+
+    public Artikel() {
     }
 
     public double getPreis() {
@@ -49,14 +50,11 @@ public class Artikel implements Serializable {
         this.bestand = bestand;
     }
 
-    public List<BestandshistorieItem> getBestandshistorie() {
-        return bestandshistorie;
-    }
 
     @Override
     public String toString() {
         return "Artikel: " + artNr + " / Bezeichnung: " + this.bezeichnung +
-                " / Preis: " + this.preis + " €" + " / Bestand: " + this.bestand + " stk.";
+               " / Preis: " + this.preis + " €" + " / Bestand: " + this.bestand + " stk.";
     }
 
     /**
@@ -67,10 +65,38 @@ public class Artikel implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Artikel) {
-            return this.artNr == ((Artikel) obj).artNr;
+        if (obj instanceof Artikel artikel) {
+            return this.artNr == artikel.artNr;
         }
         return false;
     }
 
+    @Override
+    public String toCSVString() {
+        StringBuilder sb = new StringBuilder();
+        for (BestandshistorieItem item : EreignisService.getInstance().getBestandhistorieItemList()) {
+            sb.append(item.toCSVString()).append("|");
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1); // letztes | entfernen
+        }
+        return artNr + ";" + bezeichnung + ";" + preis + ";" + bestand + "#" + sb;
+    }
+
+    @Override
+    public void fromCSVString(String csv) {
+        String[] tokens = csv.split("#");
+        String[] artikelTokens = tokens[0].split(";");
+        artNr = Integer.parseInt(artikelTokens[0]);
+        bezeichnung = artikelTokens[1];
+        preis = Double.parseDouble(artikelTokens[2]);
+        bestand = Integer.parseInt(artikelTokens[3]);
+        var bestandshistorie = EreignisService.getInstance().getBestandhistorieItemList();
+        String[] items = tokens[1].split("\\|");
+        for (String item : items) {
+            BestandshistorieItem bhi = new BestandshistorieItem();
+            bhi.fromCSVString(item);
+            bestandshistorie.add(bhi);
+        }
+    }
 }

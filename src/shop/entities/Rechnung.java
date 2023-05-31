@@ -3,7 +3,6 @@ package shop.entities;
 import shop.utils.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class Rechnung {
     private final Warenkorb warenkorb;
@@ -77,20 +76,6 @@ public class Rechnung {
 
     public Kunde kunde() {
         return kunde;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Rechnung) obj;
-        return Objects.equals(this.warenkorb, that.warenkorb) &&
-               Objects.equals(this.kunde, that.kunde);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(warenkorb, kunde);
     }
 
 }
