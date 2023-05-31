@@ -4,6 +4,17 @@ import shop.utils.StringUtils;
 
 import java.time.LocalDateTime;
 
+/**
+ * Die Rechnung Klasse repräsentiert eine Rechnung für einen Kunden in einem Shop.
+ * Jede Rechnung ist mit einem Warenkorb und einem Kunden verbunden.
+ * Die Rechnung enthält auch ein Rechnungsdatum und eine Rechnungsnummer.
+ * Ein wichtiges Detail ist, dass die Rechnung eine tiefe Kopie (Deep Copy) des Warenkorbs speichert.
+ * Dies bedeutet, dass Änderungen am ursprünglichen Warenkorb nach der Erstellung der Rechnung
+ * keinen Einfluss auf den in der Rechnung gespeicherten Warenkorb haben.
+ * Dies ist nützlich, um den Zustand des Warenkorbs zum Zeitpunkt der Rechnungserstellung
+ * unveränderlich zu halten.
+ * Die Rechnung hat auch eine überschriebene toString()-Methode, die eine formatierte Rechnung ausgibt.
+ */
 public class Rechnung {
     private final Warenkorb warenkorb;
     private final Kunde kunde;

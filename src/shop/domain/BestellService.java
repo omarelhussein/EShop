@@ -65,6 +65,11 @@ public class BestellService {
         return rechnungen;
     }
 
+    /**
+     * Gibt die nächste Rechnungsnummer zurück. Diese Methode geht alle Rechnungen durch und sucht die höchste
+     * Rechnungsnummer. Diese wird dann um 1 erhöht und zurückgegeben.
+     * @return die nächste Rechnungsnummer
+     */
     private int getNaechsteRechnungsNr() {
         int max = 0;
         for (Rechnung rechnung : rechnungen) {

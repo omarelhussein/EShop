@@ -9,16 +9,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * WarenkorbService ist eine Singleton-Klasse, die das Verwalten von Warenkörben ermöglicht.
+ * Sie nutzt den ArtikelService, um Artikelinformationen abzurufen.
+ */
 public class WarenkorbService {
     private final List<Warenkorb> warenkorbList = new ArrayList<>();
     private final ArtikelService artikelservice;
     private static WarenkorbService instance;
 
 
+    /**
+     * Der private Konstruktor für WarenkorbService.
+     * Initialisiert die Instanz des ArtikelService durch Aufruf von dessen getInstance-Methode.
+     *
+     * @throws IOException wenn die Instanz des ArtikelService nicht abgerufen werden kann
+     */
     private WarenkorbService() throws IOException {
         artikelservice = ArtikelService.getInstance();
     }
 
+    /**
+     * Gibt die Singleton-Instanz von der Klasse zurück.
+     * Wenn die Instanz noch nicht erstellt wurde, wird sie initialisiert.
+     * Ein Singleton ist ein Entwurfsmuster, das sicherstellt, dass von einer Klasse nur
+     * eine Instanz erstellt wird und einen globalen Zugriffspunkt zu dieser Instanz bereitstellt.
+     * Es ist nützlich für Ressourcen, von denen nur eine einzige Instanz benötigt wird, wie
+     * Dienste, Manager oder Datenbankzugriffe.
+     *
+     * @return die Singleton-Instanz von WarenkorbService
+     * @throws IOException wenn die Instanz des WarenkorbService nicht erstellt werden kann
+     */
     public synchronized static WarenkorbService getInstance() throws IOException {
         if (instance == null) {
             instance = new WarenkorbService();

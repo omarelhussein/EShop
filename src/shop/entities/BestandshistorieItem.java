@@ -49,6 +49,8 @@ public class BestandshistorieItem implements Serializable, CSVSerializable {
 
     @Override
     public void fromCSVString(String csv) {
+        // split ist eine Methode der Klasse String, die einen String anhand eines Trennzeichens in ein Array von Strings aufteilt.
+        // bsp: "Hallo#Welt#!" -> split("#") -> ["Hallo", "Welt", "!"]
         String[] parts = csv.split("#");
         if (parts.length == 0) return;
         try {

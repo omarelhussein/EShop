@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class PersonenService implements BaseService {
+public class PersonenService {
 
     private final List<Person> personList = new ArrayList<>();
     private final WarenkorbService warenkorbService;
@@ -22,6 +22,7 @@ public class PersonenService implements BaseService {
         warenkorbService = WarenkorbService.getInstance();
         persistenceManager = new FilePersistenceManager<>("personen.csv");
     }
+
     /**
      * Überprüft mithilfe einer for-Schleife alle Personen in der Personenliste,
      * ob der eingegebene Nutzername mit der einer registrierten Person übereinstimmt, falls der Nutzername mit der
@@ -109,8 +110,8 @@ public class PersonenService implements BaseService {
     public Stream<Person> suchePersonByQuery(String query) {
         return personList.stream()
                 .filter(person -> person.getName().toLowerCase().contains(query.toLowerCase()) ||
-                        person.getNutzername().toLowerCase().contains(query.toLowerCase()) ||
-                        String.valueOf(person.getPersNr()).contains(query)
+                                  person.getNutzername().toLowerCase().contains(query.toLowerCase()) ||
+                                  String.valueOf(person.getPersNr()).contains(query)
                 );
     }
 
@@ -133,7 +134,7 @@ public class PersonenService implements BaseService {
         return true;
     }
 
-    public List<Person> getPersonList(){
+    public List<Person> getPersonList() {
         return this.personList;
     }
 

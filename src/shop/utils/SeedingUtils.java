@@ -11,16 +11,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Die SeedingUtils-Klasse ist eine Hilfsklasse, die bei der Initialisierung der Anwendung verwendet wird,
+ * um eine Anfangsgruppe von Artikeln zu erzeugen (auch als "seeding" bekannt).
+ * Diese Klasse erstellt eine Liste von Artikeln und fügt sie über den ArtikelService zur Anwendung hinzu.
+ */
 public class SeedingUtils {
 
     private final ArtikelService artikelService;
 
+    /**
+     * Konstruktor für die SeedingUtils-Klasse. Initialisiert eine Instanz des ArtikelServices (bzw. andere Services, falls vorhanden)
+     * und ruft die Methode zum Erzeugen der initialen Artikel auf.
+     */
     public SeedingUtils() throws IOException {
         this.artikelService = ArtikelService.getInstance();
         seedArtikel();
     }
 
-    public void seedArtikel() throws IOException {
+    public void seedArtikel() {
         List<Artikel> artikelList = new ArrayList<>();
         artikelList.add(new Artikel(127, "Hose", 19.99, 10));
         artikelList.add(new Artikel(128, "Hemd", 29.99, 10));

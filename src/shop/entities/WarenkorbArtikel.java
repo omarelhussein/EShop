@@ -41,6 +41,9 @@ public class WarenkorbArtikel implements Serializable {
         if (this.artikel instanceof Massenartikel massenartikel) {
             gesamtPreis *= massenartikel.getPackgroesse();
         }
+        // Diese Zeile rundet das Ergebnis auf zwei Dezimalstellen.
+        // 'Math.round(... * 100.0) / 100.0' ist ein gängiges Muster zum Runden auf zwei Dezimalstellen
+        // die .0 ist wichtig, da sonst die Division als Integer-Division interpretiert wird.
         return Math.round(gesamtPreis * 100.) / 100.;
     }
 

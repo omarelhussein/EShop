@@ -30,6 +30,9 @@ public class Warenkorb implements Serializable {
         for (WarenkorbArtikel value : this.warenkorbArtikelList) {
             preis += value.getGesamtPreis();
         }
+        // Diese Zeile rundet das Ergebnis auf zwei Dezimalstellen.
+        // 'Math.round(... * 100.0) / 100.0' ist ein gängiges Muster zum Runden auf zwei Dezimalstellen
+        // die .0 ist wichtig, da sonst die Division als Integer-Division interpretiert wird.
         return Math.round(preis * 100.) / 100.;
     }
 
@@ -63,6 +66,17 @@ public class Warenkorb implements Serializable {
         return this.warenkorbArtikelList.isEmpty();
     }
 
+    /**
+     * Erstellt eine tiefe Kopie (Deep Copy) dieses Warenkorbs.
+     * Eine tiefe Kopie bedeutet, dass alle in diesem Warenkorb enthaltenen Objekte kopiert werden,
+     * sodass die kopierte Warenkorb-Instanz vollständig unabhängig von der ursprünglichen ist.
+     * Die Methode nutzt die Serialisierung, um die tiefe Kopie zu erstellen. Zunächst wird
+     * der Warenkorb in einen Byte-Array-Output-Stream geschrieben. Dann wird ein neuer
+     * Warenkorb aus diesem Stream gelesen.
+     *
+     * @return eine tiefe Kopie dieses Warenkorbs
+     * @throws RuntimeException wenn die tiefe Kopie nicht erstellt werden kann
+     */
     public Warenkorb deepCopy() {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();

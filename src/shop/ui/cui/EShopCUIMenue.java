@@ -2,6 +2,15 @@ package shop.ui.cui;
 
 import shop.utils.StringUtils;
 
+/**
+ * Die EShopCUIMenue Klasse dient dazu, Menüs im CUI für den E-Shop darzustellen.
+ * Sie enthält mehrere Methoden zum Ausgeben verschiedener Menüoptionen für unterschiedliche Anwendungsbereiche und Benutzertypen.
+ * <p>
+ * Darüber hinaus beinhaltet sie zwei statische innere Klassen, Mitarbeiter und Kunde, welche spezifische Methoden
+ * für die jeweiligen Benutzerrollen bereitstellen. Diese Methoden repräsentieren die verschiedenen Aktionen, die
+ * Mitarbeiter und Kunden ausführen können, wie z.B. die Anzeige von Artikeln, die Verwaltung von Lagerbeständen oder
+ * die Anzeige des Warenkorbs.
+ */
 public class EShopCUIMenue {
 
     public void bereichAuswahlAusgabe() {

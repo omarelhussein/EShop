@@ -2,7 +2,6 @@ package shop.domain;
 
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.entities.Artikel;
-import shop.entities.BestandshistorieItem;
 import shop.entities.Massenartikel;
 import shop.persistence.FilePersistenceManager;
 
@@ -11,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ArtikelService implements BaseService {
+public class ArtikelService {
 
     private final List<Artikel> artikelList;
     private static ArtikelService instance;
@@ -22,6 +21,14 @@ public class ArtikelService implements BaseService {
         artikelList = persistenceManager.readAll(Artikel.class);
     }
 
+    /**
+     * Gibt die Singleton-Instanz von der Klasse zurück.
+     * Wenn die Instanz noch nicht erstellt wurde, wird sie initialisiert.
+     * Ein Singleton ist ein Entwurfsmuster, das sicherstellt, dass von einer Klasse nur
+     * eine Instanz erstellt wird und einen globalen Zugriffspunkt zu dieser Instanz bereitstellt.
+     * Es ist nützlich für Ressourcen, von denen nur eine einzige Instanz benötigt wird, wie
+     * Dienste, Manager oder Datenbankzugriffe.
+     */
     public synchronized static ArtikelService getInstance() throws IOException {
         if (instance == null) {
             instance = new ArtikelService();
@@ -144,7 +151,6 @@ public class ArtikelService implements BaseService {
         return max + 1;
     }
 
-    @Override
     public void save() throws IOException {
         persistenceManager.replaceAll(artikelList);
     }

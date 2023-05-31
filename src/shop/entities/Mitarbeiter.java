@@ -17,6 +17,8 @@ public class Mitarbeiter extends Person {
     }
 
     public void fromCSVString(String csv) {
+        // split ist eine Methode der Klasse String, die einen String anhand eines Trennzeichens in ein Array von Strings aufteilt.
+        // bsp: "Hallo;Welt;!" -> split(";") -> ["Hallo", "Welt", "!"]
         String[] tokens = csv.split(";");
         setPersNr(Integer.parseInt(tokens[0]));
         setNutzername(tokens[1]);
