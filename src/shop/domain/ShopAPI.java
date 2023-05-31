@@ -8,6 +8,7 @@ import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
 import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import shop.entities.*;
 import shop.entities.enums.EreignisTyp;
+import shop.entities.enums.KategorieEreignisTyp;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,12 +16,12 @@ import java.util.List;
 
 public class ShopAPI {
 
-    private final BaseService artikelService;
-    private final BaseService personenService;
+    private final ArtikelService artikelService;
+    private final PersonenService personenService;
     private final WarenkorbService warenkorbService;
     private final EreignisService ereignisService;
     private final BestellService bestellService;
-    private final BestandshistorieService bestandshistorieService;
+
 
 
     public ShopAPI() throws IOException {
@@ -29,7 +30,6 @@ public class ShopAPI {
         warenkorbService = WarenkorbService.getInstance();
         ereignisService = EreignisService.getInstance();
         bestellService = new BestellService();
-        bestandshistorieService = new BestandshistorieService();
     }
 
     public void speichern() {
@@ -43,7 +43,7 @@ public class ShopAPI {
 
     public void addArtikel(Artikel artikel) {
         artikelService.addArtikel(artikel);
-        ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
+        ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
 
     }
 
@@ -51,40 +51,40 @@ public class ShopAPI {
         try {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
             artikelService.removeArtikel(artikel);
-            ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
+            ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
         } catch (ArtikelNichtGefundenException e) {
-            ereignisService.addEreignis(EreignisTyp.ARTIKEL_LOESCHEN, artikelNr, false);
+            ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_LOESCHEN, artikelNr, false);
             throw e;
         }
     }
 
     public List<Artikel> getArtikelList() {
         var artikelListe = artikelService.getArtikelList();
-        ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, artikelService.getArtikelList().size(), artikelListe != null);
+        ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikelService.getArtikelList().size(), artikelListe != null);
         return artikelListe;
     }
 
     public List<Artikel> getArtikelByQuery(String query) {
         var artikelListe = artikelService.sucheArtikelByQuery(query);
-        ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, query, artikelListe != null);
-        ereignisService.addEreignis(EreignisTyp.ARTIKEL_SUCHEN, query, artikelListe != null);
+        ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, query, artikelListe != null);
+        ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_SUCHEN, query, artikelListe != null);
         return artikelListe;
     }
 
     public Artikel getArtikelByArtNr(int artikelNr) throws ArtikelNichtGefundenException {
         try {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
-            ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, artikel, true);
+            ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikel, true);
             return artikel;
         } catch (ArtikelNichtGefundenException e) {
-            ereignisService.addEreignis(EreignisTyp.ARTIKEL_ANZEIGEN, artikelNr, false);
+            ereignisService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikelNr, false);
             throw e;
         }
     }
 
     public Warenkorb getWarenkorb() {
         var warenkorb = warenkorbService.getWarenkorb();
-        ereignisService.addEreignis(EreignisTyp.WARENKORB_ANZEIGEN, warenkorbService.getWarenkorb(), warenkorb != null);
+        ereignisService.addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_ANZEIGEN, warenkorbService.getWarenkorb(), warenkorb != null);
         return warenkorb;
     }
 
@@ -98,10 +98,10 @@ public class ShopAPI {
         try {
             var erfolg = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
             EreignisService.getInstance()
-                    .addEreignis(EreignisTyp.WARENKORB_HINZUFUEGEN, ArtikelService.getInstance().getArtikelByArtNr(artikelNr), erfolg);
+                    .addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_HINZUFUEGEN, ArtikelService.getInstance().getArtikelByArtNr(artikelNr), erfolg);
             return erfolg;
         } catch (Exception e) {
-            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_HINZUFUEGEN, artikelNr, false);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_HINZUFUEGEN, artikelNr, false);
             throw e;
         }
     }
@@ -111,9 +111,9 @@ public class ShopAPI {
             WarenkorbArtikelNichtGefundenException {
         try {
             warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
-            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
         } catch (Exception e) {
-            EreignisService.getInstance().addEreignis(EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);
             throw e;
         }
     }
@@ -121,14 +121,14 @@ public class ShopAPI {
     public void login(String nutzername, String passwort) {
         var login = personenService.login(nutzername, passwort);
         if (login == null) {
-            EreignisService.getInstance().addEreignis(EreignisTyp.LOGIN, null, false);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, null, false);
             return;
         }
         UserContext.setUser(login);
         if (warenkorbService.getWarenkorb() == null && login instanceof Kunde kunde) {
             warenkorbService.neuerKorb(kunde);
         }
-        EreignisService.getInstance().addEreignis(EreignisTyp.LOGIN, login, true);
+        EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, login, true);
     }
 
 
@@ -147,9 +147,9 @@ public class ShopAPI {
     public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException, IOException {
         try {
             artikelService.artikelAktualisieren(artikel);
-            EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, true);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, true);
         } catch (ArtikelNichtGefundenException e) {
-            EreignisService.getInstance().addEreignis(EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
             throw e;
         }
     }
@@ -160,12 +160,12 @@ public class ShopAPI {
 
     public List<Mitarbeiter> getMitarbeiterList() {
         var mitarbeiterListe = personenService.getMitarbeiter();
-        EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_ANZEIGEN, mitarbeiterListe.size(), true);
+        EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_ANZEIGEN, mitarbeiterListe.size(), true);
         return mitarbeiterListe;
     }
 
     public List<Mitarbeiter> getMitarbeiterList(String suchbegriff) {
-        EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_SUCHEN, suchbegriff, true);
+        EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_SUCHEN, suchbegriff, true);
         return personenService.suchePersonByQuery(suchbegriff)
                 .filter(Mitarbeiter.class::isInstance)
                 .map(Mitarbeiter.class::cast).toList();
@@ -176,11 +176,11 @@ public class ShopAPI {
             var person = personenService.getPersonByPersNr(mitarbeiterId);
             if (person instanceof Mitarbeiter mitarbeiter) {
                 personenService.removeMitarbeiter(mitarbeiterId);
-                EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_LOESCHEN, mitarbeiter, true);
+                EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_LOESCHEN, mitarbeiter, true);
                 return;
             }
         }
-        EreignisService.getInstance().addEreignis(EreignisTyp.MITARBEITER_LOESCHEN, null, false);
+        EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_LOESCHEN, null, false);
         throw new PersonNichtGefundenException(mitarbeiterId);
     }
 
@@ -188,16 +188,16 @@ public class ShopAPI {
         try {
             var erfolg = artikelService.aendereArtikelBestand(artikelId, bestand, false);
             var artikel = artikelService.getArtikelByArtNr(artikelId);
-            EreignisService.getInstance().addEreignis(EreignisTyp.BESTANDAENDERUNG, artikel, erfolg);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, artikel, erfolg);
         } catch (ArtikelNichtGefundenException e) {
-            EreignisService.getInstance().addEreignis(EreignisTyp.BESTANDAENDERUNG, null, false);
+            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, null, false);
             throw e;
         }
     }
 
     public ArrayList<Ereignis> getEreignisList() {
         var ereignisListe = ereignisService.kundeOderMitarbeiterEreignisListe();
-        EreignisService.getInstance().addEreignis(EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
+        EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
         return ereignisListe;
     }
 
@@ -218,21 +218,21 @@ public class ShopAPI {
             var warenkorbListGroesse = WarenkorbService.getInstance().getWarenkorbList().size();
             bestellService.kaufen();
             EreignisService.getInstance()
-                    .addEreignis(EreignisTyp.KAUF, warenkorbListGroesse, true);
+                    .addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, warenkorbListGroesse, true);
         } catch (Exception e) {
             EreignisService.getInstance()
-                    .addEreignis(EreignisTyp.KAUF, WarenkorbService.getInstance().getWarenkorbList().size(), false);
+                    .addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, WarenkorbService.getInstance().getWarenkorbList().size(), false);
             throw e;
         }
     }
 
-    public List<ArtikelHistorie> sucheBestandshistorie(int artNr, int tage, Boolean istKauf)
+    public List<Ereignis> sucheBestandshistorie(int artNr, int tage, Boolean istKauf)
             throws ArtikelNichtGefundenException, IOException {
-        return bestandshistorieService.suchBestandshistorie(artNr, tage, istKauf);
+        return ereignisService.suchBestandshistorie(artNr, tage, istKauf);
     }
 
     public void logout() {
         UserContext.clearUser();
-        EreignisService.getInstance().addEreignis(EreignisTyp.LOGOUT, null, true);
+        EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGOUT, null, true);
     }
 }

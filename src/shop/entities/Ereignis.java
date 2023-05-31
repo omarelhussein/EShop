@@ -1,6 +1,7 @@
 package shop.entities;
 
 import shop.domain.LogMessageGenerator;
+import shop.entities.enums.EreignisTyp;
 import shop.entities.enums.KategorieEreignisTyp;
 import shop.utils.StringUtils;
 
@@ -10,25 +11,31 @@ public class Ereignis{
        private Person person;
        private Object object;
        private KategorieEreignisTyp kategorieEreignisTyp;
+       private EreignisTyp ereignisTyp;
        private LocalDateTime datum;
        private boolean erfolg;
-       private int bestand;
+       private Integer bestand;
 
-       public Ereignis(Person person, Object object, KategorieEreignisTyp kategorieEreignisTyp, LocalDateTime datum, boolean erfolg){
+       public Ereignis(Person person, Object object, KategorieEreignisTyp kategorieEreignisTyp, EreignisTyp ereignisTyp, LocalDateTime datum, boolean erfolg){
            this.person = person;
            this.object = object;
            this.kategorieEreignisTyp = kategorieEreignisTyp;
+           this.ereignisTyp = ereignisTyp;
            this.datum = datum;
            this.erfolg = erfolg;
        }
 
-    public Ereignis(Person person, Object object, KategorieEreignisTyp kategorieEreignisTyp, LocalDateTime datum, boolean erfolg, int bestand){
+    public Ereignis(Person person, Object object, KategorieEreignisTyp kategorieEreignisTyp, EreignisTyp ereignisTyp, LocalDateTime datum, boolean erfolg, int bestand){
         this.person = person;
         this.object = object;
         this.kategorieEreignisTyp = kategorieEreignisTyp;
+        this.ereignisTyp = ereignisTyp;
         this.datum = datum;
         this.erfolg = erfolg;
         this.bestand = bestand;
+    }
+    public Ereignis(){
+
     }
 
     public Object getObject() {
@@ -43,6 +50,9 @@ public class Ereignis{
         return datum;
     }
 
+    public Integer getBestand(){
+           return bestand;
+    }
     public KategorieEreignisTyp getKategorieEreignisTyp(){
            return kategorieEreignisTyp;
     }
@@ -60,5 +70,20 @@ public class Ereignis{
         return builder.toString();
     }
 
+    public String toCSVString() {
+           if (bestand == null) {
+               return person + ";" + object + ";" + kategorieEreignisTyp + ";" + datum + ";" + erfolg;
+           } else {
+               return person + ";" + object + ";" + kategorieEreignisTyp + ";" + datum + ";" + erfolg + ";" + bestand ;
+           }
+
+    }
+
+    public void fromCSVString(String csv) {
+        String[] tokens = csv.split("#");
+        String[] EreignisTokens = tokens[0].split(";");
+    }
 }
+
+
 

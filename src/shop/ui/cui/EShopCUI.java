@@ -157,18 +157,15 @@ public class EShopCUI {
 
     private void artikelBestandListeAusgeben(int artNr, int tage, Boolean istKauf) throws IOException {
         try {
-            var bestandshistorieGruppiert = shopAPI.sucheBestandshistorie(artNr, tage, istKauf)
-                    .stream().collect(Collectors.groupingBy(ArtikelHistorie::artikel)); // gruppiert nach Artikel
-            for (var gruppierung : bestandshistorieGruppiert.entrySet()) {
-                var artikel = gruppierung.getKey();
+            var bestandshistorie = shopAPI.sucheBestandshistorie(artNr, tage, istKauf);
+            Artikel artikel = ((Artikel)bestandshistorie.get(0).getObject());
                 System.out.println(
                         "Bestandshistorie für Artikel \"" + artikel.getBezeichnung()
                         + "\" mit der Artikelnummer \"" + artikel.getArtNr() + "\":\n"
                 );
-                for (var artikelHistorie : gruppierung.getValue()) {
-                    System.out.println(artikelHistorie.bestandshistorieItem().toString());
+                for (Ereignis artikelEreignis : bestandshistorie) {
+                    System.out.println("Bestand: " + artikelEreignis.getBestand() + "stk" + "                            am " + artikelEreignis.getDatum());
                 }
-            }
             System.out.println();
         } catch (ArtikelNichtGefundenException e) {
             System.out.println(e.getMessage());

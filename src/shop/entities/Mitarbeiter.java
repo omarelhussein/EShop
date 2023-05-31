@@ -10,9 +10,6 @@ public class Mitarbeiter extends Person {
 
     public String toCSVString() {
         StringBuilder sb = new StringBuilder();
-        for (BestandshistorieItem item : EreignisService.getInstance().getBestandhistorieItemList()) {
-            sb.append(item.toCSVString()).append("|");
-        }
         if (sb.length() > 0) {
             sb.deleteCharAt(sb.length() - 1); // letztes | entfernen
         }

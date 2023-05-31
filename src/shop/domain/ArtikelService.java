@@ -100,9 +100,6 @@ public class ArtikelService implements BaseService {
             artikelByArtNr.setBezeichnung(artikel.getBezeichnung());
         }
         if (artikel.getBestand() > 0) {
-            if (artikel.getBestand() != artikelByArtNr.getBestand()) {
-                artikelByArtNr.getBestandshistorie().add(new BestandshistorieItem(artikel.getBestand(), false));
-            }
             artikelByArtNr.setBestand(artikel.getBestand());
         }
         if (artikel.getPreis() > 0) {
@@ -129,7 +126,6 @@ public class ArtikelService implements BaseService {
             return false;
         }
         gefundenerArtikel.setBestand(neuerBestand);
-        gefundenerArtikel.getBestandshistorie().add(new BestandshistorieItem(neuerBestand, istKauf));
         return true;
     }
 

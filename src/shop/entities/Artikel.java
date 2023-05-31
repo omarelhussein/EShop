@@ -73,14 +73,7 @@ public class Artikel implements Serializable, CSVSerializable {
 
     @Override
     public String toCSVString() {
-        StringBuilder sb = new StringBuilder();
-        for (BestandshistorieItem item : EreignisService.getInstance().getBestandhistorieItemList()) {
-            sb.append(item.toCSVString()).append("|");
-        }
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1); // letztes | entfernen
-        }
-        return artNr + ";" + bezeichnung + ";" + preis + ";" + bestand + "#" + sb;
+        return artNr + ";" + bezeichnung + ";" + preis + ";" + bestand;
     }
 
     @Override
@@ -91,12 +84,6 @@ public class Artikel implements Serializable, CSVSerializable {
         bezeichnung = artikelTokens[1];
         preis = Double.parseDouble(artikelTokens[2]);
         bestand = Integer.parseInt(artikelTokens[3]);
-        var bestandshistorie = EreignisService.getInstance().getBestandhistorieItemList();
-        String[] items = tokens[1].split("\\|");
-        for (String item : items) {
-            BestandshistorieItem bhi = new BestandshistorieItem();
-            bhi.fromCSVString(item);
-            bestandshistorie.add(bhi);
-        }
     }
 }
+
