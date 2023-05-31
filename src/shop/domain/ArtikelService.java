@@ -11,15 +11,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ArtikelService implements BaseService {
+public class ArtikelService {
 
     private final List<Artikel> artikelList;
     private static ArtikelService instance;
     private final FilePersistenceManager<Artikel> persistenceManager;
 
     private ArtikelService() throws IOException {
-        persistenceManager = new FilePersistenceManager<>("artikel.csv");
-        artikelList = persistenceManager.readAll(Artikel.class);
+        persistenceManager = new FilePersistenceManager<>(Artikel::new, "artikel.csv");
+        artikelList = persistenceManager.readAll();
     }
 
     public synchronized static ArtikelService getInstance() throws IOException {
@@ -29,26 +29,28 @@ public class ArtikelService implements BaseService {
         return instance;
     }
 
+
     /**
      * Artikel der Liste hinzufügen
      */
-    public void addArtikel(Artikel artikel) {
+    public void addArtikel(Artikel artikel) throws IOException {
         try {
             getArtikelByArtNr(artikel.getArtNr());
         } catch (ArtikelNichtGefundenException e) {
             artikelList.add(artikel);
+            persistenceManager.save(artikel);
         }
     }
 
     /**
      * Artikel löschen
      */
-    public void removeArtikel(Artikel artikel) throws ArtikelNichtGefundenException {
+    public void removeArtikel(Artikel artikel) throws ArtikelNichtGefundenException, IOException {
         if (getArtikelByArtNr(artikel.getArtNr()) == null) {
             throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
-        artikel.setBestand(0);
         artikelList.remove(artikel);
+        persistenceManager.delete(artikel);
     }
 
     /**
@@ -100,6 +102,9 @@ public class ArtikelService implements BaseService {
             artikelByArtNr.setBezeichnung(artikel.getBezeichnung());
         }
         if (artikel.getBestand() > 0) {
+            if (artikel.getBestand() != artikelByArtNr.getBestand()) {
+                artikelByArtNr.getBestandshistorie().add(new BestandshistorieItem(artikel.getBestand(), false));
+            }
             artikelByArtNr.setBestand(artikel.getBestand());
         }
         if (artikel.getPreis() > 0) {
@@ -110,6 +115,7 @@ public class ArtikelService implements BaseService {
                 ((Massenartikel) artikelByArtNr).setPackgroesse(((Massenartikel) artikel).getPackgroesse());
             }
         }
+        persistenceManager.update(artikelByArtNr);
     }
 
     /**
@@ -126,6 +132,7 @@ public class ArtikelService implements BaseService {
             return false;
         }
         gefundenerArtikel.setBestand(neuerBestand);
+        gefundenerArtikel.getBestandshistorie().add(new BestandshistorieItem(neuerBestand, istKauf));
         return true;
     }
 
@@ -143,10 +150,4 @@ public class ArtikelService implements BaseService {
         }
         return max + 1;
     }
-
-    @Override
-    public void save() throws IOException {
-        persistenceManager.replaceAll(artikelList);
-    }
-
 }

@@ -7,16 +7,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class BestandshistorieItem implements Serializable, CSVSerializable {
-    private Artikel artikel;
     private int bestand;
     private LocalDateTime datum;
     private boolean istKauf;
 
-    public BestandshistorieItem(int bestand, boolean istKauf, Artikel artikel) {
+    public BestandshistorieItem(int bestand, boolean istKauf) {
         this.bestand = bestand;
         this.datum = LocalDateTime.now();
         this.istKauf = istKauf;
-        this.artikel = artikel;
     }
 
     public BestandshistorieItem() {}

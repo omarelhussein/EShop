@@ -5,22 +5,19 @@ import shop.domain.exceptions.personen.PersonVorhandenException;
 import shop.entities.Kunde;
 import shop.entities.Mitarbeiter;
 import shop.entities.Person;
-import shop.persistence.FilePersistenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class PersonenService implements BaseService {
+public class PersonenService {
 
     private final List<Person> personList = new ArrayList<>();
     private final WarenkorbService warenkorbService;
-    private final FilePersistenceManager<Person> persistenceManager;
 
     public PersonenService() throws IOException {
         warenkorbService = WarenkorbService.getInstance();
-        persistenceManager = new FilePersistenceManager<>("personen.csv");
     }
     /**
      * Überprüft mithilfe einer for-Schleife alle Personen in der Personenliste,
@@ -135,9 +132,5 @@ public class PersonenService implements BaseService {
 
     public List<Person> getPersonList(){
         return this.personList;
-    }
-
-    public void save() throws IOException {
-        persistenceManager.replaceAll(this.personList);
     }
 }

@@ -1,5 +1,7 @@
 package shop.entities;
 
+import java.io.Serializable;
+
 public class Kunde extends Person {
 
     private Adresse adresse;
@@ -17,18 +19,4 @@ public class Kunde extends Person {
         return this.adresse;
     }
 
-    public String toCSVString() {
-        return getPersNr() + ";" + getNutzername() + ";" + getName() + ";" + getPasswort() + ";" +
-               getAdresse().getStrasse() + ";" + getAdresse().getHausnummer() + ";" + getAdresse().getPlz() + ";" + getAdresse().getOrt();
-    }
-
-    @Override
-    public void fromCSVString(String csv) {
-        String[] tokens = csv.split(";");
-        setPersNr(Integer.parseInt(tokens[0]));
-        setNutzername(tokens[1]);
-        setName(tokens[2]);
-        setPasswort(tokens[3]);
-        adresse = new Adresse(tokens[4], tokens[5], tokens[6], tokens[7]);
-    }
 }

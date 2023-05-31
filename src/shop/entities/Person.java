@@ -1,10 +1,8 @@
 package shop.entities;
 
-import shop.persistence.CSVSerializable;
-
 import java.io.Serializable;
 
-public abstract class Person implements Serializable, CSVSerializable {
+public abstract class Person implements Serializable {
 
     private String name;
     private int persNr;
@@ -43,7 +41,9 @@ public abstract class Person implements Serializable, CSVSerializable {
         return nutzername;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
     public int getPersNr() {
         return persNr;

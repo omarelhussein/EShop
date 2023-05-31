@@ -1,9 +1,10 @@
 package shop.entities;
 
-import shop.domain.EreignisService;
 import shop.persistence.CSVSerializable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Artikel implements Serializable, CSVSerializable {
 
@@ -11,12 +12,15 @@ public class Artikel implements Serializable, CSVSerializable {
     private int artNr;
     private String bezeichnung;
     private int bestand;
+    private List<BestandshistorieItem> bestandshistorie;
 
     public Artikel(int artNr, String bezeichnung, double preis, int bestand) {
         this.artNr = artNr;
         this.bezeichnung = bezeichnung;
         this.bestand = bestand;
         this.preis = preis;
+        bestandshistorie = new ArrayList<>();
+        bestandshistorie.add(new BestandshistorieItem(bestand, false));
     }
 
     public Artikel() {
@@ -50,6 +54,9 @@ public class Artikel implements Serializable, CSVSerializable {
         this.bestand = bestand;
     }
 
+    public List<BestandshistorieItem> getBestandshistorie() {
+        return bestandshistorie;
+    }
 
     @Override
     public String toString() {
@@ -73,17 +80,29 @@ public class Artikel implements Serializable, CSVSerializable {
 
     @Override
     public String toCSVString() {
-        return artNr + ";" + bezeichnung + ";" + preis + ";" + bestand;
+        StringBuilder sb = new StringBuilder();
+        for (BestandshistorieItem item : bestandshistorie) {
+            sb.append(item.toCSVString()).append("|");
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1); // letztes | entfernen
+        }
+        return artNr + ";" + bezeichnung + ";" + preis + ";" + bestand + ";" + sb;
     }
 
     @Override
     public void fromCSVString(String csv) {
-        String[] tokens = csv.split("#");
-        String[] artikelTokens = tokens[0].split(";");
-        artNr = Integer.parseInt(artikelTokens[0]);
-        bezeichnung = artikelTokens[1];
-        preis = Double.parseDouble(artikelTokens[2]);
-        bestand = Integer.parseInt(artikelTokens[3]);
+        String[] tokens = csv.split(";");
+        artNr = Integer.parseInt(tokens[0]);
+        bezeichnung = tokens[1];
+        preis = Double.parseDouble(tokens[2]);
+        bestand = Integer.parseInt(tokens[3]);
+        bestandshistorie = new ArrayList<>();
+        String[] items = tokens[4].split("\\|");
+        for (String item : items) {
+            BestandshistorieItem bhi = new BestandshistorieItem();
+            bhi.fromCSVString(item);
+            bestandshistorie.add(bhi);
+        }
     }
 }
-

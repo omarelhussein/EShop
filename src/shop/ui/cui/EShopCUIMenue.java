@@ -4,6 +4,7 @@ import shop.utils.StringUtils;
 
 public class EShopCUIMenue {
 
+
     public void bereichAuswahlAusgabe() {
         System.out.println(StringUtils.lineSeparator());
         System.out.println("Bitte wählen Sie einen Bereich aus:\n");

@@ -29,7 +29,7 @@ public class EShopCUI {
         shopAPI = new ShopAPI();
         // Dies ist ein Ereignis. Es fügt ein sogenanntes shutdownHook, welches bedeutet, dass beim Beenden des
         // programs (auch unerwartet crashes), die methode speichern von der shopAPI aufgerufen wird.
-        Runtime.getRuntime().addShutdownHook(new Thread(shopAPI::speichern));
+//        Runtime.getRuntime().addShutdownHook(new Thread(shopAPI::speichern));
         in = new Scanner(System.in);
         kundenMenue = new EShopCUIMenue.Kunde();
         mitarbeiterMenue = new EShopCUIMenue.Mitarbeiter();
@@ -157,15 +157,18 @@ public class EShopCUI {
 
     private void artikelBestandListeAusgeben(int artNr, int tage, Boolean istKauf) throws IOException {
         try {
-            var bestandshistorie = shopAPI.sucheBestandshistorie(artNr, tage, istKauf);
-            Artikel artikel = ((Artikel)bestandshistorie.get(0).getObject());
+            var bestandshistorieGruppiert = shopAPI.sucheBestandshistorie(artNr, tage, istKauf)
+                    .stream().collect(Collectors.groupingBy(ArtikelHistorie::artikel)); // gruppiert nach Artikel
+            for (var gruppierung : bestandshistorieGruppiert.entrySet()) {
+                var artikel = gruppierung.getKey();
                 System.out.println(
                         "Bestandshistorie für Artikel \"" + artikel.getBezeichnung()
                         + "\" mit der Artikelnummer \"" + artikel.getArtNr() + "\":\n"
                 );
-                for (Ereignis artikelEreignis : bestandshistorie) {
-                    System.out.println("Bestand: " + artikelEreignis.getBestand() + "stk" + "                            am " + artikelEreignis.getDatum());
+                for (var artikelHistorie : gruppierung.getValue()) {
+                    System.out.println(artikelHistorie.bestandshistorieItem().toString());
                 }
+            }
             System.out.println();
         } catch (ArtikelNichtGefundenException e) {
             System.out.println(e.getMessage());
@@ -643,7 +646,6 @@ public class EShopCUI {
     }
 
     public static void main(String[] args) {
-
         try {
             EShopCUI cui = new EShopCUI();
             cui.shopAPI.registrieren(new Mitarbeiter(1, "admin", "admin", "admin"));
