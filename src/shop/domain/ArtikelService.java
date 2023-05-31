@@ -76,6 +76,12 @@ public class ArtikelService {
      * ein Artikel ausgeben (maybe mit sortierung)
      */
     public Artikel getArtikelByArtNr(int artikelNr) throws ArtikelNichtGefundenException {
+        // .stream() wandelt die Liste in einen Stream um, der die Methoden filter, map, reduce, etc. zur Verfügung stellt.
+        // .filter() filtert die Liste nach den angegebenen Kriterien. Ein filter() kann auch mehrfach hintereinander aufgerufen werden
+        // um suchkriterien zu verfeinern. Ein filter() erwartet ein Predicate (Lambda-Ausdruck), das true oder false zurückgibt.
+        // .findFirst() gibt das erste Element des Streams zurück, das die Filterkriterien erfüllt. Falls kein Element gefunden wird,
+        // wird eine NoSuchElementException geworfen. Deshalb wird hier ein orElseThrow() verwendet. Dieser muss auch als Lambda-Ausdruck
+        // geschrieben werden. Falls kein Element gefunden wird, wird eine ArtikelNichtGefundenException geworfen.
         return artikelList
                 .stream()
                 .filter(artikel -> artikel.getArtNr() == artikelNr)
@@ -83,11 +89,16 @@ public class ArtikelService {
     }
 
     public List<Artikel> sucheArtikelByQuery(String query) {
+        // .stream() wandelt die Liste in einen Stream um, der die Methoden filter, map, reduce, etc. zur Verfügung stellt.
+        // .filter() filtert die Liste nach den angegebenen Kriterien. Ein filter() kann auch mehrfach hintereinander aufgerufen werden
+        // um suchkriterien zu verfeinern. Ein filter() erwartet ein Predicate (Lambda-Ausdruck), das true oder false zurückgibt.
+        // .toLowerCase().trim() wandelt den String in Kleinbuchstaben um und entfernt Leerzeichen am Anfang und Ende.
+        // .toList() wandelt den Stream wieder in eine Liste um.
         return artikelList
                 .stream()
                 .filter(artikel -> artikel.getBezeichnung().toLowerCase().trim().contains(query.toLowerCase().trim())
                                    || String.valueOf(artikel.getArtNr()).equals(query))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
