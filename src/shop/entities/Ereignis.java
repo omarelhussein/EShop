@@ -56,6 +56,7 @@ public class Ereignis{
     public KategorieEreignisTyp getKategorieEreignisTyp(){
            return kategorieEreignisTyp;
     }
+    public EreignisTyp getEreignisTyp(){ return ereignisTyp;}
     @Override
     public String toString() {
         var builder = new StringBuilder();

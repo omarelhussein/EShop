@@ -54,8 +54,8 @@ public class EreignisService {
 
     public List<Ereignis> getUngefiltertPersonEreignishistorie() {
         List<Ereignis> personhistorie = new ArrayList<>();
-        EreignisTyp personEreignisTyp = KategorieEreignisTyp.PERSONEN_EREIGNIS.getEreignisTyps();
         for (Ereignis ereignis : ereignisList) {
+            EreignisTyp personEreignisTyp = ereignis.getEreignisTyp();
             if (ereignis.getKategorieEreignisTyp() == KategorieEreignisTyp.PERSONEN_EREIGNIS && ereignis.getObject() instanceof Person
                 && (personEreignisTyp == EreignisTyp.MITARBEITER_ANLEGEN ||
                     personEreignisTyp == EreignisTyp.MITARBEITER_LOESCHEN ||
@@ -68,9 +68,9 @@ public class EreignisService {
     }
 
     public List<Ereignis> getUngefiltertArtikelEreignishistorie() {
-        EreignisTyp artikelEreignisTyp = KategorieEreignisTyp.ARTIKEL_EREIGNIS.getEreignisTyps();
         List<Ereignis> artikelhistorie = new ArrayList<>();
         for (Ereignis ereignis : ereignisList) {
+            EreignisTyp artikelEreignisTyp = ereignis.getEreignisTyp();
             if (ereignis.getKategorieEreignisTyp() == KategorieEreignisTyp.ARTIKEL_EREIGNIS && ereignis.getObject() instanceof Artikel
                 && (artikelEreignisTyp == EreignisTyp.ARTIKEL_ANLEGEN ||
                     artikelEreignisTyp == EreignisTyp.ARTIKEL_AKTUALISIEREN ||

@@ -217,11 +217,9 @@ public class ShopAPI {
         try {
             var warenkorbListGroesse = WarenkorbService.getInstance().getWarenkorbList().size();
             bestellService.kaufen();
-            EreignisService.getInstance()
-                    .addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, warenkorbListGroesse, true);
         } catch (Exception e) {
             EreignisService.getInstance()
-                    .addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, WarenkorbService.getInstance().getWarenkorbList().size(), false);
+                    .addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, warenkorbService.getWarenkorb(), false);
             throw e;
         }
     }
@@ -231,6 +229,10 @@ public class ShopAPI {
         return ereignisService.suchBestandshistorie(artNr, tage, istKauf);
     }
 
+    public List<Ereignis> suchPersonhistorie(int persNr) throws ArtikelNichtGefundenException, IOException {
+        return ereignisService.suchPersonhistorie(personenService.getPersonByPersNr(persNr));
+
+    }
     public void logout() {
         UserContext.clearUser();
         EreignisService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGOUT, null, true);

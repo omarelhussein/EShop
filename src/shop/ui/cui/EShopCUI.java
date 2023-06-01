@@ -1,5 +1,6 @@
 package shop.ui.cui;
 
+import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
@@ -158,18 +159,17 @@ public class EShopCUI {
     private void artikelBestandListeAusgeben(int artNr, int tage, Boolean istKauf) throws IOException {
         try {
             var bestandshistorie = shopAPI.sucheBestandshistorie(artNr, tage, istKauf);
-            Artikel artikel = ((Artikel)bestandshistorie.get(0).getObject());
-                System.out.println(
+            Artikel artikel = shopAPI.getArtikelByArtNr(artNr);
+            System.out.println(
                         "Bestandshistorie für Artikel \"" + artikel.getBezeichnung()
                         + "\" mit der Artikelnummer \"" + artikel.getArtNr() + "\":\n"
                 );
                 for (Ereignis artikelEreignis : bestandshistorie) {
-                    System.out.println("Bestand: " + artikelEreignis.getBestand() + "stk" + "                            am " + artikelEreignis.getDatum());
+                    System.out.println(artikelEreignis.toString());
                 }
             System.out.println();
         } catch (ArtikelNichtGefundenException e) {
             System.out.println(e.getMessage());
-            lagerverwaltungAusgabe();
         }
     }
 

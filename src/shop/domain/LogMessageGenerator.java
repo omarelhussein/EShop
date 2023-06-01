@@ -2,18 +2,18 @@ package shop.domain;
 
 import shop.entities.Artikel;
 import shop.entities.Ereignis;
+import shop.entities.WarenkorbArtikel;
 
 public class LogMessageGenerator {
 
     public static String generateLogMessage(Ereignis ereignis) {
         var builder = new StringBuilder();
-        /*var object = ereignis.object();
-        var ereignisTyp = ereignis.ereignisTyp();
+        var object = ereignis.getObject();
+        var ereignisTyp = ereignis.getEreignisTyp();
 
         switch (ereignisTyp) {
             case BESTANDAENDERUNG -> {
                 if (object instanceof Artikel artikel) {
-                    EreignisService.getInstance().getBestandhistorieItemList().add
                     builder.append("Bestand von Artikel ").append(artikel.getBezeichnung())
                             .append(" mit Artikelnummer ").append(artikel.getArtNr())
                             .append(" wurde auf ").append(artikel.getBestand()).append(" geändert.");
@@ -36,7 +36,7 @@ public class LogMessageGenerator {
             }
             case ARTIKEL_SUCHEN ->
                     builder.append("Es wurde nach Artikel mit dem Begriff \"").append(object.toString()).append("\" gesucht.");
-            case KAUF -> builder.append("Es wurden ").append((int) object).append(" Artikel gekauft.");
+            case KAUF -> builder.append("Es wurde ").append(((String)((Artikel)object).getBezeichnung())).append(" gekauft.").append("\n").append("Neuer Bestand: ").append(ereignis.getBestand());
             case MITARBEITER_SUCHEN ->
                     builder.append("Es wurde nach Mitarbeiter").append((String) object).append(" gesucht.");
             case ARTIKEL_ANLEGEN -> {
@@ -44,10 +44,10 @@ public class LogMessageGenerator {
                     builder.append("\n")
                             .append("Artikel ").append(artikel.getBezeichnung())
                             .append(" mit Artikelnummer ").append(artikel.getArtNr())
-                            .append(" wurde angelegt.");
+                            .append(" wurde mit Bestand: " + ereignis.getBestand() + "Stk. angelegt.");
                 }
             }
-        }*/
+        }
         return builder.toString();
     }
 
