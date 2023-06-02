@@ -33,12 +33,14 @@ public class LoginController {
     public void login() {
         resetLoginStyles();
         if (usernameField.getText().isEmpty()) {
+            // man kann auch direkt CSS-Styles in JavaFX setzen
             usernameField.setStyle("-fx-border-color: red;");
             welcomeLabel.setText("Bitte geben Sie Benutzername ein!");
             return;
         }
         if (passwordField.getText().isEmpty()) {
-            passwordField.getStyleClass().add("error");
+            // oder man fügt CSS-Styles in einer CSS-Klasse und fügt diese Klasse zu dem UI-Element hinzu
+            passwordField.getStyleClass().add("text-field-error");
             welcomeLabel.setText("Bitte geben Sie Passwort ein!");
             return;
         }

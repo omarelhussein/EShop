@@ -4,17 +4,27 @@
 }
 
 .text-field {
-
-}
-
-.password-field {
-
+    -fx-background-radius: 5px;
 }
 
 .label {
     -fx-font-size: 25px;
 }
 
-.error {
+.text-field-error {
     -fx-border-color: red;
+}
+
+.button {
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px 36px;
+    -fx-min-width: 120px;
+    -fx-focus-traversable: false;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #888888;
+}
+
+.button:hover {
+    -fx-background-color: #f0f0f0;
 }
