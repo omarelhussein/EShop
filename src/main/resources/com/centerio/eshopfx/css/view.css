@@ -1,0 +1,12 @@
+.root {
+    -fx-min-width: 800px;
+    -fx-min-height: 500px;
+}
+
+.label {
+    -fx-font-size: 25px;
+}
+
+.error {
+    -fx-border-color: red;
+}
