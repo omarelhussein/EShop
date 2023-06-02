@@ -5,12 +5,12 @@
 
 .text-field {
     -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
     -fx-pref-height: 40px;
     -fx-max-width: 300px;
 }
 
 .password-field {
-    -fx-echo-char: '*';
     -fx-font-size: 10px;
     -fx-pref-height: 40px;
     -fx-pref-width: 300px;
@@ -37,7 +37,6 @@
     -fx-background-radius: 10px;
     -fx-padding: 12px 36px;
     -fx-min-width: 120px;
-    -fx-focus-traversable: false;
     -fx-background-color: #ffffff;
     -fx-border-color: #888888;
 }
