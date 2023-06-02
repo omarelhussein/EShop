@@ -1,15 +1,12 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
-import com.centerio.eshopfx.shop.entities.UserContext;
+import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
 public class HomeController {
 
-    @FXML
-    private Label titleLabel;
+    private final ShopAPI shopAPI = ShopAPI.getInstance();
 
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
@@ -19,10 +16,14 @@ public class HomeController {
      * da diese noch nicht geladen wurden.
      */
     public void initialize() {
-        titleLabel.setText("Willkommen, " + UserContext.getUser().getNutzername());
+    }
+
+    public void save() {
+        shopAPI.speichern();
     }
 
     public void logout() {
+        shopAPI.logout();
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }
 

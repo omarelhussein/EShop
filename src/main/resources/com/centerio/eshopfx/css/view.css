@@ -11,13 +11,8 @@
 }
 
 .password-field {
-    -fx-font-size: 10px;
     -fx-pref-height: 40px;
     -fx-pref-width: 300px;
-}
-
-.label {
-    -fx-font-size: 25px;
 }
 
 .text-field-error {
