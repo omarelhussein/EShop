@@ -4,6 +4,7 @@ import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -23,8 +24,17 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private TextField passwordTextField;
+    @FXML
+    private CheckBox showPasswordCheckBox;
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
+
+    public void initialize() {
+        welcomeLabel.setText("Warten auf Login...");
+        showPasswordHandler();
+    }
 
     /**
      * Methode login wird automatisch mit der UI verknüpft. Dafür muss man nur in der login-view.fxml Datei gehen,
@@ -50,6 +60,20 @@ public class LoginController {
         } else {
             welcomeLabel.setText("Login fehlgeschlagen!");
         }
+    }
+
+    public void showPasswordHandler() {
+        passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+        showPasswordCheckBox.selectedProperty().addListener(observable -> {
+            var isSelected = showPasswordCheckBox.isSelected();
+            if (isSelected) {
+                passwordField.setVisible(false);
+                passwordTextField.setVisible(true);
+            } else {
+                passwordField.setVisible(true);
+                passwordTextField.setVisible(false);
+            }
+        });
     }
 
     public void loginKey(KeyEvent e) {

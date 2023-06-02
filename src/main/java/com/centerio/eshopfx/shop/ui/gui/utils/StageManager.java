@@ -54,15 +54,24 @@ public class StageManager {
      * in dem Fall, um die Größe und Event Listener der Stage bei einem Szenenwechsel nicht zu verändern).
      *
      * @param sceneName Der Name der FXML-Datei für die neue Szene.
+     * @param root      Ob die Wurzelkomponente der neuen Szene auf die Wurzelkomponente der aktuellen Szene gesetzt werden soll.@
      */
-    public void switchScene(String sceneName) {
+    public void switchScene(String sceneName, boolean root) {
         try {
             URL path = getClass().getResource("/com/centerio/eshopfx/" + sceneName);
             FXMLLoader fxmlLoader = new FXMLLoader(path);
-            stage.getScene().setRoot(fxmlLoader.load());
+            if (root) {
+                stage.getScene().setRoot(fxmlLoader.load());
+            } else {
+                stage.setScene(fxmlLoader.load());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void switchScene(String sceneName) {
+        switchScene(sceneName, true);
     }
 
 }
