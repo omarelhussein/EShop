@@ -1,12 +1,12 @@
 package com.centerio.eshopfx.shop.domain;
 
-import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
-import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
-import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
-import shop.entities.Rechnung;
-import shop.entities.WarenkorbArtikel;
-import shop.entities.enums.EreignisTyp;
-import shop.entities.enums.KategorieEreignisTyp;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
+import com.centerio.eshopfx.shop.entities.Rechnung;
+import com.centerio.eshopfx.shop.entities.WarenkorbArtikel;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class BestellService {
         }
         for (WarenkorbArtikel artikel : warenkorb.getWarenkorbArtikelList()) {
             warenkorbservice.kaufeArtikel(artikel);
-            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, artikel.getArtikel(),  true);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, artikel.getArtikel(),  true);
         }
 
         warenkorbservice.warenkorbLeeren();

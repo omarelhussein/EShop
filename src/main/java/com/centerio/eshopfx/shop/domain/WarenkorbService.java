@@ -1,9 +1,9 @@
 package com.centerio.eshopfx.shop.domain;
 
-import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
-import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
-import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
-import shop.entities.*;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.entities.*;
 
 import java.io.IOException;
 import java.util.ArrayList;

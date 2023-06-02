@@ -1,7 +1,7 @@
 package com.centerio.eshopfx.shop.domain;
 
-import shop.entities.Artikel;
-import shop.entities.Ereignis;
+import com.centerio.eshopfx.shop.entities.Artikel;
+import com.centerio.eshopfx.shop.entities.Ereignis;
 
 public class LogMessageGenerator {
 

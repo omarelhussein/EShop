@@ -1,15 +1,15 @@
 package com.centerio.eshopfx.shop.ui.cui;
 
-import shop.domain.ShopAPI;
-import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
-import shop.domain.exceptions.personen.PersonNichtGefundenException;
-import shop.domain.exceptions.personen.PersonVorhandenException;
-import shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
-import shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
-import shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
-import shop.entities.*;
-import shop.utils.SeedingUtils;
-import shop.utils.StringUtils;
+import com.centerio.eshopfx.shop.domain.ShopAPI;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.RechnungNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.entities.*;
+import com.centerio.eshopfx.shop.utils.SeedingUtils;
+import com.centerio.eshopfx.shop.utils.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +25,7 @@ public class EShopCUI {
 
     public EShopCUI() throws IOException {
         this.cuiMenue = new EShopCUIMenue();
-        shopAPI = new ShopAPI();
+        shopAPI = ShopAPI.getInstance();
         // Dies ist ein Ereignis. Es fügt ein sogenanntes shutdownHook, welches bedeutet, dass beim Beenden des
         // programs (auch unerwartet crashes), die methode speichern von der shopAPI aufgerufen wird.
         Runtime.getRuntime().addShutdownHook(new Thread(shopAPI::speichern));
@@ -74,7 +74,7 @@ public class EShopCUI {
         }
     }
 
-    private void mitarbeiterMenueActions() {
+    private void mitarbeiterMenueActions() throws IOException {
         mitarbeiterMenue.menueAusgabe();
         String eingabe;
         try {
@@ -95,7 +95,7 @@ public class EShopCUI {
         mitarbeiterMenueActions();
     }
 
-    private void personalverwaltungAusgabe() {
+    private void personalverwaltungAusgabe() throws IOException {
         mitarbeiterMenue.personalverwaltungAusgabe();
         String eingabe;
         try {
@@ -110,6 +110,7 @@ public class EShopCUI {
             case "2" -> mitarbeiterSuchenAusgabe();
             case "3" -> mitarbeiterRegistrieren();
             case "4" -> mitarbeiterLoeschen();
+            case "5" -> personenHistorieSuchen();
             case "b" -> mitarbeiterMenueActions();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
@@ -140,6 +141,33 @@ public class EShopCUI {
         lagerverwaltungAusgabe();
     }
 
+    public void personenHistorieSuchen() throws IOException {
+        try {
+            System.out.print("Geben sie die ID der Person ein, von welchem sie die Aktivitätshistorie ansehen wollen.\n> ");
+            int suchId = Integer.parseInt(eingabe());
+            System.out.print("Geben sie die Anzahl der Tage ein, die sie zurückblicken wollen (optional).\n> ");
+            String tage = eingabe();
+            personenHistorieListeAusgeben(suchId, tage.isEmpty() ? 0 : Integer.parseInt(tage));
+        } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe!");
+        }
+    }
+    public void personenHistorieListeAusgeben(int persNr, int tage) throws IOException{
+        try {
+            var personenhistorie = shopAPI.suchPersonhistorie(persNr, tage);
+            Person person = shopAPI.getPersonFromPersonList(persNr);
+            System.out.println(
+                    "Aktivitätshistorie von Person \"" + person.getName()
+                            + "\" mit der Personnummer \"" + person.getPersNr() + "\":\n"
+            );
+            for (Ereignis personenEreignis : personenhistorie) {
+                System.out.println(personenEreignis.toString());
+            }
+            System.out.println();
+        } catch (IOException | ArtikelNichtGefundenException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public void artikelBestandhistorieSuchen() throws IOException {
         try {
             System.out.print("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.\n> ");
@@ -641,16 +669,8 @@ public class EShopCUI {
     }
 
     public static void main(String[] args) {
-
         try {
-            EShopCUI cui = new EShopCUI();
-            cui.shopAPI.registrieren(new Mitarbeiter(1, "admin", "admin", "admin"));
-            cui.shopAPI.registrieren(new Kunde(2, "kunde", "kunde", new Adresse(
-                    "Musterstrasse", "1", "2222", "Musterstadt"
-            ), "kunde"));
-            cui.run();
-        } catch (PersonVorhandenException e) {
-            System.out.println(e.getMessage());
+            new EShopCUI().run();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

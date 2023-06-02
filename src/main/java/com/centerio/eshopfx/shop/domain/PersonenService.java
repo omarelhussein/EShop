@@ -1,11 +1,11 @@
 package com.centerio.eshopfx.shop.domain;
 
-import shop.domain.exceptions.personen.PersonNichtGefundenException;
-import shop.domain.exceptions.personen.PersonVorhandenException;
-import shop.entities.Kunde;
-import shop.entities.Mitarbeiter;
-import shop.entities.Person;
-import shop.persistence.FilePersistenceManager;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
+import com.centerio.eshopfx.shop.entities.Kunde;
+import com.centerio.eshopfx.shop.entities.Mitarbeiter;
+import com.centerio.eshopfx.shop.entities.Person;
+import com.centerio.eshopfx.shop.persistence.FilePersistenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
 package com.centerio.eshopfx.shop.utils;
 
-import shop.domain.ArtikelService;
-import shop.domain.EreignisService;
-import shop.entities.Artikel;
-import shop.entities.Massenartikel;
-import shop.entities.enums.EreignisTyp;
-import shop.entities.enums.KategorieEreignisTyp;
+import com.centerio.eshopfx.shop.domain.ArtikelService;
+import com.centerio.eshopfx.shop.domain.HistorienService;
+import com.centerio.eshopfx.shop.entities.Artikel;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.entities.Massenartikel;
+import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class SeedingUtils {
         artikelList.add(new Massenartikel(137, "Red Bull (4er)", 1.99, 10, 4));
         for (Artikel artikel : artikelList) {
             artikelService.addArtikel(artikel);
-            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
         }
     }
 

@@ -1,9 +1,9 @@
 package com.centerio.eshopfx.shop.domain;
 
-import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
-import shop.entities.Artikel;
-import shop.entities.Massenartikel;
-import shop.persistence.FilePersistenceManager;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.entities.Artikel;
+import com.centerio.eshopfx.shop.entities.Massenartikel;
+import com.centerio.eshopfx.shop.persistence.FilePersistenceManager;
 
 import java.io.IOException;
 import java.util.Iterator;

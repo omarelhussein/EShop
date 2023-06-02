@@ -1,5 +1,9 @@
 package com.centerio.eshopfx.shop.entities.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum KategorieEreignisTyp {
     SUCH_EREIGNIS,
     ARTIKEL_EREIGNIS,

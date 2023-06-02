@@ -7,12 +7,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <VBox alignment="CENTER" prefHeight="159.0" prefWidth="172.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1"
-      xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.centerio.eshopfx.shop.ui.gui.view.LoginController">
+      xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.LoginController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
-    <TextField fx:id="usernameField" promptText="Nutzername eingeben"/>
-    <PasswordField fx:id="passwordField" promptText="Passwort eingeben"/>
+    <TextField fx:id="usernameField" promptText="Nutzername eingeben" onKeyPressed="#loginKey" />
+    <PasswordField fx:id="passwordField" promptText="Passwort eingeben" onKeyPressed="#loginKey" />
     <Button onAction="#login" text="Login"/>
     <Label fx:id="welcomeText"/>
 </VBox>

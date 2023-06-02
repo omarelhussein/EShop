@@ -1,6 +1,6 @@
 package com.centerio.eshopfx.shop.entities;
 
-import shop.persistence.CSVSerializable;
+import com.centerio.eshopfx.shop.persistence.CSVSerializable;
 
 import java.io.Serializable;
 

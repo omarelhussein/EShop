@@ -1,4 +1,4 @@
-package com.centerio.eshopfx.shop.ui.gui.view;
+package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.entities.UserContext;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;

@@ -1,6 +1,6 @@
 package com.centerio.eshopfx.shop.entities;
 
-import shop.utils.StringUtils;
+import com.centerio.eshopfx.shop.utils.StringUtils;
 
 import java.time.LocalDateTime;
 

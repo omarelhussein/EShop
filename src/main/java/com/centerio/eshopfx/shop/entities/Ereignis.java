@@ -1,9 +1,9 @@
 package com.centerio.eshopfx.shop.entities;
 
-import shop.domain.LogMessageGenerator;
-import shop.entities.enums.EreignisTyp;
-import shop.entities.enums.KategorieEreignisTyp;
-import shop.utils.StringUtils;
+import com.centerio.eshopfx.shop.domain.LogMessageGenerator;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
+import com.centerio.eshopfx.shop.utils.StringUtils;
 
 import java.time.LocalDateTime;
 

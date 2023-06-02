@@ -1,6 +1,6 @@
 package com.centerio.eshopfx.shop.ui.cui;
 
-import shop.utils.StringUtils;
+import com.centerio.eshopfx.shop.utils.StringUtils;
 
 /**
  * Die EShopCUIMenue Klasse dient dazu, Menüs im CUI für den E-Shop darzustellen.
@@ -60,6 +60,7 @@ public class EShopCUIMenue {
             System.out.println("[ 2 ]\tMitarbeiter suchen");
             System.out.println("[ 3 ]\tMitarbeiter hinzufügen");
             System.out.println("[ 4 ]\tMitarbeiter löschen");
+            System.out.println("[ 5 ]\tPersonaktivitäten anschauen");
             System.out.println("[ b ]\tZurück");
             System.out.println(StringUtils.lineSeparator("-"));
             System.out.print("> ");

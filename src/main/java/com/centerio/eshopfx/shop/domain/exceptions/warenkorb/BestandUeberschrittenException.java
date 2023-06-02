@@ -1,6 +1,6 @@
 package com.centerio.eshopfx.shop.domain.exceptions.warenkorb;
 
-import shop.entities.Artikel;
+import com.centerio.eshopfx.shop.entities.Artikel;
 
 public class BestandUeberschrittenException extends Exception {
 
