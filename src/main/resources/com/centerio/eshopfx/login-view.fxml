@@ -14,5 +14,5 @@
     <TextField fx:id="usernameField" promptText="Nutzername eingeben" onKeyPressed="#loginKey" />
     <PasswordField fx:id="passwordField" promptText="Passwort eingeben" onKeyPressed="#loginKey" />
     <Button onAction="#login" text="Login"/>
-    <Label fx:id="welcomeText"/>
+    <Label fx:id="welcomeLabel"/>
 </VBox>

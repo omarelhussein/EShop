@@ -13,8 +13,10 @@ import javafx.scene.input.KeyEvent;
 
 public class LoginController {
 
+    // @FXML wird benötigt, damit JavaFX weiß, dass es sich um ein UI-Element handelt.
+    // Name der Variable muss mit der ID in der login-view.fxml Datei übereinstimmen.
     @FXML
-    private Label welcomeText;
+    private Label welcomeLabel;
 
     @FXML
     private TextField usernameField;
@@ -32,19 +34,19 @@ public class LoginController {
         resetLoginStyles();
         if (usernameField.getText().isEmpty()) {
             usernameField.setStyle("-fx-border-color: red;");
-            welcomeText.setText("Bitte geben Sie Benutzername ein!");
+            welcomeLabel.setText("Bitte geben Sie Benutzername ein!");
             return;
         }
         if (passwordField.getText().isEmpty()) {
             passwordField.getStyleClass().add("error");
-            welcomeText.setText("Bitte geben Sie Passwort ein!");
+            welcomeLabel.setText("Bitte geben Sie Passwort ein!");
             return;
         }
         var login = shopAPI.login(usernameField.getText(), passwordField.getText());
         if (login != null) {
             StageManager.getInstance().switchScene(SceneRoutes.HOME_VIEW);
         } else {
-            welcomeText.setText("Login fehlgeschlagen!");
+            welcomeLabel.setText("Login fehlgeschlagen!");
         }
     }
 

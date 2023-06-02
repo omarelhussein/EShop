@@ -11,7 +11,13 @@ public class HomeController {
     @FXML
     private Label titleLabel;
 
-
+    /**
+     * Diese Methode wird aufgerufen, wenn die View geladen wird.
+     * Sie wird nach dem Konstruktor aufgerufen.
+     * <p>
+     * Hier können UI-Elemente initialisiert werden. In dem Konstruktor können UI-Elemente noch nicht initialisiert werden,
+     * da diese noch nicht geladen wurden.
+     */
     public void initialize() {
         titleLabel.setText("Willkommen, " + UserContext.getUser().getNutzername());
     }

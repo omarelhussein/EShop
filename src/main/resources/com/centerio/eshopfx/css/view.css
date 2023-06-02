@@ -3,6 +3,14 @@
     -fx-min-height: 500px;
 }
 
+.text-field {
+
+}
+
+.password-field {
+
+}
+
 .label {
     -fx-font-size: 25px;
 }
