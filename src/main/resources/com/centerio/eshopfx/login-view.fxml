@@ -15,7 +15,7 @@
         <PasswordField fx:id="passwordField" onKeyPressed="#loginKey" promptText="Passwort eingeben"/>
         <TextField fx:id="passwordTextField" onKeyPressed="#loginKey" promptText="Passwort eingeben" visible="false"/>
     </StackPane>
+    <Label fx:id="welcomeLabel"/>
     <CheckBox fx:id="showPasswordCheckBox" text="Passwort Anzeigen"/>
     <Button onAction="#login" text="Login"/>
-    <Label fx:id="welcomeLabel"/>
 </VBox>
