@@ -1,6 +1,5 @@
 package shop.ui.cui;
 
-import shop.domain.EreignisService;
 import shop.domain.ShopAPI;
 import shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import shop.domain.exceptions.personen.PersonNichtGefundenException;
@@ -15,7 +14,6 @@ import shop.utils.StringUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class EShopCUI {
 
@@ -76,7 +74,7 @@ public class EShopCUI {
         }
     }
 
-    private void mitarbeiterMenueActions() {
+    private void mitarbeiterMenueActions() throws IOException {
         mitarbeiterMenue.menueAusgabe();
         String eingabe;
         try {
@@ -97,7 +95,7 @@ public class EShopCUI {
         mitarbeiterMenueActions();
     }
 
-    private void personalverwaltungAusgabe() {
+    private void personalverwaltungAusgabe() throws IOException {
         mitarbeiterMenue.personalverwaltungAusgabe();
         String eingabe;
         try {
@@ -112,6 +110,7 @@ public class EShopCUI {
             case "2" -> mitarbeiterSuchenAusgabe();
             case "3" -> mitarbeiterRegistrieren();
             case "4" -> mitarbeiterLoeschen();
+            case "5" -> personenHistorieSuchen();
             case "b" -> mitarbeiterMenueActions();
             default -> cuiMenue.falscheEingabeAusgabe();
         }
@@ -142,6 +141,33 @@ public class EShopCUI {
         lagerverwaltungAusgabe();
     }
 
+    public void personenHistorieSuchen() throws IOException {
+        try {
+            System.out.print("Geben sie die ID der Person ein, von welchem sie die Aktivitätshistorie ansehen wollen.\n> ");
+            int suchId = Integer.parseInt(eingabe());
+            System.out.print("Geben sie die Anzahl der Tage ein, die sie zurückblicken wollen (optional).\n> ");
+            String tage = eingabe();
+            personenHistorieListeAusgeben(suchId, tage.isEmpty() ? 0 : Integer.parseInt(tage));
+        } catch (NumberFormatException e) {
+            System.out.println("Ungültige Eingabe!");
+        }
+    }
+    public void personenHistorieListeAusgeben(int persNr, int tage) throws IOException{
+        try {
+            var personenhistorie = shopAPI.suchPersonhistorie(persNr, tage);
+            Person person = shopAPI.getPersonFromPersonList(persNr);
+            System.out.println(
+                    "Aktivitätshistorie von Person \"" + person.getName()
+                            + "\" mit der Personnummer \"" + person.getPersNr() + "\":\n"
+            );
+            for (Ereignis personenEreignis : personenhistorie) {
+                System.out.println(personenEreignis.toString());
+            }
+            System.out.println();
+        } catch (IOException | ArtikelNichtGefundenException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public void artikelBestandhistorieSuchen() throws IOException {
         try {
             System.out.print("Geben sie die ID des Artikels ein, von welchem sie die Bestandshistorie ansehen wollen.\n> ");

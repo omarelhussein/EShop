@@ -11,16 +11,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EreignisService {
-    private static EreignisService ereignisService;
+public class HistorienService {
+    private static HistorienService historienService;
     private final ArrayList<Ereignis> ereignisList;
-    private final ArrayList<BestandshistorieItem> bestandshistorieItemsList;
 
     private static final int STANDARD_TAGE_ZURUECK = 30;
 
-    private EreignisService() {
+    private HistorienService() {
         ereignisList = new ArrayList<>();
-        bestandshistorieItemsList = new ArrayList<>();
     }
 
     /**
@@ -31,11 +29,11 @@ public class EreignisService {
      * Es ist nützlich für Ressourcen, von denen nur eine einzige Instanz benötigt wird, wie
      * Dienste, Manager oder Datenbankzugriffe.
      */
-    public static synchronized EreignisService getInstance() {
-        if (ereignisService == null) {
-            ereignisService = new EreignisService();
+    public static synchronized HistorienService getInstance() {
+        if (historienService == null) {
+            historienService = new HistorienService();
         }
-        return ereignisService;
+        return historienService;
     }
 
     public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg) {
@@ -83,10 +81,11 @@ public class EreignisService {
         return artikelhistorie;
     }
 
-    public List<Ereignis> suchPersonhistorie(Person person) throws ArtikelNichtGefundenException, IOException {
+    public List<Ereignis> suchPersonhistorie(int persNr, int tage, Person person) throws ArtikelNichtGefundenException, IOException {
         List<Ereignis> personhistorie = new ArrayList<>();
+        var neueTage = ueberpruefeTage(tage);
         for (Ereignis ereignis : ereignisList) {
-            if (ereignis.getPerson().equals(person)) {
+            if (ereignis.getPerson().equals(person) && ereignis.getDatum().isAfter(ereignis.getDatum().minus(neueTage, ChronoUnit.DAYS))) {
                 personhistorie.add(ereignis);
             }
         }

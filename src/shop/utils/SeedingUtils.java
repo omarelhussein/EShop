@@ -1,7 +1,7 @@
 package shop.utils;
 
 import shop.domain.ArtikelService;
-import shop.domain.EreignisService;
+import shop.domain.HistorienService;
 import shop.entities.Artikel;
 import shop.entities.enums.EreignisTyp;
 import shop.entities.Massenartikel;
@@ -43,7 +43,7 @@ public class SeedingUtils {
         artikelList.add(new Massenartikel(137, "Red Bull (4er)", 1.99, 10, 4));
         for (Artikel artikel : artikelList) {
             artikelService.addArtikel(artikel);
-            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
         }
     }
 

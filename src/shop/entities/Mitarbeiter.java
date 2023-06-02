@@ -1,7 +1,5 @@
 package shop.entities;
 
-import shop.domain.EreignisService;
-
 public class Mitarbeiter extends Person {
 
     public Mitarbeiter(int mitarbeiterNr, String nutzername, String name, String passwort) {

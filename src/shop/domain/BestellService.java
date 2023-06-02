@@ -9,7 +9,6 @@ import shop.entities.enums.EreignisTyp;
 import shop.entities.enums.KategorieEreignisTyp;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class BestellService {
         }
         for (WarenkorbArtikel artikel : warenkorb.getWarenkorbArtikelList()) {
             warenkorbservice.kaufeArtikel(artikel);
-            EreignisService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, artikel.getArtikel(),  true);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, artikel.getArtikel(),  true);
         }
 
         warenkorbservice.warenkorbLeeren();

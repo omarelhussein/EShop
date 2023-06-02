@@ -60,6 +60,7 @@ public class EShopCUIMenue {
             System.out.println("[ 2 ]\tMitarbeiter suchen");
             System.out.println("[ 3 ]\tMitarbeiter hinzufügen");
             System.out.println("[ 4 ]\tMitarbeiter löschen");
+            System.out.println("[ 5 ]\tPersonaktivitäten anschauen");
             System.out.println("[ b ]\tZurück");
             System.out.println(StringUtils.lineSeparator("-"));
             System.out.print("> ");

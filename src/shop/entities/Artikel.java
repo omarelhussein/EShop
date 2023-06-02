@@ -1,6 +1,5 @@
 package shop.entities;
 
-import shop.domain.EreignisService;
 import shop.persistence.CSVSerializable;
 
 import java.io.Serializable;
