@@ -34,7 +34,7 @@
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER"/>
     </left>
     <center>
-        <ListView minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
+        <ListView fx:id="artikelList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
                   BorderPane.alignment="CENTER"/>
     </center>
 </BorderPane>

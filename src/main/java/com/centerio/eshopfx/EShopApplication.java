@@ -42,7 +42,7 @@ public class EShopApplication extends Application {
             // Die Stage kann nicht vergrößert oder verkleinert werden.
             stage.setResizable(false);
             // Ein Titel für die Stage wird gesetzt.
-            stage.setTitle("EShopFX");
+            stage.setTitle("EShopFX ");
             // Die Scene wird der Stage hinzugefügt.
             stage.setScene(scene);
             // Die Stage wird angezeigt.
