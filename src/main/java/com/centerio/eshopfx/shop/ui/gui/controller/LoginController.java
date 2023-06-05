@@ -87,4 +87,8 @@ public class LoginController {
         passwordField.getStyleClass().remove("error");
     }
 
+    public void registrieren() {
+        StageManager.getInstance().switchScene(SceneRoutes.REGISTRIEREN_VIEW);
+    }
+
 }

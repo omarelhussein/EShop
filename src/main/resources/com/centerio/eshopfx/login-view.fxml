@@ -17,5 +17,9 @@
     </StackPane>
     <Label fx:id="welcomeLabel"/>
     <CheckBox fx:id="showPasswordCheckBox" text="Passwort Anzeigen"/>
-    <Button onAction="#login" text="Login"/>
+    <HBox alignment="CENTER" spacing="20">
+        <Button onAction="#registrieren" text="Registrieren"/>
+        <Button onAction="#login" text="Login"/>
+    </HBox>
+
 </VBox>
