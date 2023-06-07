@@ -17,7 +17,7 @@
     <TextField fx:id="hausnummerField"  promptText="Hausnummer eingeben"/>
     <TextField fx:id="postleitzahlField" promptText="Postleitzahl eingeben"/>
     <TextField fx:id="herkunftsortField" promptText="Herkunftsort eingeben"/>
-    <Label fx:id="welcomeLabel"/>
+    <Label fx:id="infoLabel"/>
     <HBox alignment="center" spacing="20">
         <Button onAction="#abbrechen" text="Abbrechen"/>
         <Button onAction="#registrieren" text="Registrieren"/>

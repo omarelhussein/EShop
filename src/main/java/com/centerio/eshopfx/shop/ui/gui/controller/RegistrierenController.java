@@ -9,19 +9,13 @@ import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
-import java.lang.reflect.Field;
 
 public class RegistrierenController {
 
     @FXML
-    private Label welcomeLabel;
+    private Label infoLabel;
 
     @FXML
     private TextField usernameField;
@@ -40,44 +34,72 @@ public class RegistrierenController {
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
+    /**
+     * Methode initialize wird automatisch aufgerufen, wenn die View geladen wird.
+     */
+    public void initialize() {
+        // Listener für den Benutzername-Textfeld
+        // Listener wird aufgerufen, wenn das Textfeld den Fokus verliert (weggeklickt wird)
+        usernameField.focusedProperty().addListener(observable -> {
+            // wenn das Textfeld leer ist, dann wird die Methode beendet
+            if (usernameField.getText().isEmpty()) return;
+            // Überprüfung, ob der Benutzername bereits vergeben ist
+            // wenn ja, dann wird die InfoLabel rot gefärbt und eine Meldung wird angezeigt
+            if (!shopAPI.istNutzernameVerfuegbar(usernameField.getText())) {
+                infoLabel.setText("Benutzername ist bereits vergeben!");
+                infoLabel.setStyle("-fx-text-fill: red;");
+            } else {
+                infoLabel.setText("Benutzername ist verfügbar!");
+                infoLabel.setStyle("-fx-text-fill: green;");
+            }
+        });
+    }
 
-    public void registrieren(ActionEvent actionEvent) throws PersonVorhandenException {
+
+    public void registrieren(ActionEvent actionEvent) {
         resetRegistrierenStyles();
-        if (FieldCheck(usernameField)) {
-            welcomeLabel.setText("Bitte geben Sie Benutzername ein!");
+        if (checkField(usernameField)) {
+            infoLabel.setText("Bitte geben Sie Benutzername ein!");
             return;
         }
-        if (FieldCheck(passwordField)) {
-            welcomeLabel.setText("Bitte geben Sie Passwort ein!");
+        if (checkField(passwordField)) {
+            infoLabel.setText("Bitte geben Sie Passwort ein!");
             return;
         }
-        if (FieldCheck(strassenField)) {
-            welcomeLabel.setText("Bitte geben Sie Straßenname ein!");
+        if (checkField(strassenField)) {
+            infoLabel.setText("Bitte geben Sie Straßenname ein!");
             return;
         }
-        if (FieldCheck(hausnummerField)) {
-            welcomeLabel.setText("Bitte geben Sie Hausnummer ein!");
+        if (checkField(hausnummerField)) {
+            infoLabel.setText("Bitte geben Sie Hausnummer ein!");
             return;
         }
-        if (FieldCheck(postleitzahlField)) {
-            welcomeLabel.setText("Bitte geben Sie Postleitzahl ein!");
+        if (checkField(postleitzahlField)) {
+            infoLabel.setText("Bitte geben Sie Postleitzahl ein!");
             return;
         }
-        if (FieldCheck(herkunftsortField)) {
-            welcomeLabel.setText("Bitte geben Sie Herkunftsort ein!");
+        if (checkField(herkunftsortField)) {
+            infoLabel.setText("Bitte geben Sie Herkunftsort ein!");
             return;
         }
 
-        UserContext.setUser(shopAPI.registrieren(new Kunde(
-                shopAPI.getNaechstePersId(),
-                usernameField.getText(),
-                nameField.getText(),
-                new Adresse(strassenField.getText(), hausnummerField.getText(), postleitzahlField.getText(), herkunftsortField.getText()),
-                passwordField.getText())));
+        try {
+            var person = shopAPI.registrieren(new Kunde(
+                    shopAPI.getNaechstePersId(),
+                    usernameField.getText(),
+                    nameField.getText(),
+                    new Adresse(strassenField.getText(), hausnummerField.getText(), postleitzahlField.getText(), herkunftsortField.getText()),
+                    passwordField.getText()));
+            UserContext.setUser(person);
+        } catch (PersonVorhandenException e) {
+            infoLabel.setText("Benutzername ist schon vorhanden!");
+            usernameField.setStyle("-fx-border-color: red;");
+            return;
+        }
         StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
     }
 
-    private boolean FieldCheck(TextField field) {
+    private boolean checkField(TextField field) {
         if (field.getText().isEmpty()) {
             field.setStyle("-fx-border-color: red;");
             return true;
@@ -92,7 +114,7 @@ public class RegistrierenController {
         hausnummerField.setStyle("");
         postleitzahlField.setStyle("");
         herkunftsortField.setStyle("");
-
+        infoLabel.setStyle("");
     }
 
     public void abbrechen() {
