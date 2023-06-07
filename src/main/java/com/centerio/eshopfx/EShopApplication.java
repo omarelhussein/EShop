@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 
 public class EShopApplication extends Application {
@@ -16,6 +17,7 @@ public class EShopApplication extends Application {
 
     @Override
     public void start(Stage stage) {
+        setAppIcon();
         // Stage ist die Hauptkomponente einer JavaFX-Anwendung. In Java Swing ist das die JFrame-Klasse.
         stageManager.setStage(stage);
         try {
@@ -40,7 +42,9 @@ public class EShopApplication extends Application {
                 stage.close();
             });
             // Die Stage kann nicht vergrößert oder verkleinert werden.
-            stage.setResizable(false);
+            stage.setResizable(true);
+            stage.setMinHeight(600);
+            stage.setMinWidth(800);
             // Ein Titel für die Stage wird gesetzt.
             stage.setTitle("EShopFX ");
             // Die Scene wird der Stage hinzugefügt.
@@ -49,6 +53,19 @@ public class EShopApplication extends Application {
             stage.show();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void setAppIcon() {
+        var iconUrl = getClass().getResource("static/icon.png");
+        if (Taskbar.isTaskbarSupported()) {
+            var taskbar = Taskbar.getTaskbar();
+
+            if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+                var dockIcon = defaultToolkit.getImage(iconUrl);
+                taskbar.setIconImage(dockIcon);
+            }
         }
     }
 
