@@ -6,14 +6,16 @@ import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class HomeController {
+public class KundeController {
     @FXML
     private ListView<Artikel> artikelList;
+
+
     private final ShopAPI shopAPI = ShopAPI.getInstance();
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
@@ -23,17 +25,27 @@ public class HomeController {
      * da diese noch nicht geladen wurden.
      */
     public void initialize() throws IOException {
-        for(Artikel artikel : ArtikelService.getInstance().getArtikelList())
-        artikelList.getItems().add(artikel);
+        initializeArtikel();
     }
 
     public void save() {
         shopAPI.speichern();
     }
 
+    public void initializeArtikel() throws IOException {
+        for(Artikel artikel : ArtikelService.getInstance().getArtikelList())
+            artikelList.getItems().add(artikel);
+    }
     public void logout() {
         shopAPI.logout();
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }
 
+    private boolean FieldCheck(TextField field) {
+        if (field.getText().isEmpty()) {
+            field.setStyle("-fx-border-color: red;");
+            return true;
+        }
+        return false;
+    }
 }

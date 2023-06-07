@@ -1,6 +1,7 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.domain.ShopAPI;
+import com.centerio.eshopfx.shop.entities.Mitarbeiter;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.fxml.FXML;
@@ -56,7 +57,11 @@ public class LoginController {
         }
         var login = shopAPI.login(usernameField.getText(), passwordField.getText());
         if (login != null) {
-            StageManager.getInstance().switchScene(SceneRoutes.HOME_VIEW);
+            if(login instanceof Mitarbeiter) {
+                StageManager.getInstance().switchScene(SceneRoutes.MITARBEITER_VIEW);
+            } else {
+                StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
+            }
         } else {
             welcomeLabel.setText("Login fehlgeschlagen!");
         }

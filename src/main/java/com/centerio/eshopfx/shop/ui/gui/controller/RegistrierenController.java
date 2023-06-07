@@ -74,8 +74,7 @@ public class RegistrierenController {
                 nameField.getText(),
                 new Adresse(strassenField.getText(), hausnummerField.getText(), postleitzahlField.getText(), herkunftsortField.getText()),
                 passwordField.getText())));
-
-        StageManager.getInstance().switchScene(SceneRoutes.HOME_VIEW);
+        StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
     }
 
     private boolean FieldCheck(TextField field) {
