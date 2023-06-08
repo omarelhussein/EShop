@@ -3,24 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.MitarbeiterController">
+            fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.KundeHomeController">
     <top>
         <MenuBar useSystemMenuBar="true">
             <Menu mnemonicParsing="false" text="File">
-                <MenuItem text="Save" onAction="#save">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
-                    </accelerator>
-                </MenuItem>
-                <SeparatorMenuItem/>
-                <MenuItem text="Logout" onAction="#logout">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
-                    </accelerator>
-                </MenuItem>
+                <MenuItem text="Logout" onAction="#logout" accelerator="Shortcut+L"/>
             </Menu>
             <Menu text="Edit">
                 <MenuItem text="Delete"/>
@@ -36,6 +25,6 @@
     </left>
     <center>
         <ListView fx:id="artikelList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
-                  BorderPane.alignment="CENTER"/>
+                    BorderPane.alignment="CENTER"/>
     </center>
 </BorderPane>

@@ -4,6 +4,8 @@ import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenE
 import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.entities.Massenartikel;
 import com.centerio.eshopfx.shop.persistence.FilePersistenceManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -17,7 +19,7 @@ public class ArtikelService {
 
     private ArtikelService() throws IOException {
         persistenceManager = new FilePersistenceManager<>("artikel.csv");
-        artikelList = persistenceManager.readAll(Artikel.class);
+        artikelList = persistenceManager.readAll();
     }
 
     /**
@@ -146,8 +148,8 @@ public class ArtikelService {
         return true;
     }
 
-    public List<Artikel> getArtikelList() {
-        return this.artikelList;
+    public ObservableList<Artikel> getArtikelList() {
+        return FXCollections.observableList(this.artikelList);
     }
 
 

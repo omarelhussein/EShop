@@ -9,6 +9,7 @@ import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNic
 import com.centerio.eshopfx.shop.entities.*;
 import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class ShopAPI {
         }
     }
 
-    public List<Artikel> getArtikelList() {
+    public ObservableList<Artikel> getArtikelList() {
         var artikelListe = artikelService.getArtikelList();
         historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikelService.getArtikelList().size(), artikelListe != null);
         return artikelListe;

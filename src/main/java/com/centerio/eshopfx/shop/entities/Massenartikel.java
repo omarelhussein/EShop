@@ -9,6 +9,15 @@ public class Massenartikel extends Artikel {
         packgroesse = pgroesse;
     }
 
+    public Massenartikel(int artNr) {
+        super(artNr);
+    }
+
+    public Massenartikel() {
+        super();
+        // Default-Konstruktor für die Deserialisierung
+    }
+
     @Override
     public String toString() {
         return "Artikel: " + getArtNr() + " / Bezeichnung: " + getBezeichnung() +
@@ -27,4 +36,19 @@ public class Massenartikel extends Artikel {
     public int getPackgroesse() {
         return this.packgroesse;
     }
+
+    @Override
+    public String toCSVString() {
+        return super.toCSVString() + ";" + packgroesse;
+    }
+
+    @Override
+    public void fromCSVString(String csvString) {
+        super.fromCSVString(csvString);
+        String[] parts = csvString.split(";");
+        if (parts.length > 4) {
+            packgroesse = Integer.parseInt(parts[4]);
+        }
+    }
+
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.MitarbeiterHomeController"
+            stylesheets="@css/tab-material.css">
+    <stylesheets>
+    </stylesheets>
+    <top>
+        <MenuBar useSystemMenuBar="true">
+            <Menu mnemonicParsing="false" text="File">
+                <MenuItem accelerator="Shortcut+S" onAction="#save" text="Save"/>
+                <SeparatorMenuItem/>
+                <MenuItem accelerator="Shortcut+L" onAction="#logout" text="Logout"/>
+            </Menu>
+            <Menu text="Edit">
+                <MenuItem text="Delete"/>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="About"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab closable="false" text="Artikel">
+                <HBox>
+                    <VBox>
+                        <Button onAction="#addArtikel">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@static/plus-icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button onAction="#deleteArtikel">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@static/minus-icon.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </VBox>
+                    <TableView editable="true" fx:id="artikelTable" HBox.hgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="artikelBezeichnungColumn" text="Artikelbezeichnung"/>
+                            <TableColumn fx:id="artikelPreisColumn" text="Artikelpreis"/>
+                            <TableColumn fx:id="artikelBestandColumn" text="Artikelbestand"/>
+                            <TableColumn fx:id="massenArtikelColumn" text="Mengenartikel"/>
+                            <TableColumn fx:id="packGroesseColumn" text="Packgröße"/>
+                        </columns>
+                    </TableView>
+                </HBox>
+            </Tab>
+            <Tab closable="false" text="Mitarbeiter"/>
+            <Tab closable="false" text="Kunden"/>
+            <Tab closable="false" text="Ereignisse"/>
+        </TabPane>
+    </center>
+</BorderPane>

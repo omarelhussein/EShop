@@ -7,11 +7,7 @@ public class Mitarbeiter extends Person {
     }
 
     public String toCSVString() {
-        StringBuilder sb = new StringBuilder();
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1); // letztes | entfernen
-        }
-        return "Mitarbeiter;" + getPersNr() + ";" + getNutzername() + ";" + getName() + ";" + getPasswort();
+        return getPersNr() + ";" + getNutzername() + ";" + getName() + ";" + getPasswort();
     }
 
     public void fromCSVString(String csv) {

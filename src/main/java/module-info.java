@@ -8,6 +8,7 @@ module com.centerio.eshopfx {
 
     opens com.centerio.eshopfx to javafx.fxml;
     exports com.centerio.eshopfx;
+    exports com.centerio.eshopfx.shop.entities;
     exports com.centerio.eshopfx.shop.ui.gui.utils;
     opens com.centerio.eshopfx.shop.ui.gui.utils to javafx.fxml;
     exports com.centerio.eshopfx.shop.ui.gui.controller;
