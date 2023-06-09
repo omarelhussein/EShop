@@ -10,12 +10,14 @@ public class Artikel implements Serializable, CSVSerializable {
     private int artNr;
     private String bezeichnung;
     private int bestand;
+    private int pgroesse;
 
     public Artikel(int artNr, String bezeichnung, double preis, int bestand) {
         this.artNr = artNr;
         this.bezeichnung = bezeichnung;
         this.bestand = bestand;
         this.preis = preis;
+        pgroesse = 1;
     }
 
     public Artikel() {
@@ -49,6 +51,9 @@ public class Artikel implements Serializable, CSVSerializable {
         this.bestand = bestand;
     }
 
+    public int getPgroesse() {
+        return pgroesse;
+    }
 
     @Override
     public String toString() {

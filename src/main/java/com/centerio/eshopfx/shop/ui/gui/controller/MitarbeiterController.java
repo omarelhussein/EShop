@@ -2,18 +2,35 @@ package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.entities.Massenartikel;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class MitarbeiterController {
     @FXML
-    private ListView<Artikel> artikelList;
+    TableColumn<Artikel, Integer> artikelNummerColumn;
+    @FXML
+    TableColumn<Artikel, String> artikelBezeichnungColumn;
+    @FXML
+    TableColumn<Artikel, Double> artikelPreisColumn;
+    @FXML
+    TableColumn<Artikel, Integer> artikelBestandColumn;
+    @FXML
+    TableColumn<Artikel, Integer> artikelPackgroesseColumn;
+
+    @FXML
+    private TableView<Artikel> artikelTableView;
 
     @FXML
     private Label massenArtikelLabel;
@@ -44,6 +61,8 @@ public class MitarbeiterController {
 
     @FXML
     private Button addArtikelButton;
+    @FXML
+    private Button removeArtikelButton;
     private final ShopAPI shopAPI = ShopAPI.getInstance();
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
@@ -53,7 +72,8 @@ public class MitarbeiterController {
      * da diese noch nicht geladen wurden.
      */
     public void initialize() throws IOException {
-        initializeArtikel();
+        initializeArtikelView();
+        setArtikelInTable();
     }
 
     public void save() {
@@ -81,7 +101,7 @@ public class MitarbeiterController {
                         (Double.parseDouble(artikelPreisFeld.getText())), Integer.parseInt(artikelBestandFeld.getText()));
                 ArtikelService.getInstance().getArtikelList().add(artikel);
             }
-            initializeArtikel();
+            setArtikelInTable();
         }catch (RuntimeException e) {
             addArtikelButton.setStyle("-fx-border-color: red;");
         }
@@ -102,10 +122,33 @@ public class MitarbeiterController {
         artikelPreisFeld.setStyle("");
         artikelBestandFeld.setStyle("");
     }
-    public void initializeArtikel() throws IOException {
-        artikelList.getItems().clear();
-        for(Artikel artikel : ArtikelService.getInstance().getArtikelList())
-            artikelList.getItems().add(artikel);
+
+    public void initializeArtikelView(){
+        artikelNummerColumn = new TableColumn("Nummer");
+        artikelBezeichnungColumn = new TableColumn("Bezeichnung");
+        artikelPreisColumn = new TableColumn("Preis");
+        artikelBestandColumn = new TableColumn("Bestand");
+        artikelPackgroesseColumn = new TableColumn("Packgröße");
+        artikelTableView.getColumns().addAll(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn, artikelPackgroesseColumn);
+        artikelNummerColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("artNr"));
+        artikelBezeichnungColumn.setCellValueFactory(new PropertyValueFactory<Artikel, String>("bezeichnung"));
+        artikelPreisColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Double>("preis"));
+        artikelBestandColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("bestand"));
+        artikelPackgroesseColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("pgroesse"));
+    }
+    public void setArtikelInTable() throws IOException {
+        artikelTableView.getItems().clear();
+        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
+        for(Artikel artikel : ArtikelService.getInstance().getArtikelList()){
+            artikelObservableList.add(artikel);
+        }
+        artikelTableView.setItems(artikelObservableList);
+    }
+
+    public void removeArtikel() throws IOException, ArtikelNichtGefundenException {
+        int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
+        ArtikelService.getInstance().removeArtikel(artikelTableView.getItems().get(selectedId));
+        artikelTableView.getItems().remove(selectedId);
     }
     public void logout() {
         shopAPI.logout();

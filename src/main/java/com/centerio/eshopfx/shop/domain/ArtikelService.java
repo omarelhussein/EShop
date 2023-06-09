@@ -123,8 +123,8 @@ public class ArtikelService {
             artikelByArtNr.setPreis(artikel.getPreis());
         }
         if (artikel instanceof Massenartikel) {
-            if (((Massenartikel) artikel).getPackgroesse() > 0) {
-                ((Massenartikel) artikelByArtNr).setPackgroesse(((Massenartikel) artikel).getPackgroesse());
+            if (((Massenartikel) artikel).getPgroesse() > 0) {
+                ((Massenartikel) artikelByArtNr).setPackgroesse(((Massenartikel) artikel).getPgroesse());
             }
         }
     }

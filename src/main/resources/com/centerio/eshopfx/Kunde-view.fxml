@@ -35,7 +35,7 @@
         </VBox>
     </left>
     <center>
-        <ListView fx:id="artikelList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
+        <TableView fx:id="artikelTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
                   BorderPane.alignment="CENTER"/>
     </center>
 </BorderPane>

@@ -7,8 +7,10 @@ module com.centerio.eshopfx {
     requires org.kordamp.bootstrapfx.core;
 
     opens com.centerio.eshopfx to javafx.fxml;
+    opens com.centerio.eshopfx.shop.entities to javafx.fxml;
     exports com.centerio.eshopfx;
     exports com.centerio.eshopfx.shop.ui.gui.utils;
+    exports com.centerio.eshopfx.shop.entities;
     opens com.centerio.eshopfx.shop.ui.gui.utils to javafx.fxml;
     exports com.centerio.eshopfx.shop.ui.gui.controller;
     opens com.centerio.eshopfx.shop.ui.gui.controller to javafx.fxml;
