@@ -48,16 +48,25 @@ public class WarenkorbService {
     }
 
     public boolean legeArtikelImWarenkorb(int artikelNr, int anzahl)
-            throws ArtikelNichtGefundenException, BestandUeberschrittenException {
+            throws ArtikelNichtGefundenException, BestandUeberschrittenException, IOException, WarenkorbArtikelNichtGefundenException {
         var artikel = artikelservice.getArtikelByArtNr(artikelNr);
 
-        if (getWarenkorbArtikelByArtNr(artikelNr) != null || anzahl <= 0) {
+        if (anzahl <= 0) {
             return false;
+        }
+        for(WarenkorbArtikel warenkorbArtikel : WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList()){
+            if(artikel.equals(warenkorbArtikel.getArtikel()) && (warenkorbArtikel.getAnzahl()+anzahl > artikel.getBestand())){
+                return false;
+            }
+            if(artikel.equals(warenkorbArtikel.getArtikel())){
+                WarenkorbService.getInstance().aendereWarenkorbArtikelAnzahl(warenkorbArtikel.getArtikel().getArtNr(), anzahl+warenkorbArtikel.getAnzahl());
+                return true;
+            }
         }
         var warenkorb = getWarenkorbByKundenNr(UserContext.getUser().getPersNr());
         var anzahlZuKaufen = (artikel instanceof Massenartikel massenartikel) ? anzahl * massenartikel.getPgroesse() : anzahl;
         if (anzahlZuKaufen > artikel.getBestand()) {
-            throw new BestandUeberschrittenException(artikelNr, anzahlZuKaufen, artikel);
+           throw new BestandUeberschrittenException(artikelNr, anzahlZuKaufen, artikel);
         }
         warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
         return true;

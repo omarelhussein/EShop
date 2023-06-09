@@ -95,11 +95,11 @@ public class MitarbeiterController {
             if(massenArtikelCheckbox.isSelected()){
                 Massenartikel artikel = new Massenartikel(ArtikelService.getInstance().getNaechsteId(), artikelBezeichnungFeld.getText(),
                         Double.parseDouble(artikelPreisFeld.getText()), Integer.parseInt(artikelBestandFeld.getText()), Integer.parseInt(packGroesseFeld.getText()));
-                ArtikelService.getInstance().getArtikelList().add(artikel);
+                ShopAPI.getInstance().addArtikel(artikel);
             } else {
                 Artikel artikel = new Artikel(ArtikelService.getInstance().getNaechsteId(), artikelBezeichnungFeld.getText(),
                         (Double.parseDouble(artikelPreisFeld.getText())), Integer.parseInt(artikelBestandFeld.getText()));
-                ArtikelService.getInstance().getArtikelList().add(artikel);
+                ShopAPI.getInstance().addArtikel(artikel);
             }
             setArtikelInTable();
         }catch (RuntimeException e) {
@@ -147,7 +147,7 @@ public class MitarbeiterController {
 
     public void removeArtikel() throws IOException, ArtikelNichtGefundenException {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-        ArtikelService.getInstance().removeArtikel(artikelTableView.getItems().get(selectedId));
+        ShopAPI.getInstance().removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
         artikelTableView.getItems().remove(selectedId);
     }
     public void logout() {

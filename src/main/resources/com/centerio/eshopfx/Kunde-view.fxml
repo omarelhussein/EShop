@@ -6,7 +6,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.MitarbeiterController">
+            fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.KundeController">
     <top>
         <MenuBar useSystemMenuBar="true">
             <Menu mnemonicParsing="false" text="File">
@@ -32,6 +32,13 @@
     </top>
     <left>
         <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+            <VBox>
+                <TableView fx:id="warenkorbTableView" prefHeight="200.0" prefWidth="140.0"></TableView>
+            </VBox>
+            <VBox>
+            <Button fx:id="addToWarenkorbButton" onAction="#toWarenkorb" text="In Warenkorb"/>
+                <Button fx:id="kaufenButton" onAction="#kaufeWarenkorb" text="Kaufen"/>
+            </VBox>
         </VBox>
     </left>
     <center>

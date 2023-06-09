@@ -7,11 +7,14 @@ public class WarenkorbArtikel implements Serializable {
     private Artikel artikel;
     private int anzahl;
 
+    private String artikelbezeichnung;
+
     public WarenkorbArtikel(Artikel artikel, int anzahl) {
         this.artikel = artikel;
         this.anzahl = anzahl;
     }
 
+    public String getArtikelbezeichnung(){ return artikel.getBezeichnung();}
     public Artikel getArtikel() {
         return artikel;
     }
