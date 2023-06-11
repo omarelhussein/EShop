@@ -1,10 +1,11 @@
-ArtikelClass|127;Hose;19.99;10
-ArtikelClass|128;Hemd;29.99;10
-MassengutClass|129;Schuhe;39.99;10;2
 ArtikelClass|130;Socken;9.99;10
+ArtikelClass|133;Schwarztee;3.99;10
+MassengutClass|129;Schuhe;39.99;10;1
+MassengutClass|137;Red Bull (4er);1.99;40;4
 ArtikelClass|131;Red Bull;1.99;10
 MassengutClass|132;Kaffee;2.99;10;9
-ArtikelClass|133;Schwarztee;3.99;10
+ArtikelClass|127;Hose;19.99;10
+ArtikelClass|128;Hemd;29.99;10
 ArtikelClass|134;Grüntee;3.99;10
 ArtikelClass|135;Red Bull Watermelon;1.99;10
-MassengutClass|137;Red Bull (4er);1.99;40;4
+MassengutClass|138;Socken;3.0;15;2

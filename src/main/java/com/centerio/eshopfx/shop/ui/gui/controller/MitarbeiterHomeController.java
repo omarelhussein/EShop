@@ -144,6 +144,18 @@ public class MitarbeiterHomeController {
                 artikelList.set(artikelList.indexOf(p.getRowValue()), oldArtikel);
                 // Wir aktualisieren die Tabelle.
                 artikelTable.refresh();
+            } else {
+                // Wenn der neue Wert Nein ist, dann wird der Artikel zu einem Stückartikel.
+                Artikel oldArtikel = p.getRowValue();
+                // Wir erstellen einen neuen Stückartikel mit den Daten des alten Artikels.
+                oldArtikel = new Artikel(oldArtikel.getArtNr(),
+                        oldArtikel.getBezeichnung(),
+                        oldArtikel.getPreis(),
+                        oldArtikel.getBestand());
+                // Wir ersetzen den alten Artikel mit dem neuen Stückartikel.
+                artikelList.set(artikelList.indexOf(p.getRowValue()), oldArtikel);
+                // Wir aktualisieren die Tabelle.
+                artikelTable.refresh();
             }
         });
 

@@ -57,9 +57,15 @@
                     </TableView>
                 </HBox>
             </Tab>
-            <Tab closable="false" text="Mitarbeiter"/>
-            <Tab closable="false" text="Kunden"/>
-            <Tab closable="false" text="Ereignisse"/>
+            <Tab closable="false" text="Mitarbeiter">
+                <Label text="Mitarbeiter"/>
+            </Tab>
+            <Tab closable="false" text="Kunden">
+                <Label text="Kunden"/>
+            </Tab>
+            <Tab closable="false" text="Ereignisse">
+                <Label text="Ereignisse"/>
+            </Tab>
         </TabPane>
     </center>
 </BorderPane>
