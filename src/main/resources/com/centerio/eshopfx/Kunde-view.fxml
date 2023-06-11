@@ -36,8 +36,8 @@
                 <TableView fx:id="warenkorbTableView" prefHeight="200.0" prefWidth="140.0"></TableView>
             </VBox>
             <VBox>
-            <Button fx:id="addToWarenkorbButton" onAction="#toWarenkorb" text="In Warenkorb"/>
-                <Button fx:id="kaufenButton" onAction="#kaufeWarenkorb" text="Kaufen"/>
+                <Button fx:id="addToWarenkorbButton" onAction="#toWarenkorb" text="In Warenkorb"/>
+                <Button fx:id="kaufenButton" onAction="#rechnungErstellen" text="Kaufen"/>
             </VBox>
         </VBox>
     </left>

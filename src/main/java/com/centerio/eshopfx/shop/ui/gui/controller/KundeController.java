@@ -8,11 +8,14 @@ import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschritt
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.entities.Massenartikel;
+import com.centerio.eshopfx.shop.entities.Rechnung;
 import com.centerio.eshopfx.shop.entities.WarenkorbArtikel;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,6 +39,10 @@ public class KundeController {
     private Button addToWarenkorbButton;
     @FXML
     private Button kaufenButton;
+    @FXML
+    private Button kaufBestaetigenButton;
+    @FXML
+    private Button abbrechenButton;
     @FXML
     private TableView warenkorbTableView;
     @FXML
@@ -138,5 +145,56 @@ public class KundeController {
             return true;
         }
         return false;
+    }
+
+    public void rechnungErstellen() throws IOException {
+
+        if (WarenkorbService.getInstance().getWarenkorb().getAnzahlArtikel() == 0) {
+            return;
+        }
+
+        addToWarenkorbButton.setVisible(false);
+        kaufenButton.setVisible(false);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(shopAPI.erstelleRechnung().toString());
+        alert.setTitle("Rechnung");
+        alert.setHeaderText("Bitte Bestätigen sie ihren Einkauf.");
+
+        // Hinzufügen der Buttons
+        ButtonType buttonTypeConfirm = new ButtonType("Bestätigen");
+        ButtonType buttonTypeCancel = new ButtonType("Abbrechen");
+
+        alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeCancel);
+
+        // Event Handler für den Bestätigen-Button
+        alert.setOnCloseRequest(dialogEvent -> {
+            if (alert.getResult() == buttonTypeConfirm) {
+                try {
+                    kaufeWarenkorb();
+                } catch (BestandUeberschrittenException e) {
+                    throw new RuntimeException(e);
+                } catch (ArtikelNichtGefundenException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                addToWarenkorbButton.setVisible(true);
+                kaufenButton.setVisible(true);
+                alert.close(); // Popup-Fenster schließen
+            }
+        });
+
+        // Event Handler für den Abbrechen-Button
+        alert.setOnHidden(dialogEvent -> {
+            if (alert.getResult() == buttonTypeCancel) {
+                addToWarenkorbButton.setVisible(true);
+                kaufenButton.setVisible(true);
+                alert.close(); // Popup-Fenster schließen
+            }
+        });
+
+        alert.showAndWait();
+        alert.close();
     }
 }
