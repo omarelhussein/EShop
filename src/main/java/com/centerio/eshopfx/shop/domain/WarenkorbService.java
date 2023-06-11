@@ -64,7 +64,7 @@ public class WarenkorbService {
             }
         }
         var warenkorb = getWarenkorbByKundenNr(UserContext.getUser().getPersNr());
-        var anzahlZuKaufen = (artikel instanceof Massenartikel massenartikel) ? anzahl * massenartikel.getPgroesse() : anzahl;
+        var anzahlZuKaufen = (artikel instanceof Massenartikel massenartikel) ? anzahl * massenartikel.getPackgroesse() : anzahl;
         if (anzahlZuKaufen > artikel.getBestand()) {
            throw new BestandUeberschrittenException(artikelNr, anzahlZuKaufen, artikel);
         }
@@ -177,7 +177,7 @@ public class WarenkorbService {
      */
     private int berechneGenaueAnzahl(WarenkorbArtikel warenkorbArtikel, int neuAnzahl) {
         return (warenkorbArtikel.getArtikel() instanceof Massenartikel massenartikel) ?
-                neuAnzahl * massenartikel.getPgroesse() : neuAnzahl;
+                neuAnzahl * massenartikel.getPackgroesse() : neuAnzahl;
     }
 
     public void kaufeArtikel(WarenkorbArtikel warenkorbArtikel) throws BestandUeberschrittenException, ArtikelNichtGefundenException {

@@ -14,13 +14,14 @@ import java.util.stream.Stream;
 
 public class PersonenService {
 
-    private final List<Person> personList = new ArrayList<>();
+    private final List<Person> personList;
     private final WarenkorbService warenkorbService;
     private final FilePersistenceManager<Person> persistenceManager;
 
     public PersonenService() throws IOException {
         warenkorbService = WarenkorbService.getInstance();
         persistenceManager = new FilePersistenceManager<>("personen.csv");
+        personList = persistenceManager.readAll();
     }
 
     /**

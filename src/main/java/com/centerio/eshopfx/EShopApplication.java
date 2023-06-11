@@ -1,13 +1,17 @@
 package com.centerio.eshopfx;
 
+import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
+import com.centerio.eshopfx.shop.utils.SeedingUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 
 public class EShopApplication extends Application {
@@ -30,7 +34,7 @@ public class EShopApplication extends Application {
             Scene scene = new Scene(fxmlLoader.load());
             // CSS-Dateien können in JavaFX geladen werden, um das Aussehen der UI-Elemente zu verändern.
             // Das ist eine Möglichkeit, um das Aussehen der Anwendung zu verändern. Die kann man global für alle UI-Elemente machen, oder nur für einzelne.
-            URL css = getClass().getResource("css/view.css");
+            URL css = getClass().getResource("css/global.css");
             if (css != null) {
                 // Die CSS-Datei wird der Scene hinzugefügt.
                 scene.getStylesheets().add(css.toExternalForm());
@@ -38,15 +42,22 @@ public class EShopApplication extends Application {
             // Das Schließen der Anwendung wird hier behandelt. Ähnlich wie in Java Swing mit setDefaultCloseOperation.
             stage.setOnCloseRequest(e -> {
                 e.consume();
-                System.out.println("Closing");
-                stage.close();
+                System.out.println("Closing...");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Programm beenden");
+                alert.setHeaderText("Sind Sie sicher, dass Sie das Programm beenden möchten?");
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == javafx.scene.control.ButtonType.OK) {
+                        stage.close();
+                    }
+                });
             });
             // Die Stage kann nicht vergrößert oder verkleinert werden.
             stage.setResizable(true);
             stage.setMinHeight(600);
             stage.setMinWidth(800);
             // Ein Titel für die Stage wird gesetzt.
-            stage.setTitle("EShopFX ");
+            stage.setTitle("EShopFX");
             // Die Scene wird der Stage hinzugefügt.
             stage.setScene(scene);
             // Die Stage wird angezeigt.
@@ -70,6 +81,12 @@ public class EShopApplication extends Application {
     }
 
     public static void main(String[] args) {
+        Runtime.getRuntime().addShutdownHook(new Thread(ShopAPI.getInstance()::speichern));
+        try {
+            new SeedingUtils();
+        } catch (IOException e) {
+            throw new RuntimeException("Initzialisierung der Daten fehlgeschlagen: " + e.getMessage());
+        }
         // Die Anwendung wird gestartet. Diese Methode wird von der Klasse Application geerbt.
         // Die Klasse Application ist die Hauptklasse einer JavaFX-Anwendung. In Java Swing ist das die Klasse JFrame.
         launch();

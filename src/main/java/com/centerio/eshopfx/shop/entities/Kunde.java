@@ -9,6 +9,11 @@ public class Kunde extends Person {
         this.adresse = adresse;
     }
 
+    public Kunde() {
+        super();
+        // Default-Konstruktor für die Deserialisierung
+    }
+
     public void setAdresse(Adresse adresse) {                        //Ein- & Ausgabe von Adresse
         this.adresse = adresse;
     }

@@ -42,7 +42,7 @@ public class WarenkorbArtikel implements Serializable {
     public double getGesamtPreis() {
         var gesamtPreis = this.anzahl * this.artikel.getPreis();
         if (this.artikel instanceof Massenartikel massenartikel) {
-            gesamtPreis *= massenartikel.getPgroesse();
+            gesamtPreis *= massenartikel.getPackgroesse();
         }
         // Diese Zeile rundet das Ergebnis auf zwei Dezimalstellen.
         // 'Math.round(... * 100.0) / 100.0' ist ein gängiges Muster zum Runden auf zwei Dezimalstellen

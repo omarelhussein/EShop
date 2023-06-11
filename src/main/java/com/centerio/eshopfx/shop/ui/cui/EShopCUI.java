@@ -267,8 +267,8 @@ public class EShopCUI {
 
             if (massenArtikelAusgabe()) {
                 System.out.print("Packgröße:\n> ");
-                int pgroesse = Integer.parseInt(eingabe());
-                var artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand * pgroesse, pgroesse);
+                int packgroesse = Integer.parseInt(eingabe());
+                var artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), bezeichnung, preis, bestand * packgroesse, packgroesse);
                 shopAPI.addArtikel(artikel);
                 System.out.println("Massenartikel erfolgreich angelegt! Artikel-ID: " + artikel.getArtNr() + "\n");
             } else {

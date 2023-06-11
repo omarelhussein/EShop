@@ -19,14 +19,6 @@
     -fx-border-color: red;
 }
 
-.toast-label {
-    -fx-background-color: #333;
-    -fx-text-fill: white;
-    -fx-padding: 10px;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
 .button {
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;

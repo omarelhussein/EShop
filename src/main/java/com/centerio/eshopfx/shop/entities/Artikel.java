@@ -10,17 +10,20 @@ public class Artikel implements Serializable, CSVSerializable {
     private int artNr;
     private String bezeichnung;
     private int bestand;
-    private int pgroesse;
 
     public Artikel(int artNr, String bezeichnung, double preis, int bestand) {
         this.artNr = artNr;
         this.bezeichnung = bezeichnung;
         this.bestand = bestand;
         this.preis = preis;
-        pgroesse = 1;
+    }
+
+    public Artikel(int artNr) {
+        this.artNr = artNr;
     }
 
     public Artikel() {
+        // Default-Konstruktor für die Deserialisierung
     }
 
     public double getPreis() {
@@ -51,9 +54,6 @@ public class Artikel implements Serializable, CSVSerializable {
         this.bestand = bestand;
     }
 
-    public int getPgroesse() {
-        return pgroesse;
-    }
 
     @Override
     public String toString() {
@@ -82,12 +82,11 @@ public class Artikel implements Serializable, CSVSerializable {
 
     @Override
     public void fromCSVString(String csv) {
-        String[] tokens = csv.split("#");
-        String[] artikelTokens = tokens[0].split(";");
-        artNr = Integer.parseInt(artikelTokens[0]);
-        bezeichnung = artikelTokens[1];
-        preis = Double.parseDouble(artikelTokens[2]);
-        bestand = Integer.parseInt(artikelTokens[3]);
+        String[] tokens = csv.split(";");
+        artNr = Integer.parseInt(tokens[0]);
+        bezeichnung = tokens[1];
+        preis = Double.parseDouble(tokens[2]);
+        bestand = Integer.parseInt(tokens[3]);
     }
 }
 

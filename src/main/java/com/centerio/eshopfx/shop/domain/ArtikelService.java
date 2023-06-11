@@ -17,7 +17,7 @@ public class ArtikelService {
 
     private ArtikelService() throws IOException {
         persistenceManager = new FilePersistenceManager<>("artikel.csv");
-        artikelList = persistenceManager.readAll(Artikel.class);
+        artikelList = persistenceManager.readAll();
     }
 
     /**
@@ -123,8 +123,8 @@ public class ArtikelService {
             artikelByArtNr.setPreis(artikel.getPreis());
         }
         if (artikel instanceof Massenartikel) {
-            if (((Massenartikel) artikel).getPgroesse() > 0) {
-                ((Massenartikel) artikelByArtNr).setPackgroesse(((Massenartikel) artikel).getPgroesse());
+            if (((Massenartikel) artikel).getPackgroesse() > 0) {
+                ((Massenartikel) artikelByArtNr).setPackgroesse(((Massenartikel) artikel).getPackgroesse());
             }
         }
     }

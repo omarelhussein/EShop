@@ -6,12 +6,13 @@ public class Mitarbeiter extends Person {
         super(mitarbeiterNr, nutzername, name, passwort);
     }
 
+    public Mitarbeiter() {
+        super();
+        // Default-Konstruktor für die Deserialisierung
+    }
+
     public String toCSVString() {
-        StringBuilder sb = new StringBuilder();
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1); // letztes | entfernen
-        }
-        return "Mitarbeiter;" + getPersNr() + ";" + getNutzername() + ";" + getName() + ";" + getPasswort();
+        return getPersNr() + ";" + getNutzername() + ";" + getName() + ";" + getPasswort();
     }
 
     public void fromCSVString(String csv) {

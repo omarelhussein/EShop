@@ -45,6 +45,7 @@ public class KundeController {
 
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
+
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
      * Sie wird nach dem Konstruktor aufgerufen.
@@ -63,7 +64,7 @@ public class KundeController {
         shopAPI.speichern();
     }
 
-    public void initializeWarenkorbView(){
+    public void initializeWarenkorbView() {
         warenkorbArtikelStringTableColumn = new TableColumn<WarenkorbArtikel, String>("Artikel");
         warenkorbArtikelAnzahlTableColumn = new TableColumn<WarenkorbArtikel, Integer>("Anzahl");
         warenkorbTableView.getColumns().addAll(warenkorbArtikelStringTableColumn, warenkorbArtikelAnzahlTableColumn);
@@ -77,15 +78,17 @@ public class KundeController {
         setWarenkorbInTable();
         setArtikelInTable();
     }
+
     public void setWarenkorbInTable() throws IOException {
         warenkorbTableView.getItems().clear();
         ObservableList<WarenkorbArtikel> warenkorbObservableList = FXCollections.observableArrayList();
-        for(WarenkorbArtikel warenkorbartikel : WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList()){
+        for (WarenkorbArtikel warenkorbartikel : WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList()) {
             warenkorbObservableList.add(warenkorbartikel);
         }
         warenkorbTableView.setItems(warenkorbObservableList);
     }
-    public void initializeArtikelView(){
+
+    public void initializeArtikelView() {
         artikelNummerColumn = new TableColumn("Nummer");
         artikelBezeichnungColumn = new TableColumn("Bezeichnung");
         artikelPreisColumn = new TableColumn("Preis");
@@ -96,32 +99,35 @@ public class KundeController {
         artikelBezeichnungColumn.setCellValueFactory(new PropertyValueFactory<Artikel, String>("bezeichnung"));
         artikelPreisColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Double>("preis"));
         artikelBestandColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("bestand"));
-        artikelPackgroesseColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("pgroesse"));
+        artikelPackgroesseColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("packgroesse"));
     }
+
     public void setArtikelInTable() throws IOException {
         artikelTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
-        for(Artikel artikel : ArtikelService.getInstance().getArtikelList()){
+        for (Artikel artikel : ArtikelService.getInstance().getArtikelList()) {
             artikelObservableList.add(artikel);
         }
         artikelTableView.setItems(artikelObservableList);
     }
+
     public void logout() {
         shopAPI.logout();
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }
+
     public void toWarenkorb() throws IOException {
         try {
             int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-            if(selectedId >= 0) {
-            Artikel artikel = artikelTableView.getItems().get(selectedId);
-            ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), 1) ;
-            setWarenkorbInTable();
+            if (selectedId >= 0) {
+                Artikel artikel = artikelTableView.getItems().get(selectedId);
+                ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), 1);
+                setWarenkorbInTable();
             } else {
                 addToWarenkorbButton.setStyle("-fx-border-color: red;");
             }
         } catch (IOException | ArtikelNichtGefundenException | BestandUeberschrittenException |
-                 WarenkorbArtikelNichtGefundenException e ){
+                 WarenkorbArtikelNichtGefundenException e) {
             addToWarenkorbButton.setStyle("-fx-border-color: red;");
         }
     }
