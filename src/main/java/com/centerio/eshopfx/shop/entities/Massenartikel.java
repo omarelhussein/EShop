@@ -30,6 +30,7 @@ public class Massenartikel extends Artikel {
     }
 
     public void setPackgroesse(int packgroesse) {
+        this.setBestand(this.getBestand()/this.packgroesse * packgroesse);
         this.packgroesse = packgroesse;
     }
 

@@ -263,4 +263,8 @@ public class ShopAPI {
         UserContext.clearUser();
         HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGOUT, null, true);
     }
+
+    public List<Person> getPersonList(){
+        return personenService.getPersonList();
+    }
 }

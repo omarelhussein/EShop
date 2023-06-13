@@ -174,6 +174,8 @@ public class KundeController {
 
         alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeCancel);
 
+
+
         // Event Handler für den Bestätigen-Button
         alert.setOnCloseRequest(dialogEvent -> {
             if (alert.getResult() == buttonTypeConfirm) {
@@ -202,6 +204,5 @@ public class KundeController {
         });
 
         alert.showAndWait();
-        alert.close();
     }
 }

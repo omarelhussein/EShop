@@ -1,10 +1,13 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
+import com.centerio.eshopfx.shop.domain.PersonenService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
-import com.centerio.eshopfx.shop.entities.Artikel;
-import com.centerio.eshopfx.shop.entities.Massenartikel;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
+import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.entities.*;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.beans.Observable;
@@ -13,11 +16,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class MitarbeiterController {
@@ -33,7 +36,19 @@ public class MitarbeiterController {
     TableColumn<Artikel, Integer> artikelPackgroesseColumn;
 
     @FXML
+    TableColumn<Person, String> personTypColumn;
+    @FXML
+    TableColumn<Person, String> nutzernameColumn;
+    @FXML
+    TableColumn<Person, String> nameColumn;
+    @FXML
+    TableColumn<Person, Integer> personNummerColumn;
+
+    @FXML
     private TableView<Artikel> artikelTableView;
+
+    @FXML
+    private TableView<Person> personenTableView;
 
     @FXML
     private Label massenArtikelLabel;
@@ -67,9 +82,34 @@ public class MitarbeiterController {
 
     @FXML
     private Button addArtikelButton;
+
+    @FXML
+    private Label mitarbeiterNameLabel;
+
+    @FXML
+    private TextField mitarbeiterNameField;
+
+    @FXML
+    private Label nutzernameLabel;
+
+    @FXML
+    private TextField nutzernameField;
+
+    @FXML
+    private Label passwortLabel;
+
+    @FXML
+    private TextField passwortField;
+
+    @FXML
+    private Button registerMitarbeiterButton;
+
     @FXML
     private Button removeArtikelButton;
     private final ShopAPI shopAPI = ShopAPI.getInstance();
+
+    private Tab selctedTab = mitarbeiterPane.getSelectionModel().getSelectedItem();
+
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
      * Sie wird nach dem Konstruktor aufgerufen.
@@ -79,8 +119,10 @@ public class MitarbeiterController {
      */
     public void initialize() throws IOException {
         initializeArtikelView();
+        initializePersonView();
         setArtikelInTable();
-        initializeMitarbeiterTab();
+        setPersonInTable();
+        //initializeMitarbeiterTab();
     }
 
     public void save() {
@@ -109,6 +151,7 @@ public class MitarbeiterController {
                 ShopAPI.getInstance().addArtikel(artikel);
             }
             setArtikelInTable();
+            clearFelder();
         }catch (RuntimeException e) {
             addArtikelButton.setStyle("-fx-border-color: red;");
         }
@@ -155,6 +198,7 @@ public class MitarbeiterController {
                                                             return null;
         });
     }
+
     public void setArtikelInTable() throws IOException {
         artikelTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
@@ -166,7 +210,7 @@ public class MitarbeiterController {
 
     public void removeArtikel() throws IOException, ArtikelNichtGefundenException {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-        ShopAPI.getInstance().removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
+        shopAPI.removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
         artikelTableView.getItems().remove(selectedId);
     }
     public void logout() throws IOException {
@@ -180,5 +224,83 @@ public class MitarbeiterController {
             return true;
         }
         return false;
+    }
+    // int mitarbeiterNr, String nutzername, String name, String passwort
+    public void mitarbeiterRegistrieren() throws PersonVorhandenException {
+        shopAPI.registrieren(new Mitarbeiter(shopAPI.getNaechstePersId(), nutzernameField.getText(), mitarbeiterNameField.getText(), passwortField.getText()));
+        setPersonInTable();
+    }
+
+    public void initializePersonView() {
+        personNummerColumn = new TableColumn("Nummer");
+        personTypColumn = new TableColumn("Typ");
+        nutzernameColumn = new TableColumn("Nutzername");
+        nameColumn = new TableColumn("Name");
+        personenTableView.getColumns().addAll(personNummerColumn, personTypColumn, nutzernameColumn, nameColumn);
+        personNummerColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getPersNr()).asObject());
+        personTypColumn.setCellValueFactory(p -> {
+                    if (p.getValue() instanceof Kunde) {
+                        return new SimpleStringProperty("Kunde");
+                    }
+                    return new SimpleStringProperty("Mitarbeiter");
+                });
+        nutzernameColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getNutzername()));
+        nameColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getName()));
+    }
+
+    private void setPersonInTable() {
+        personenTableView.getItems().clear();
+        ObservableList<Person> personObservableList = FXCollections.observableArrayList();
+        for(Person person : shopAPI.getPersonList()){
+            personObservableList.add(person);
+        }
+        personenTableView.setItems(personObservableList);
+    }
+
+    public void editArtikel() throws ArtikelNichtGefundenException, IOException {
+        int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
+        Artikel artikel = artikelTableView.getItems().get(selectedId);
+        try {
+            if(selectedId >= 0) {
+                if (artikel instanceof Massenartikel) {
+                    if (!artikelBezeichnungFeld.getText().equals("")) {
+                        artikel.setBezeichnung(artikelBezeichnungFeld.getText());
+                    }
+                    if (!artikelPreisFeld.getText().equals("")) {
+                        artikel.setPreis(Double.parseDouble(artikelPreisFeld.getText()));
+                    }
+                    if (!artikelBestandFeld.getText().equals("")) {
+                        artikel.setBestand(Integer.parseInt(artikelBestandFeld.getText()));
+                    }
+                    if (!packGroesseFeld.getText().equals("")) {
+                        ((Massenartikel) artikel).setPackgroesse(Integer.parseInt(packGroesseFeld.getText()));
+                    }
+                } else {
+                    if (!artikelBezeichnungFeld.getText().equals("")) {
+                        artikel.setBezeichnung(artikelBezeichnungFeld.getText());
+                    }
+                    if (!artikelPreisFeld.getText().equals("")) {
+                        artikel.setPreis(Double.parseDouble(artikelPreisFeld.getText()));
+                    }
+                    if (!artikelBestandFeld.getText().equals("")) {
+                        artikel.setBestand(Integer.parseInt(artikelBestandFeld.getText()));
+                    }
+                }
+                shopAPI.artikelAktualisieren(artikel);
+                setArtikelInTable();
+                clearFelder();
+            } else {
+                editArtikelButton.setStyle("-fx-border-color: red;");
+            }
+        } catch (IOException | ArtikelNichtGefundenException e) {
+            editArtikelButton.setStyle("-fx-border-color: red;");
+        }
+    }
+
+    private void clearFelder() {
+        artikelBestandFeld.setText("");
+        artikelPreisFeld.setText("");
+        artikelBezeichnungFeld.setText("");
+        packGroesseFeld.setText("");
     }
 }

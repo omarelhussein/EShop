@@ -1,14 +1,14 @@
 ArtikelClass|127;Hose;19.99;7
-ArtikelClass|128;Hemd;29.99;0
+ArtikelClass|128;Wasser;29.99;30
 ArtikelClass|129;Schuhe;39.99;6
-ArtikelClass|130;Socken;9.99;0
+ArtikelClass|130;Socken;9.99;4
 ArtikelClass|131;Red Bull;1.99;6
 ArtikelClass|132;Kaffee;2.99;4
-ArtikelClass|133;Schwarztee;3.99;5
+ArtikelClass|133;Lauch;4.99;5
 ArtikelClass|134;Grüntee;3.99;5
 ArtikelClass|135;Red Bull Watermelon;1.99;9
-MassengutClass|137;Red Bull (4er);1.99;40;0
-ArtikelClass|138;Koks;20.0;12
-MassengutClass|139;Koks;20.0;30;30
-MassengutClass|140;Pizza Tonno;16.99;25;5
-MassengutClass|141;Pizza Diavolo;13.99;120;4
+ArtikelClass|138;Crack;400.0;30
+MassengutClass|140;Pizza Tonno;4.99;30;6
+MassengutClass|141;Pizza Diavolo;13.99;90;3
+MassengutClass|137;Red Bull (4er);1.99;40;4
+ArtikelClass|142;Baum;80.0;4
