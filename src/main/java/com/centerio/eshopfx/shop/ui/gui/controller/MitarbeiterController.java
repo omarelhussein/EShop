@@ -105,6 +105,9 @@ public class MitarbeiterController {
     private Button registerMitarbeiterButton;
 
     @FXML
+    private Button editArtikelButton;
+
+    @FXML
     private Button removeArtikelButton;
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
