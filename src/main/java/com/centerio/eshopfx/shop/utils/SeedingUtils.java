@@ -29,7 +29,7 @@ public class SeedingUtils {
         seedArtikel();
     }
 
-    public void seedArtikel() {
+    public void seedArtikel() throws IOException {
         List<Artikel> artikelList = new ArrayList<>();
         artikelList.add(new Artikel(127, "Hose", 19.99, 10));
         artikelList.add(new Artikel(128, "Hemd", 29.99, 10));

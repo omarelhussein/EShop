@@ -22,7 +22,7 @@ public class BestellService {
         rechnungen = new ArrayList<>();
     }
 
-    public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException {
+    public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
         var warenkorb = warenkorbservice.getWarenkorb();
         for (WarenkorbArtikel artikel : warenkorb.getWarenkorbArtikelList()) {
             // erstmal prüfen, dann kaufen

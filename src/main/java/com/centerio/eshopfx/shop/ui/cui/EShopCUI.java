@@ -212,7 +212,7 @@ public class EShopCUI {
         System.out.println();
     }
 
-    private void mitarbeiterSuchenAusgabe() {
+    private void mitarbeiterSuchenAusgabe() throws IOException {
         System.out.print("Suchbegriff:\n> ");
         String suchbegriff = in.nextLine();
         mitarbeiterListeAusgeben(shopAPI.getMitarbeiterList(suchbegriff));
@@ -252,6 +252,8 @@ public class EShopCUI {
         } catch (NumberFormatException e) {
             System.out.println("Fehler bei der Eingabe!");
             mitarbeiterLoeschen();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         System.out.println();
     }
@@ -386,7 +388,7 @@ public class EShopCUI {
         System.out.println("\ni) Gesamtanzahl der ausgegebenen Artikel: " + artikelListe.size() + "\n");
     }
 
-    private void ereignisListAusgeben() {
+    private void ereignisListAusgeben() throws IOException {
         var ereignisListe = shopAPI.getEreignisList();
         if (ereignisListe.isEmpty()) {
             System.out.println("Keine Ereignisse vorhanden!");
@@ -422,7 +424,7 @@ public class EShopCUI {
         }
     }
 
-    private void logout() {
+    private void logout() throws IOException {
         shopAPI.logout();
         System.out.println("Erfolgreich ausgeloggt!");
         try {

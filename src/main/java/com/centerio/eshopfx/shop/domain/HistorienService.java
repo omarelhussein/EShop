@@ -4,6 +4,7 @@ import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenE
 import com.centerio.eshopfx.shop.entities.*;
 import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
+import com.centerio.eshopfx.shop.persistence.FilePersistenceManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -15,10 +16,13 @@ public class HistorienService {
     private static HistorienService historienService;
     private final ArrayList<Ereignis> ereignisList;
 
+    private FilePersistenceManager<Ereignis> persistenceManager;
+
     private static final int STANDARD_TAGE_ZURUECK = 30;
 
-    private HistorienService() {
-        ereignisList = new ArrayList<>();
+    private HistorienService() throws IOException {
+        persistenceManager = new FilePersistenceManager<>("ereignis.csv");
+        ereignisList = (ArrayList<Ereignis>)persistenceManager.readAll();
     }
 
     /**
@@ -29,7 +33,7 @@ public class HistorienService {
      * Es ist nützlich für Ressourcen, von denen nur eine einzige Instanz benötigt wird, wie
      * Dienste, Manager oder Datenbankzugriffe.
      */
-    public static synchronized HistorienService getInstance() {
+    public static synchronized HistorienService getInstance() throws IOException {
         if (historienService == null) {
             historienService = new HistorienService();
         }
@@ -132,6 +136,9 @@ public class HistorienService {
         }
     }
 
+    public void save() throws IOException {
+        persistenceManager.replaceAll(ereignisList);
+    }
     public ArrayList<Ereignis> getEreignisList() {
         return ereignisList;
     }

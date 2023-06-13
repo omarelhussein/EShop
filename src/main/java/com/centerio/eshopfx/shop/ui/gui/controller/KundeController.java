@@ -13,6 +13,9 @@ import com.centerio.eshopfx.shop.entities.WarenkorbArtikel;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -95,18 +98,22 @@ public class KundeController {
         warenkorbTableView.setItems(warenkorbObservableList);
     }
 
-    public void initializeArtikelView() {
+    public void initializeArtikelView(){
         artikelNummerColumn = new TableColumn("Nummer");
         artikelBezeichnungColumn = new TableColumn("Bezeichnung");
         artikelPreisColumn = new TableColumn("Preis");
         artikelBestandColumn = new TableColumn("Bestand");
         artikelPackgroesseColumn = new TableColumn("Packgröße");
         artikelTableView.getColumns().addAll(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn, artikelPackgroesseColumn);
-        artikelNummerColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("artNr"));
-        artikelBezeichnungColumn.setCellValueFactory(new PropertyValueFactory<Artikel, String>("bezeichnung"));
-        artikelPreisColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Double>("preis"));
-        artikelBestandColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("bestand"));
-        artikelPackgroesseColumn.setCellValueFactory(new PropertyValueFactory<Artikel, Integer>("packgroesse"));
+        artikelNummerColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getArtNr()).asObject());
+        artikelBezeichnungColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getBezeichnung()));
+        artikelPreisColumn.setCellValueFactory(p -> new SimpleDoubleProperty(p.getValue().getPreis()).asObject());
+        artikelBestandColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getBestand()).asObject());
+        artikelPackgroesseColumn.setCellValueFactory(p -> {if (p.getValue() instanceof Massenartikel){
+            return new SimpleIntegerProperty(((Massenartikel)p.getValue()).getPackgroesse()).asObject();
+        }
+            return null;
+        });
     }
 
     public void setArtikelInTable() throws IOException {
@@ -118,7 +125,7 @@ public class KundeController {
         artikelTableView.setItems(artikelObservableList);
     }
 
-    public void logout() {
+    public void logout() throws IOException {
         shopAPI.logout();
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }

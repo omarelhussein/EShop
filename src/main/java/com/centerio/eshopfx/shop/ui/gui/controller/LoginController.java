@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.io.IOException;
+
 
 public class LoginController {
 
@@ -41,7 +43,7 @@ public class LoginController {
      * Methode login wird automatisch mit der UI verknüpft. Dafür muss man nur in der login-view.fxml Datei gehen,
      * welches sich unter resources/com/centerio/eshopfx befindet.
      */
-    public void login() {
+    public void login() throws IOException {
         resetLoginStyles();
         if (usernameField.getText().isEmpty()) {
             // man kann auch direkt CSS-Styles in JavaFX setzen
@@ -81,7 +83,7 @@ public class LoginController {
         });
     }
 
-    public void loginKey(KeyEvent e) {
+    public void loginKey(KeyEvent e) throws IOException {
         if (e.getCode().equals(KeyCode.ENTER)) {
             login();
         }

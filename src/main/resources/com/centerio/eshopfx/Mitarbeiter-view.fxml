@@ -31,6 +31,12 @@
                 <MenuItem text="About"/>
             </Menu>
         </MenuBar>
+        <VBox>
+            <TabPane fx:id="mitarbeiterPane">
+                <Tab fx:id="artikelTab" text="Artikel"></Tab>
+                <Tab fx:id="mitarbeiterTab" text="Personal"></Tab>
+            </TabPane>
+        </VBox>
     </top>
     <left>
         <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">

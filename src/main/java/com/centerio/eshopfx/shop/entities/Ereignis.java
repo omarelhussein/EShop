@@ -3,11 +3,13 @@ package com.centerio.eshopfx.shop.entities;
 import com.centerio.eshopfx.shop.domain.LogMessageGenerator;
 import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
+import com.centerio.eshopfx.shop.persistence.CSVSerializable;
 import com.centerio.eshopfx.shop.utils.StringUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Ereignis{
+public class Ereignis implements Serializable, CSVSerializable {
        private Person person;
        private Object object;
        private KategorieEreignisTyp kategorieEreignisTyp;

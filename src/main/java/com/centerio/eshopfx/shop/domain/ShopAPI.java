@@ -55,6 +55,7 @@ public class ShopAPI {
         try {
             artikelService.save();
             personenService.save();
+            historienService.save();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -127,7 +128,7 @@ public class ShopAPI {
 
     public void aendereArtikelAnzahlImWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
-            WarenkorbArtikelNichtGefundenException {
+            WarenkorbArtikelNichtGefundenException, IOException {
         try {
             warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
@@ -137,7 +138,7 @@ public class ShopAPI {
         }
     }
 
-    public Person login(String nutzername, String passwort) {
+    public Person login(String nutzername, String passwort) throws IOException {
         var login = personenService.login(nutzername, passwort);
         if (login == null) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, null, false);
@@ -178,20 +179,20 @@ public class ShopAPI {
         return personenService.istNutzernameVerfuegbar(nutzername);
     }
 
-    public List<Mitarbeiter> getMitarbeiterList() {
+    public List<Mitarbeiter> getMitarbeiterList() throws IOException {
         var mitarbeiterListe = personenService.getMitarbeiter();
         HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_ANZEIGEN, mitarbeiterListe.size(), true);
         return mitarbeiterListe;
     }
 
-    public List<Mitarbeiter> getMitarbeiterList(String suchbegriff) {
+    public List<Mitarbeiter> getMitarbeiterList(String suchbegriff) throws IOException {
         HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_SUCHEN, suchbegriff, true);
         return personenService.suchePersonByQuery(suchbegriff)
                 .filter(Mitarbeiter.class::isInstance)
                 .map(Mitarbeiter.class::cast).toList();
     }
 
-    public void mitarbeiterLoeschen(int mitarbeiterId) throws PersonNichtGefundenException {
+    public void mitarbeiterLoeschen(int mitarbeiterId) throws PersonNichtGefundenException, IOException {
         if (UserContext.getUser().getPersNr() != mitarbeiterId) {
             var person = personenService.getPersonByPersNr(mitarbeiterId);
             if (person instanceof Mitarbeiter mitarbeiter) {
@@ -215,7 +216,7 @@ public class ShopAPI {
         }
     }
 
-    public ArrayList<Ereignis> getEreignisList() {
+    public ArrayList<Ereignis> getEreignisList() throws IOException {
         var ereignisListe = historienService.kundeOderMitarbeiterEreignisListe();
         HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
         return ereignisListe;
@@ -258,7 +259,7 @@ public class ShopAPI {
         return personenService.getPersonByPersNr(persNr);
     }
 
-    public void logout() {
+    public void logout() throws IOException {
         UserContext.clearUser();
         HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGOUT, null, true);
     }

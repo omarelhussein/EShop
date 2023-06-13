@@ -97,6 +97,7 @@ public class FilePersistenceManager<T extends CSVSerializable> {
         identifierToClassMap.put("ArtikelClass", Artikel.class);
         identifierToClassMap.put("MassengutClass", Massenartikel.class);
         identifierToClassMap.put("RechnungClass", Rechnung.class);
+        identifierToClassMap.put("EreignisClass", Ereignis.class);
     }
 
     // Diese Map tauscht die Werte der obigen Map aus. So kann man mit der Klasse als Key arbeiten.
