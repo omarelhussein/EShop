@@ -120,7 +120,9 @@ public class KundeController {
         artikelTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
         for (Artikel artikel : ArtikelService.getInstance().getArtikelList()) {
-            artikelObservableList.add(artikel);
+            if (artikel.getBestand()!=0) {
+                artikelObservableList.add(artikel);
+            }
         }
         artikelTableView.setItems(artikelObservableList);
     }
