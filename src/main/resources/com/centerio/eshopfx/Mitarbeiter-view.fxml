@@ -33,7 +33,7 @@
         </MenuBar>
     </top>
     <center>
-        <TabPane fx:id="mitarbeiterPane">
+        <TabPane fx:id="mitarbeiterPane" tabClosingPolicy="UNAVAILABLE">
             <Tab fx:id="artikelTab" text="Artikel">
                 <HBox>
                     <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
