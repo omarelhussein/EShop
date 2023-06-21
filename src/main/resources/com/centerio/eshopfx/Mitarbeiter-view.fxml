@@ -95,6 +95,17 @@
                                BorderPane.alignment="CENTER"/>
                 </HBox>
             </Tab>
+            <Tab fx:id="ereignisTab" text="Ereignisse">
+                <HBox>
+                    <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
+
+                    </VBox>
+                    <VBox>
+                        <TableView fx:id="ereignisTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0"
+                                   BorderPane.alignment="CENTER"></TableView>
+                    </VBox>
+                </HBox>
+            </Tab>
         </TabPane>
     </center>
 </BorderPane>

@@ -1,6 +1,7 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
+import com.centerio.eshopfx.shop.domain.HistorienService;
 import com.centerio.eshopfx.shop.domain.PersonenService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
@@ -34,6 +35,16 @@ public class MitarbeiterController {
     TableColumn<Artikel, Integer> artikelBestandColumn;
     @FXML
     TableColumn<Artikel, Integer> artikelPackgroesseColumn;
+    @FXML
+    private TableColumn<Ereignis, Integer> ereignisPersNrTableColumn;
+    @FXML
+    private TableColumn<Ereignis, String> ereignisPersNameTableColumn;
+    @FXML
+    private TableColumn<Ereignis, String> ereignisArtTableColumn;
+    @FXML
+    private TableColumn<Ereignis, String> ereignisDatumTableColumn;
+    @FXML
+    private TableView ereignisTableView;
 
     @FXML
     TableColumn<Person, String> personTypColumn;
@@ -123,8 +134,10 @@ public class MitarbeiterController {
     public void initialize() throws IOException {
         initializeArtikelView();
         initializePersonView();
+        initializeEreignisView();
         setArtikelInTable();
         setPersonInTable();
+        setEreingisInTable();
         //initializeMitarbeiterTab();
     }
 
@@ -200,6 +213,26 @@ public class MitarbeiterController {
                                                             }
                                                             return null;
         });
+    }
+
+    public void initializeEreignisView(){
+        ereignisPersNrTableColumn = new TableColumn("PersNr");
+        ereignisPersNameTableColumn = new TableColumn("Name");
+        ereignisArtTableColumn = new TableColumn("Ereignisart");
+        ereignisDatumTableColumn = new TableColumn("Datum");
+        ereignisTableView.getColumns().addAll(ereignisPersNrTableColumn, ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisDatumTableColumn);
+        ereignisPersNrTableColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getPerson().getPersNr()).asObject());
+        ereignisPersNameTableColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPerson().getName()));
+        ereignisArtTableColumn.setCellValueFactory((p -> new SimpleStringProperty(p.getValue().getEreignisTyp().toString())));
+        ereignisDatumTableColumn.setCellValueFactory((p -> new SimpleStringProperty(p.getValue().getDatum().toString())));
+    }
+    public void setEreingisInTable() throws IOException {
+        ereignisTableView.getItems().clear();
+        ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
+        for (Ereignis ereignis : HistorienService.getInstance().getEreignisList()){
+            ereignisObservableList.add(ereignis);
+        }
+        ereignisTableView.setItems(ereignisObservableList);
     }
 
     public void setArtikelInTable() throws IOException {

@@ -19,6 +19,10 @@ public class WarenkorbArtikel implements Serializable {
         return artikel;
     }
 
+    public Double getEinzelpreis(){
+        return artikel.getPreis();
+    }
+
     public int getAnzahl() {
         return anzahl;
     }

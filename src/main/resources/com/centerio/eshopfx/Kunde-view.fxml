@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.KundeController">
@@ -30,19 +31,32 @@
             </Menu>
         </MenuBar>
     </top>
-    <left>
-        <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-            <VBox>
-                <TableView fx:id="warenkorbTableView" prefHeight="200.0" prefWidth="140.0"></TableView>
-            </VBox>
-            <VBox>
-                <Button fx:id="addToWarenkorbButton" onAction="#toWarenkorb" text="In Warenkorb"/>
-                <Button fx:id="kaufenButton" onAction="#rechnungErstellen" text="Kaufen"/>
-            </VBox>
-        </VBox>
-    </left>
     <center>
-        <TableView fx:id="artikelTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
-                  BorderPane.alignment="CENTER"/>
+        <TabPane fx:id="kundePane" tabClosingPolicy="UNAVAILABLE">
+            <Tab fx:id="artikelTab" text="Artikel">
+                <HBox>
+                    <VBox>
+                        <TableView fx:id="artikelTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER"/>
+                    </VBox>
+                    <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
+                        <VBox>
+                            <Button fx:id="addToWarenkorbButton" onAction="#toWarenkorb" text="Hinzufügen"></Button>
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </Tab>
+            <Tab fx:id="warenkorbTab" text="Warenkorb">
+                <HBox>
+                    <VBox>
+                        <TableView fx:id="warenkorbTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER"/>
+                    </VBox>
+                    <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
+                        <VBox>
+                            <Button fx:id="kaufenButton" onAction="#rechnungErstellen" text="Kaufen"></Button>
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </Tab>
+        </TabPane>
     </center>
 </BorderPane>

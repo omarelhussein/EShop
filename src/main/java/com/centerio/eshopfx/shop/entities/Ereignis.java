@@ -41,24 +41,24 @@ public class Ereignis implements Serializable, CSVSerializable {
     }
 
     public Object getObject() {
-        return object;
+        return this.object;
     }
 
     public Person getPerson() {
-        return person;
+        return this.person;
     }
 
     public LocalDateTime getDatum() {
-        return datum;
+        return this.datum;
     }
 
     public Integer getBestand(){
-           return bestand;
+           return this.bestand;
     }
     public KategorieEreignisTyp getKategorieEreignisTyp(){
-           return kategorieEreignisTyp;
+           return this.kategorieEreignisTyp;
     }
-    public EreignisTyp getEreignisTyp(){ return ereignisTyp;}
+    public EreignisTyp getEreignisTyp(){ return this.ereignisTyp;}
     @Override
     public String toString() {
         var builder = new StringBuilder();

@@ -1,15 +1,14 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
+import com.centerio.eshopfx.shop.domain.HistorienService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.WarenkorbService;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
-import com.centerio.eshopfx.shop.entities.Artikel;
-import com.centerio.eshopfx.shop.entities.Massenartikel;
-import com.centerio.eshopfx.shop.entities.Rechnung;
-import com.centerio.eshopfx.shop.entities.WarenkorbArtikel;
+import com.centerio.eshopfx.shop.entities.*;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.application.Platform;
@@ -24,6 +23,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class KundeController {
     @FXML
@@ -43,17 +43,13 @@ public class KundeController {
     @FXML
     private Button kaufenButton;
     @FXML
-    private Button kaufBestaetigenButton;
-    @FXML
-    private Button abbrechenButton;
-    @FXML
     private TableView warenkorbTableView;
     @FXML
     private TableColumn<WarenkorbArtikel, String> warenkorbArtikelStringTableColumn;
     @FXML
     private TableColumn<WarenkorbArtikel, Integer> warenkorbArtikelAnzahlTableColumn;
-
-
+    @FXML
+    private TableColumn<WarenkorbArtikel, Double> warenkorbArtikelPreisTableColumn;
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
     /**
@@ -77,8 +73,10 @@ public class KundeController {
     public void initializeWarenkorbView() {
         warenkorbArtikelStringTableColumn = new TableColumn<WarenkorbArtikel, String>("Artikel");
         warenkorbArtikelAnzahlTableColumn = new TableColumn<WarenkorbArtikel, Integer>("Anzahl");
-        warenkorbTableView.getColumns().addAll(warenkorbArtikelStringTableColumn, warenkorbArtikelAnzahlTableColumn);
+        warenkorbArtikelPreisTableColumn = new TableColumn<WarenkorbArtikel, Double>("Einzelpreis");
+        warenkorbTableView.getColumns().addAll(warenkorbArtikelStringTableColumn, warenkorbArtikelAnzahlTableColumn, warenkorbArtikelPreisTableColumn);
         warenkorbArtikelStringTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, String>("artikelbezeichnung"));
+        warenkorbArtikelPreisTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, Double>("einzelpreis"));
         warenkorbArtikelAnzahlTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, Integer>("anzahl"));
     }
 
