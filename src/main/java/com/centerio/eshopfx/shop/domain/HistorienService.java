@@ -22,7 +22,10 @@ public class HistorienService {
 
     private HistorienService() throws IOException {
         persistenceManager = new FilePersistenceManager<>("ereignis.csv");
-        ereignisList = (ArrayList<Ereignis>)persistenceManager.readAll();
+        // FIXME: Wird nicht richtig gespeichert und auch nicht richtig gelesen
+        //  Führt zu NullPointerExceptions
+//        ereignisList = (ArrayList<Ereignis>)persistenceManager.readAll();
+        ereignisList = new ArrayList<>();
     }
 
     /**
@@ -139,6 +142,7 @@ public class HistorienService {
     public void save() throws IOException {
         persistenceManager.replaceAll(ereignisList);
     }
+
     public ArrayList<Ereignis> getEreignisList() {
         return ereignisList;
     }
