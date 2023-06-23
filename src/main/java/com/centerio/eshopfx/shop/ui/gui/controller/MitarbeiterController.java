@@ -22,7 +22,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+
 import java.io.IOException;
+import java.util.EventListener;
 
 public class MitarbeiterController {
     @FXML
@@ -338,5 +340,47 @@ public class MitarbeiterController {
         artikelPreisFeld.setText("");
         artikelBezeichnungFeld.setText("");
         packGroesseFeld.setText("");
+    }
+
+    public void deleteAccount() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Diese Aktion kann nicht rüchgängig gemacht werden!");
+        alert.setTitle("Account löschen");
+        alert.setHeaderText("Sind sie sich sicher dass sie ihren Account löschen wollen?");
+
+        // Hinzufügen der Buttons
+        ButtonType buttonTypeConfirm = new ButtonType("Bestätigen");
+        ButtonType buttonTypeCancel = new ButtonType("Abbrechen");
+
+        alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeCancel);
+
+
+
+        // Event Handler für den Bestätigen-Button
+        alert.setOnCloseRequest(dialogEvent -> {
+                    if (alert.getResult() == buttonTypeConfirm) {
+                        try {
+                            shopAPI.accountLoeschen();
+                            logout();
+                            alert.close(); // Popup-Fenster schließen
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+
+
+        // Event Handler für den Abbrechen-Button
+        alert.setOnHidden(dialogEvent -> {
+            if (alert.getResult() == buttonTypeCancel) {
+                alert.close(); // Popup-Fenster schließen
+            }
+        });
+
+        alert.showAndWait();
+    }
+
+    public void deleteSelectedAccount() {
+
     }
 }

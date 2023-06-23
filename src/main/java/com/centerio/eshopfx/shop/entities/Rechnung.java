@@ -53,7 +53,7 @@ public class Rechnung implements CSVSerializable {
 
     @Override
     public String toString() {
-        StringBuilder rechnung = new StringBuilder("\t" + StringUtils.lineSeparator(50));
+        StringBuilder rechnung = new StringBuilder("\t");
         rechnung.append("\n")
                 .append(StringUtils.tabulator(5)).append(rechnungsTitel).append("\n\n")
                 .append(StringUtils.tabulator(2)).append("Kunde: ").append(kunde.getName())
@@ -77,8 +77,7 @@ public class Rechnung implements CSVSerializable {
                 .append(StringUtils.tabulator(3))
                 .append("Vielen Dank für Ihren Einkauf!\n")
                 .append("\t")
-                .append(StringUtils.lineSeparator(50))
-                .append("\n");
+                .append("\n\n");
         return rechnung.toString();
     }
 

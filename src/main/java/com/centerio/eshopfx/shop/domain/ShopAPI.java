@@ -138,6 +138,18 @@ public class ShopAPI {
         }
     }
 
+    public void entferneArtikelAnzahlImWarenkorb(int artikelNr, int anzahl)
+            throws BestandUeberschrittenException, ArtikelNichtGefundenException,
+            WarenkorbArtikelNichtGefundenException, IOException {
+        try {
+            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, warenkorbService.getWarenkorbArtikelByArtNr(artikelNr).getAnzahl() - anzahl);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
+        } catch (Exception e) {
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);
+            throw e;
+        }
+    }
+
     public Person login(String nutzername, String passwort) throws IOException {
         var login = personenService.login(nutzername, passwort);
         if (login == null) {
@@ -266,5 +278,13 @@ public class ShopAPI {
 
     public List<Person> getPersonList(){
         return personenService.getPersonList();
+    }
+
+    public void accountLoeschen() {
+        try {
+            personenService.removeMitarbeiter(UserContext.getUser().getPersNr());
+        } catch (PersonNichtGefundenException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

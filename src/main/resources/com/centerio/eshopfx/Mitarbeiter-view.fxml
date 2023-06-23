@@ -12,17 +12,11 @@
     <top>
         <MenuBar useSystemMenuBar="true">
             <Menu mnemonicParsing="false" text="File">
-                <MenuItem text="Save" onAction="#save">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
-                    </accelerator>
-                </MenuItem>
+                <MenuItem text="Save" onAction="#save" accelerator="Shortcut+S"/>
                 <SeparatorMenuItem/>
-                <MenuItem text="Logout" onAction="#logout">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
-                    </accelerator>
-                </MenuItem>
+                <MenuItem text="Logout" onAction="#logout" accelerator="Shortcut+L"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Account Löschen" onAction="#deleteAccount" />
             </Menu>
             <Menu text="Edit">
                 <MenuItem text="Delete"/>
@@ -65,8 +59,7 @@
                             <Button fx:id="removeArtikelButton" onAction="#removeArtikel" text="Löschen"/>
                         </VBox>
                     </VBox>
-                    <TableView fx:id="artikelTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0"
-                              BorderPane.alignment="CENTER"/>
+                    <TableView fx:id="artikelTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
                 </HBox>
             </Tab>
             <Tab fx:id="mitarbeiterTab" text="Accounts">
@@ -91,8 +84,7 @@
                             <Button fx:id="registerMitarbeiterButton" onAction="#mitarbeiterRegistrieren" text="Registrieren"/>
                         </VBox>
                     </VBox>
-                    <TableView fx:id="personenTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0"
-                               BorderPane.alignment="CENTER"/>
+                    <TableView fx:id="personenTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
                 </HBox>
             </Tab>
             <Tab fx:id="ereignisTab" text="Ereignisse">

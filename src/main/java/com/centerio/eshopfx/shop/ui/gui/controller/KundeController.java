@@ -50,6 +50,13 @@ public class KundeController {
     private TableColumn<WarenkorbArtikel, Integer> warenkorbArtikelAnzahlTableColumn;
     @FXML
     private TableColumn<WarenkorbArtikel, Double> warenkorbArtikelPreisTableColumn;
+    @FXML
+    private Button warenkorbEntfernenButton;
+    @FXML
+    private TextField warenkorbAnzahlField;
+    @FXML
+    private TextField artikelAnzahlField;
+
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
     /**
@@ -59,11 +66,15 @@ public class KundeController {
      * Hier können UI-Elemente initialisiert werden. In dem Konstruktor können UI-Elemente noch nicht initialisiert werden,
      * da diese noch nicht geladen wurden.
      */
-    public void initialize() throws IOException {
-        initializeWarenkorbView();
-        setWarenkorbInTable();
-        initializeArtikelView();
-        setArtikelInTable();
+    public void initialize() {
+        try {
+            initializeWarenkorbView();
+            setWarenkorbInTable();
+            initializeArtikelView();
+            setArtikelInTable();
+        } catch(IOException e) {
+        }
+
     }
 
     public void save() {
@@ -130,12 +141,12 @@ public class KundeController {
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }
 
-    public void toWarenkorb() throws IOException {
+    public void toWarenkorb() {
         try {
             int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
             if (selectedId >= 0) {
                 Artikel artikel = artikelTableView.getItems().get(selectedId);
-                ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), 1);
+                ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
                 setWarenkorbInTable();
             } else {
                 addToWarenkorbButton.setStyle("-fx-border-color: red;");
@@ -154,11 +165,16 @@ public class KundeController {
         return false;
     }
 
-    public void rechnungErstellen() throws IOException {
+    public void rechnungErstellen() {
 
-        if (WarenkorbService.getInstance().getWarenkorb().getAnzahlArtikel() == 0) {
+        try {
+            if (WarenkorbService.getInstance().getWarenkorb().getAnzahlArtikel() == 0) {
+                return;
+            }
+        } catch (IOException e) {
             return;
         }
+
 
         addToWarenkorbButton.setVisible(false);
         kaufenButton.setVisible(false);
@@ -204,5 +220,21 @@ public class KundeController {
         });
 
         alert.showAndWait();
+    }
+
+    public void WarenkorbEntfernen() {
+        try {
+            int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
+            if (selectedId >= 0) {
+                Artikel artikel = artikelTableView.getItems().get(selectedId);
+                ShopAPI.getInstance().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(),  Integer.parseInt(warenkorbAnzahlField.getText()));
+                setWarenkorbInTable();
+            } else {
+                warenkorbEntfernenButton.setStyle("-fx-border-color: red;");
+            }
+        } catch (BestandUeberschrittenException | IOException | WarenkorbArtikelNichtGefundenException | ArtikelNichtGefundenException e) {
+            addToWarenkorbButton.setStyle("-fx-border-color: red;");
+            throw new RuntimeException(e);
+        }
     }
 }

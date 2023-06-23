@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class WarenkorbArtikel implements Serializable {
 
     private Artikel artikel;
+
     private int anzahl;
 
     private String artikelbezeichnung;

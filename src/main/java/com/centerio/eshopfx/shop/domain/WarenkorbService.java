@@ -68,7 +68,7 @@ public class WarenkorbService {
         if (anzahlZuKaufen > artikel.getBestand()) {
            throw new BestandUeberschrittenException(artikelNr, anzahlZuKaufen, artikel);
         }
-        warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
+        warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahlZuKaufen));
         return true;
     }
 
