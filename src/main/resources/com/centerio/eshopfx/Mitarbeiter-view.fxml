@@ -49,7 +49,7 @@
                         <VBox>
                             <HBox>
                                 <Label fx:id="massenArtikelLabel" text="Mengenartikel"></Label>
-                                <CheckBox fx:id="massenArtikelCheckbox" onAction="#massenArtikelHandler"></CheckBox>
+                                <CheckBox fx:id="massenArtikelCheckbox"></CheckBox>
                             </HBox>
                             <TextField fx:id="packGroesseFeld" promptText="Packgröße" visible="false"></TextField>
                         </VBox>

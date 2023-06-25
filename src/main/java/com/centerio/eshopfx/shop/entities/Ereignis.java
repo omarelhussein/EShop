@@ -48,6 +48,20 @@ public class Ereignis implements Serializable, CSVSerializable {
         return this.person;
     }
 
+    public int getPersNr(){
+           return person.getPersNr();
+    }
+
+    public String getPersName(){
+        return person.getName();
+    }
+    public String getArt(){
+        return ereignisTyp.toString();
+    }
+    public String getDatumString(){
+        return datum.toString();
+    }
+
     public LocalDateTime getDatum() {
         return this.datum;
     }

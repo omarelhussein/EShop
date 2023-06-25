@@ -56,6 +56,8 @@ public class KundeController {
     private TextField warenkorbAnzahlField;
     @FXML
     private TextField artikelAnzahlField;
+    @FXML
+    private Label gesamtPreis;
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
@@ -89,6 +91,12 @@ public class KundeController {
         warenkorbArtikelStringTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, String>("artikelbezeichnung"));
         warenkorbArtikelPreisTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, Double>("einzelpreis"));
         warenkorbArtikelAnzahlTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, Integer>("anzahl"));
+        initializeGesamtPreis();
+    }
+
+    public void initializeGesamtPreis(){
+        Warenkorb warenkorb = ShopAPI.getInstance().getWarenkorb();
+        gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
     }
 
     public void kaufeWarenkorb() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
@@ -105,6 +113,7 @@ public class KundeController {
             warenkorbObservableList.add(warenkorbartikel);
         }
         warenkorbTableView.setItems(warenkorbObservableList);
+        initializeGesamtPreis();
     }
 
     public void initializeArtikelView(){
@@ -146,8 +155,19 @@ public class KundeController {
             int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
             if (selectedId >= 0) {
                 Artikel artikel = artikelTableView.getItems().get(selectedId);
-                ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
-                setWarenkorbInTable();
+                try {
+                    if(artikelAnzahlField.getText().isEmpty()){
+                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), 1);
+                        setWarenkorbInTable();
+                        initializeGesamtPreis();
+                    } else {
+                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
+                        setWarenkorbInTable();
+                        initializeGesamtPreis();
+                    }
+                } catch (NumberFormatException e) {
+                    addToWarenkorbButton.setStyle("-fx-border-color: red;");
+                }
             } else {
                 addToWarenkorbButton.setStyle("-fx-border-color: red;");
             }
@@ -226,9 +246,15 @@ public class KundeController {
         try {
             int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
             if (selectedId >= 0) {
-                Artikel artikel = artikelTableView.getItems().get(selectedId);
-                ShopAPI.getInstance().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(),  Integer.parseInt(warenkorbAnzahlField.getText()));
-                setWarenkorbInTable();
+                if(warenkorbAnzahlField.getText().isEmpty()) {
+                    Artikel artikel = artikelTableView.getItems().get(selectedId);
+                    ShopAPI.getInstance().aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
+                    setWarenkorbInTable();
+                } else {
+                    Artikel artikel = artikelTableView.getItems().get(selectedId);
+                    ShopAPI.getInstance().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
+                    setWarenkorbInTable();
+                }
             } else {
                 warenkorbEntfernenButton.setStyle("-fx-border-color: red;");
             }

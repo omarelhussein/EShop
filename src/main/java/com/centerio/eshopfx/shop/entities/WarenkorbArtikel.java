@@ -44,11 +44,13 @@ public class WarenkorbArtikel implements Serializable {
         this.artikel = artikel;
     }
 
+    public double getPreis() {
+        var gesamtPreis = this.anzahl * this.artikel.getPreis();
+        return Math.round(gesamtPreis * 100.) / 100.;
+    }
+
     public double getGesamtPreis() {
         var gesamtPreis = this.anzahl * this.artikel.getPreis();
-        if (this.artikel instanceof Massenartikel massenartikel) {
-            gesamtPreis *= massenartikel.getPackgroesse();
-        }
         // Diese Zeile rundet das Ergebnis auf zwei Dezimalstellen.
         // 'Math.round(... * 100.0) / 100.0' ist ein gängiges Muster zum Runden auf zwei Dezimalstellen
         // die .0 ist wichtig, da sonst die Division als Integer-Division interpretiert wird.

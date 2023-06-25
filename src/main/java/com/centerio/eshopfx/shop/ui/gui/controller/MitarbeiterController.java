@@ -21,10 +21,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.w3c.dom.Text;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 public class MitarbeiterController {
     @FXML
@@ -140,6 +143,8 @@ public class MitarbeiterController {
         setArtikelInTable();
         setPersonInTable();
         setEreingisInTable();
+        artikelOnClickToTextfield();
+        massenArtikelHandler();
         //initializeMitarbeiterTab();
     }
 
@@ -176,7 +181,7 @@ public class MitarbeiterController {
     }
 
     public void massenArtikelHandler(){
-        massenArtikelCheckbox.selectedProperty().addListener(observable -> {
+        massenArtikelCheckbox.setOnAction(observable -> {
             var isSelected = massenArtikelCheckbox.isSelected();
             if (isSelected) {
                 packGroesseFeld.setVisible(true);
@@ -217,8 +222,27 @@ public class MitarbeiterController {
         });
     }
 
+    public void artikelOnClickToTextfield(){
+        artikelTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1){
+                TablePosition<?, ?> position = artikelTableView.getSelectionModel().getSelectedCells().get(0);
+                int row = position.getRow();
+                ArrayList<TextField> TextFieldList = new ArrayList<TextField>();
+                TextFieldList.add(artikelBezeichnungFeld);
+                TextFieldList.add(artikelPreisFeld);
+                TextFieldList.add(artikelBestandFeld);
+                for (int i = 0; i<3; i++){
+                    TableColumn<?, ?> column = artikelTableView.getColumns().get(i+1);
+                    Object value = column.getCellObservableValue(row).getValue();
+                    TextFieldList.get(i).setText(value.toString());
+                }
+
+
+            }
+        });
+    }
     public void initializeEreignisView(){
-        ereignisPersNrTableColumn = new TableColumn("PersNr");
+       /* ereignisPersNrTableColumn = new TableColumn("PersNr");
         ereignisPersNameTableColumn = new TableColumn("Name");
         ereignisArtTableColumn = new TableColumn("Ereignisart");
         ereignisDatumTableColumn = new TableColumn("Datum");
@@ -226,7 +250,18 @@ public class MitarbeiterController {
         ereignisPersNrTableColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getPerson().getPersNr()).asObject());
         ereignisPersNameTableColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPerson().getName()));
         ereignisArtTableColumn.setCellValueFactory((p -> new SimpleStringProperty(p.getValue().getEreignisTyp().toString())));
-        ereignisDatumTableColumn.setCellValueFactory((p -> new SimpleStringProperty(p.getValue().getDatum().toString())));
+        ereignisDatumTableColumn.setCellValueFactory((p -> new SimpleStringProperty(p.getValue().getDatum().toString()))); */
+
+        ereignisPersNrTableColumn = new TableColumn("PersNr");
+        ereignisPersNameTableColumn = new TableColumn("Name");
+        ereignisArtTableColumn = new TableColumn("Ereignisart");
+        ereignisDatumTableColumn = new TableColumn("Datum");
+        ereignisTableView.getColumns().addAll(ereignisPersNrTableColumn, ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisDatumTableColumn);
+        ereignisPersNrTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, Integer>("persNr"));
+        ereignisPersNameTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("persName"));
+        ereignisArtTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("art"));
+        ereignisDatumTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("datumString"));
+
     }
     public void setEreingisInTable() throws IOException {
         ereignisTableView.getItems().clear();
