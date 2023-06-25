@@ -5,10 +5,9 @@ import com.centerio.eshopfx.shop.entities.Mitarbeiter;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -20,7 +19,7 @@ public class LoginController {
     // @FXML wird benötigt, damit JavaFX weiß, dass es sich um ein UI-Element handelt.
     // Name der Variable muss mit der ID in der login-view.fxml Datei übereinstimmen.
     @FXML
-    private Label welcomeLabel;
+    private Label statusLabel;
 
     @FXML
     private TextField usernameField;
@@ -30,12 +29,11 @@ public class LoginController {
     @FXML
     private TextField passwordTextField;
     @FXML
-    private CheckBox showPasswordCheckBox;
+    private ToggleButton showPasswordToggle;
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
     public void initialize() {
-        welcomeLabel.setText("Warten auf Login...");
         showPasswordHandler();
     }
 
@@ -47,14 +45,16 @@ public class LoginController {
         resetLoginStyles();
         if (usernameField.getText().isEmpty()) {
             // man kann auch direkt CSS-Styles in JavaFX setzen
-            usernameField.setStyle("-fx-border-color: red;");
-            welcomeLabel.setText("Bitte geben Sie Benutzername ein!");
+            usernameField.getStyleClass().add("text-field-error");
+            statusLabel.setText("Bitte geben Sie Benutzername ein!");
+            statusLabel.getStyleClass().add("label-error");
             return;
         }
         if (passwordField.getText().isEmpty()) {
             // oder man fügt CSS-Styles in einer CSS-Klasse und fügt diese Klasse zu dem UI-Element hinzu
             passwordField.getStyleClass().add("text-field-error");
-            welcomeLabel.setText("Bitte geben Sie Passwort ein!");
+            statusLabel.setText("Bitte geben Sie Passwort ein!");
+            statusLabel.getStyleClass().add("label-error");
             return;
         }
         var login = shopAPI.login(usernameField.getText(), passwordField.getText());
@@ -65,18 +65,37 @@ public class LoginController {
                 StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
             }
         } else {
-            welcomeLabel.setText("Login fehlgeschlagen!");
+            statusLabel.setText("Login fehlgeschlagen!");
+            statusLabel.getStyleClass().add("label-error");
         }
     }
 
     public void showPasswordHandler() {
+        // ToggleButton mit Auge-Icon austauschen:
+        Image iconEye = new Image(getClass().getResourceAsStream("/com/centerio/eshopfx/static/visibility_icon.png"));
+        Image iconEyeOff = new Image(getClass().getResourceAsStream("/com/centerio/eshopfx/static/visibility_off_icon.png"));
+        ImageView iconEyeView = new ImageView(iconEye);
+        ImageView iconEyeOffView = new ImageView(iconEyeOff);
+        iconEyeView.setFitHeight(24);
+        iconEyeView.setFitWidth(24);
+        iconEyeOffView.setFitHeight(24);
+        iconEyeOffView.setFitWidth(24);
+        showPasswordToggle.setGraphic(iconEyeView);
+        // Default style für den ToggleButton entfernen
+        showPasswordToggle.getStyleClass().remove("toggle-button");
+        // Neue CSS-Klasse für den ToggleButton hinzufügen
+        showPasswordToggle.getStyleClass().add("password-eye");
+        // bindBidirectional bindet zwei Properties miteinander. Wenn sich der Wert von einem Property ändert,
+        // wird der Wert des anderen Properties auch geändert.
         passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
-        showPasswordCheckBox.selectedProperty().addListener(observable -> {
-            var isSelected = showPasswordCheckBox.isSelected();
+        showPasswordToggle.selectedProperty().addListener(observable -> {
+            var isSelected = showPasswordToggle.isSelected();
             if (isSelected) {
+                showPasswordToggle.setGraphic(iconEyeOffView);
                 passwordField.setVisible(false);
                 passwordTextField.setVisible(true);
             } else {
+                showPasswordToggle.setGraphic(iconEyeView);
                 passwordField.setVisible(true);
                 passwordTextField.setVisible(false);
             }
@@ -90,8 +109,10 @@ public class LoginController {
     }
 
     public void resetLoginStyles() {
-        usernameField.setStyle("");
-        passwordField.getStyleClass().remove("error");
+        usernameField.getStyleClass().remove("text-field-error");
+        passwordField.getStyleClass().remove("text-field-error");
+        statusLabel.setText("");
+        statusLabel.getStyleClass().remove("label-error");
     }
 
     public void registrieren() {

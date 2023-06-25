@@ -7,7 +7,7 @@
 <VBox alignment="CENTER" prefHeight="521.0" prefWidth="502.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.centerio.eshopfx.shop.ui.gui.controller.RegistrierenController"
-      stylesheets="@css/registration.css">
+      stylesheets="@css/form.css">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>

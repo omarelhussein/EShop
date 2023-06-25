@@ -1,0 +1,95 @@
+.root {
+    -fx-min-width: 800px;
+    -fx-min-height: 500px;
+    -fx-background-color: #fff;
+}
+
+.text-field {
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-pref-height: 40px;
+    -fx-padding: 8px;
+}
+
+#statusLabel {
+    -fx-font-size: 14px;
+    -fx-padding: 4px 0 0 0;
+}
+
+#registerButton {
+    -fx-background-color: #eadef9;
+    -fx-border-color: #7948c4;
+    -fx-text-fill: #7948c4;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.password-field {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 300px;
+}
+
+.text-field-error {
+    -fx-border-color: red;
+}
+
+.label-error {
+    -fx-text-fill: red;
+}
+
+#loginContainer {
+    -fx-row-valignment: center;
+}
+
+#loginViewLeft {
+    -fx-background-color: linear-gradient(to top right, #4e1dab, #7948c4);
+    -fx-alignment: center;
+}
+
+#loginViewRight {
+    -fx-background-color: #ffffff;
+    -fx-padding: 64px;
+}
+
+#loginViewLogoTitleLabel {
+    -fx-padding: 16 0 8 0;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f5f5f5;
+}
+
+#loginTitleLabel {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 16 0;
+    -fx-font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+    -fx-alignment: center-left !important;
+}
+
+#loginViewLogoSubTitleLabel {
+    -fx-font-size: 18px;
+    -fx-text-fill: #f5f5f5;
+}
+
+.button {
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8px 32px;
+    -fx-min-width: 120px;
+    -fx-background-color: #7948c4;
+    -fx-border-color: #7948c4;
+    -fx-text-fill: #f5f5f5;
+}
+
+.password-eye {
+    -fx-padding: 8px;
+}
+
+.password-eye:hover {
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #5e2e9a;
+}
