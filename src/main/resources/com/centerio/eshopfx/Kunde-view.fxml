@@ -53,7 +53,7 @@
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                             </padding>
                             <TextField fx:id="warenkorbAnzahlField" promptText="Anzahl"/>
-                            <Button fx:id="warenkorbEntfernenButton" onAction="#WarenkorbEntfernen" text="entfernen"></Button>
+                            <Button fx:id="warenkorbEntfernenButton" onAction="#warenkorbEntfernen" text="entfernen"></Button>
                             <VBox>
                                 <padding>
                                     <Insets bottom="10.0" top="10.0"/>

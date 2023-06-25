@@ -1,34 +1,31 @@
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 127 / Bezeichnung: Hose / Preis: 19.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.710576900;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 128 / Bezeichnung: Hemd / Preis: 29.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 129 / Bezeichnung: Schuhe / Preis: 39.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 130 / Bezeichnung: Socken / Preis: 9.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 131 / Bezeichnung: Red Bull / Preis: 1.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 132 / Bezeichnung: Kaffee / Preis: 2.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 133 / Bezeichnung: Schwarztee / Preis: 3.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 134 / Bezeichnung: Grüntee / Preis: 3.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 135 / Bezeichnung: Red Bull Watermelon / Preis: 1.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;10
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 137 / Bezeichnung: Red Bull (4er) / Preis: 1.99 € / Bestand: 40 stk. / Packgröße: 4 stk. / Packpreis: 7.96 €;ARTIKEL_EREIGNIS;2023-06-25T20:17:21.712576400;true;40
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;PersNr: 2 /  Name: kunde / Nutzername: kunde;PERSONEN_EREIGNIS;2023-06-25T20:17:24.727368700;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:24.790437500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:24.790437500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 140 / Bezeichnung: Pizza / Preis: 123.0 € / Bestand: 18 stk. / Packgröße: 6 stk. / Packpreis: 738.0 €;WARENKORB_EREIGNIS;2023-06-25T20:17:30.037481500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:30.037481500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:30.038481800;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 140 / Bezeichnung: Pizza / Preis: 123.0 € / Bestand: 18 stk. / Packgröße: 6 stk. / Packpreis: 738.0 €;WARENKORB_EREIGNIS;2023-06-25T20:17:30.511432400;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:30.511432400;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:30.511432400;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 140 / Bezeichnung: Pizza / Preis: 123.0 € / Bestand: 18 stk. / Packgröße: 6 stk. / Packpreis: 738.0 €;WARENKORB_EREIGNIS;2023-06-25T20:17:49.587596100;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:49.588581600;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 141 / Bezeichnung: Pizza Diavolo / Preis: 13.99 € / Bestand: 84 stk. / Packgröße: 3 stk. / Packpreis: 41.97 €;WARENKORB_EREIGNIS;2023-06-25T20:17:54.497061300;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:54.498060100;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:54.498060100;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 141 / Bezeichnung: Pizza Diavolo / Preis: 13.99 € / Bestand: 84 stk. / Packgröße: 3 stk. / Packpreis: 41.97 €;WARENKORB_EREIGNIS;2023-06-25T20:17:55.171949500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:55.172982;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:55.172982;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 141 / Bezeichnung: Pizza Diavolo / Preis: 13.99 € / Bestand: 84 stk. / Packgröße: 3 stk. / Packpreis: 41.97 €;WARENKORB_EREIGNIS;2023-06-25T20:17:55.332613500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:55.332613500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:55.332613500;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 127 / Bezeichnung: Hose / Preis: 19.99 € / Bestand: 1 stk.;WARENKORB_EREIGNIS;2023-06-25T20:17:58.546813900;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:58.546813900;true
-EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@51db161c;WARENKORB_EREIGNIS;2023-06-25T20:17:58.546813900;true
-EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;null;PERSONEN_EREIGNIS;2023-06-25T20:18:13.713982;true
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 127 / Bezeichnung: Hose / Preis: 19.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.599296;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 128 / Bezeichnung: Hemd / Preis: 29.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 129 / Bezeichnung: Schuhe / Preis: 39.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 130 / Bezeichnung: Socken / Preis: 9.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 131 / Bezeichnung: Red Bull / Preis: 1.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 132 / Bezeichnung: Kaffee / Preis: 2.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 133 / Bezeichnung: Schwarztee / Preis: 3.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 134 / Bezeichnung: Grüntee / Preis: 3.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 135 / Bezeichnung: Red Bull Watermelon / Preis: 1.99 € / Bestand: 10 stk.;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;10
+EreignisClass|PersNr: 1 /  Name: system / Nutzername: system;Artikel: 137 / Bezeichnung: Red Bull (4er) / Preis: 1.99 € / Bestand: 40 stk. / Packgröße: 4 stk. / Packpreis: 7.96 €;ARTIKEL_EREIGNIS;2023-06-25T22:50:28.601295900;true;40
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;PersNr: 2 /  Name: kunde / Nutzername: kunde;PERSONEN_EREIGNIS;2023-06-25T22:50:31.031979700;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:31.090257;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:31.090257;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 130 / Bezeichnung: Socken / Preis: 9.99 € / Bestand: 30 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:32.834379100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:32.834379100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:32.835382300;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 128 / Bezeichnung: Wasser / Preis: 29.99 € / Bestand: 29 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:33.857309600;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:33.857309600;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:33.857309600;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 128 / Bezeichnung: Wasser / Preis: 29.99 € / Bestand: 29 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:34.007326100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:34.008310100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:34.008310100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 127 / Bezeichnung: Hose / Preis: 19.99 € / Bestand: 1 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:35.100331900;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:35.101311100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:35.101311100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 130 / Bezeichnung: Socken / Preis: 9.99 € / Bestand: 30 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:37.366954700;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:37.367955100;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 127 / Bezeichnung: Hose / Preis: 19.99 € / Bestand: 1 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:38.354305200;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:38.354305200;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;Artikel: 128 / Bezeichnung: Wasser / Preis: 29.99 € / Bestand: 29 stk.;WARENKORB_EREIGNIS;2023-06-25T22:50:39.577196300;true
+EreignisClass|PersNr: 2 /  Name: kunde / Nutzername: kunde;com.centerio.eshopfx.shop.entities.Warenkorb@77a3b200;WARENKORB_EREIGNIS;2023-06-25T22:50:39.577196300;true

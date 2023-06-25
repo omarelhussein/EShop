@@ -242,16 +242,16 @@ public class KundeController {
         alert.showAndWait();
     }
 
-    public void WarenkorbEntfernen() {
+    public void warenkorbEntfernen() {
         try {
-            int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
+            int selectedId = warenkorbTableView.getSelectionModel().getSelectedIndex();
             if (selectedId >= 0) {
                 if(warenkorbAnzahlField.getText().isEmpty()) {
-                    Artikel artikel = artikelTableView.getItems().get(selectedId);
+                    Artikel artikel = ((WarenkorbArtikel)warenkorbTableView.getItems().get(selectedId)).getArtikel();
                     ShopAPI.getInstance().aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
                     setWarenkorbInTable();
                 } else {
-                    Artikel artikel = artikelTableView.getItems().get(selectedId);
+                    Artikel artikel = ((WarenkorbArtikel)warenkorbTableView.getItems().get(selectedId)).getArtikel();
                     ShopAPI.getInstance().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
                     setWarenkorbInTable();
                 }
