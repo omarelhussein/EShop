@@ -21,6 +21,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -58,6 +60,8 @@ public class KundeController {
     private TextField artikelAnzahlField;
     @FXML
     private Label gesamtPreis;
+    @FXML
+    private TextField suchField;
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
@@ -261,6 +265,36 @@ public class KundeController {
         } catch (BestandUeberschrittenException | IOException | WarenkorbArtikelNichtGefundenException | ArtikelNichtGefundenException e) {
             addToWarenkorbButton.setStyle("-fx-border-color: red;");
             throw new RuntimeException(e);
+        }
+    }
+
+    public void clearSuchField() {
+        suchField.setText("");
+        try {
+            setArtikelInTable();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void artikelSuchen() {
+        try {
+            if (!suchField.getText().equals("")) {
+                artikelTableView.getItems().clear();
+                ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
+                artikelObservableList.addAll(shopAPI.getArtikelByQuery(suchField.getText()));
+                artikelTableView.setItems(artikelObservableList);
+            }else {
+                setArtikelInTable();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void suchenKey(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ENTER)) {
+            artikelSuchen();
         }
     }
 }

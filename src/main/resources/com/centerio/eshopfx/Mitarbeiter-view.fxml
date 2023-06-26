@@ -30,7 +30,7 @@
         <TabPane fx:id="mitarbeiterPane" tabClosingPolicy="UNAVAILABLE">
             <Tab fx:id="artikelTab" text="Artikel">
                 <HBox>
-                    <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
+                    <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" spacing="30">
                         <padding>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                         </padding>
@@ -59,13 +59,20 @@
                             <Button fx:id="removeArtikelButton" onAction="#removeArtikel" text="Löschen"/>
                         </VBox>
                     </VBox>
-                    <TableView fx:id="artikelTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                    <VBox HBox.hgrow="ALWAYS">
+                        <HBox>
+                            <TextField fx:id="suchField" promptText="Artikel suchen" onKeyPressed="#suchenKey" HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="ClearButton" onAction="#clearSuchField" text="X"/>
+                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>
+                        </HBox>
+                        <TableView fx:id="artikelTableView" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                    </VBox>
                 </HBox>
             </Tab>
             <Tab fx:id="mitarbeiterTab" text="Accounts">
                 <HBox>
                     <VBox>
-                        <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
+                        <VBox spacing="30">
                             <padding>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                             </padding>
@@ -92,10 +99,7 @@
                     <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
 
                     </VBox>
-                    <VBox>
-                        <TableView fx:id="ereignisTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0"
-                                   BorderPane.alignment="CENTER"></TableView>
-                    </VBox>
+                    <TableView fx:id="ereignisTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"></TableView>
                 </HBox>
             </Tab>
         </TabPane>
