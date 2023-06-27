@@ -281,14 +281,14 @@ public class MitarbeiterController {
         ereignisPersNameTableColumn = new TableColumn("Name");
         ereignisArtTableColumn = new TableColumn("Ereignisart");
         ereignisObjektTableColumn = new TableColumn("Bezug");
-        //ereignisBestandTableColumn = new TableColumn("Bestand");
+        ereignisBestandTableColumn = new TableColumn("Bestand");
         ereignisDatumTableColumn = new TableColumn("Datum");
-        ereignisTableView.getColumns().addAll(ereignisPersNrTableColumn, ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn, /* ereignisBestandTableColumn, */ ereignisDatumTableColumn);
+        ereignisTableView.getColumns().addAll(ereignisPersNrTableColumn, ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn,  ereignisBestandTableColumn,  ereignisDatumTableColumn);
         ereignisPersNrTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, Integer>("persNr"));
         ereignisPersNameTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("persName"));
         ereignisArtTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("art"));
         ereignisObjektTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bezug"));
-        //ereignisBestandTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bestandString"));
+        ereignisBestandTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bestandString"));
         ereignisDatumTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("datumString"));
 
         dropDownEreignisse.getItems().addAll(
@@ -394,12 +394,12 @@ public class MitarbeiterController {
         tageZurueckTextField.setVisible(false);*/
         ereignisTableView.getItems().clear();
         ereignisTableView.getColumns().clear();
-        ereignisTableView.getColumns().addAll(ereignisPersNrTableColumn, ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn, /* ereignisBestandTableColumn, */ ereignisDatumTableColumn);
+        ereignisTableView.getColumns().addAll(ereignisPersNrTableColumn, ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn,  ereignisBestandTableColumn,  ereignisDatumTableColumn);
         ereignisPersNrTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, Integer>("persNr"));
         ereignisPersNameTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("persName"));
         ereignisArtTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("art"));
         ereignisObjektTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bezug"));
-        //ereignisBestandTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bestandString"));
+        ereignisBestandTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bestandString"));
         ereignisDatumTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("datumString"));
         bestandshistorieSuchenButton.setVisible(false);
 

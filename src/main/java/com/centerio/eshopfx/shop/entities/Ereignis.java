@@ -104,7 +104,7 @@ public class Ereignis implements Serializable, CSVSerializable {
 
     public String getBezug(){
            if(object instanceof Artikel){
-               return "Artikel: " + ((Artikel)object).getBezeichnung() + " (" + getBestandString() + ")";
+               return "Artikel: " + ((Artikel)object).getBezeichnung();
            }
            if(object instanceof Person){
                return "Person: " + ((Person)object).getNutzername();
@@ -242,9 +242,6 @@ public class Ereignis implements Serializable, CSVSerializable {
 
     public void fromCSVString(String csv) {
         String[] tokens = csv.split(";");
-        for(int i = 0; i<tokens.length; i++){
-            System.out.println(tokens[i]);
-        }
         if(tokens[0].equals("Kunde")){
             person = new Kunde(Integer.parseInt(tokens[1]), tokens[2], tokens[3], new Adresse(tokens[5], tokens[6], tokens[7], tokens[8]), tokens[4]);
             if(tokens[9].equals("Artikel")){

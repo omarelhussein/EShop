@@ -95,3 +95,6 @@ EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel
 EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;138;Melone;400.0;15;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:07:33.639125900;true;1
 EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T19:07:54.685151100;true
 EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T19:07:59.054961;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T19:13:23.154060600;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T19:13:26.511810;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T19:13:55.326448300;true
