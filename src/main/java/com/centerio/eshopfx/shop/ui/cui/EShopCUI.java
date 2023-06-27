@@ -234,6 +234,8 @@ public class EShopCUI {
             if (eingabe.equals("j")) {
                 mitarbeiterRegistrieren();
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

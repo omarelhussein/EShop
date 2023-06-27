@@ -43,7 +43,6 @@ public class SeedingUtils {
         artikelList.add(new Massenartikel(137, "Red Bull (4er)", 1.99, 10, 4));
         for (Artikel artikel : artikelList) {
             artikelService.addArtikel(artikel);
-            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
         }
     }
 

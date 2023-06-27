@@ -5,6 +5,8 @@ import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenExcep
 import com.centerio.eshopfx.shop.entities.Kunde;
 import com.centerio.eshopfx.shop.entities.Mitarbeiter;
 import com.centerio.eshopfx.shop.entities.Person;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 import com.centerio.eshopfx.shop.persistence.FilePersistenceManager;
 
 import java.io.IOException;
@@ -75,11 +77,12 @@ public class PersonenService {
      * Überprüft, ob die eingegebene Person ein Mitarbeiter ist, falls nein wird eine Exception geworfen,
      * sonst wird der Mitarbeiter aus der Personen-Liste entfernt
      */
-    public void removeMitarbeiter(int mitarbeiterNr) throws PersonNichtGefundenException {
+    public void removeMitarbeiter(int mitarbeiterNr) throws PersonNichtGefundenException, IOException {
         var personToRemove = getPersonByPersNr(mitarbeiterNr);
         if (!(personToRemove instanceof Mitarbeiter)) {
             throw new PersonNichtGefundenException(mitarbeiterNr);
         }
+        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_LOESCHEN, mitarbeiterNr, true);
         personList.remove(personToRemove);
     }
 

@@ -24,8 +24,8 @@ public class HistorienService {
         persistenceManager = new FilePersistenceManager<>("ereignis.csv");
         // FIXME: Wird nicht richtig gespeichert und auch nicht richtig gelesen
         //  Führt zu NullPointerExceptions
-//        ereignisList = (ArrayList<Ereignis>)persistenceManager.readAll();
-        ereignisList = new ArrayList<>();
+        ereignisList = (ArrayList<Ereignis>)persistenceManager.readAll();
+//        ereignisList = new ArrayList<>();
     }
 
     /**
@@ -57,6 +57,16 @@ public class HistorienService {
         }
     }
 
+    public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg, int anzahl) {
+        var user = UserContext.getUser();
+        if (user == null) { // at application start, no user is logged in, but we still want to log events
+            user = new Mitarbeiter(1, "system", "system", "system");
+        }
+        if (ereignisKategorie == KategorieEreignisTyp.WARENKORB_EREIGNIS && obj instanceof Artikel) {
+            Ereignis ereignis = new Ereignis(user, obj, ereignisKategorie, ereignisTyp, LocalDateTime.now(), erfolg, anzahl);
+            ereignisList.add(ereignis);
+        }
+    }
     public List<Ereignis> getUngefiltertPersonEreignishistorie() {
         List<Ereignis> personhistorie = new ArrayList<>();
         for (Ereignis ereignis : ereignisList) {
@@ -86,6 +96,20 @@ public class HistorienService {
             }
         }
         return artikelhistorie;
+    }
+
+    public List<Ereignis> getUngefiltertWarenkorbEreignishistorie() {
+        List<Ereignis> warenkorbhistorie = new ArrayList<>();
+        for (Ereignis ereignis : ereignisList) {
+            EreignisTyp artikelEreignisTyp = ereignis.getEreignisTyp();
+            if (ereignis.getKategorieEreignisTyp() == KategorieEreignisTyp.WARENKORB_EREIGNIS
+                    && (artikelEreignisTyp == EreignisTyp.WARENKORB_AENDERN ||
+                    artikelEreignisTyp == EreignisTyp.WARENKORB_ANZEIGEN ||
+                    artikelEreignisTyp == EreignisTyp.WARENKORB_HINZUFUEGEN)) {
+                warenkorbhistorie.add(ereignis);
+            }
+        }
+        return warenkorbhistorie;
     }
 
     public List<Ereignis> suchPersonhistorie(int persNr, int tage, Person person) throws ArtikelNichtGefundenException, IOException {

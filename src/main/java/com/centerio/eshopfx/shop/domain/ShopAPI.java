@@ -61,7 +61,7 @@ public class ShopAPI {
         }
     }
 
-    public void addArtikel(Artikel artikel) {
+    public void addArtikel(Artikel artikel) throws IOException {
         artikelService.addArtikel(artikel);
         historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
 
@@ -104,7 +104,6 @@ public class ShopAPI {
 
     public Warenkorb getWarenkorb() {
         var warenkorb = warenkorbService.getWarenkorb();
-        historienService.addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_ANZEIGEN, warenkorbService.getWarenkorb(), warenkorb != null);
         return warenkorb;
     }
 
@@ -118,7 +117,7 @@ public class ShopAPI {
         try {
             var erfolg = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
             HistorienService.getInstance()
-                    .addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_HINZUFUEGEN, ArtikelService.getInstance().getArtikelByArtNr(artikelNr), erfolg);
+                    .addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_HINZUFUEGEN, ArtikelService.getInstance().getArtikelByArtNr(artikelNr), erfolg, anzahl);
             return erfolg;
         } catch (Exception e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_HINZUFUEGEN, artikelNr, false);
@@ -165,7 +164,8 @@ public class ShopAPI {
     }
 
 
-    public Person registrieren(Person person) throws PersonVorhandenException {
+    public Person registrieren(Person person) throws PersonVorhandenException, IOException {
+        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_ANLEGEN, person, true);
         return personenService.registerPerson(person);
     }
 
@@ -267,13 +267,25 @@ public class ShopAPI {
 
     }
 
+    public List<Ereignis> getUngefiltertePersonenhistorie() throws IOException {
+        return HistorienService.getInstance().getUngefiltertPersonEreignishistorie();
+    }
+
+    public List<Ereignis> getUngefilterteArtikelhistorie() throws IOException {
+        return HistorienService.getInstance().getUngefiltertArtikelEreignishistorie();
+    }
+
+    public List<Ereignis> getUngefilterteWarenkorbhistorie() throws IOException {
+        return HistorienService.getInstance().getUngefiltertWarenkorbEreignishistorie();
+    }
+
     public Person getPersonFromPersonList(int persNr) {
         return personenService.getPersonByPersNr(persNr);
     }
 
     public void logout() throws IOException {
+        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGOUT, UserContext.getUser(), true);
         UserContext.clearUser();
-        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGOUT, null, true);
     }
 
     public List<Person> getPersonList(){
@@ -282,8 +294,11 @@ public class ShopAPI {
 
     public void accountLoeschen() {
         try {
+
             personenService.removeMitarbeiter(UserContext.getUser().getPersNr());
         } catch (PersonNichtGefundenException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

@@ -3,6 +3,8 @@ package com.centerio.eshopfx.shop.domain;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.entities.Massenartikel;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 import com.centerio.eshopfx.shop.persistence.FilePersistenceManager;
 
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class ArtikelService {
     /**
      * Artikel der Liste hinzufügen
      */
-    public void addArtikel(Artikel artikel) {
+    public void addArtikel(Artikel artikel) throws IOException {
         try {
             getArtikelByArtNr(artikel.getArtNr());
         } catch (ArtikelNichtGefundenException e) {

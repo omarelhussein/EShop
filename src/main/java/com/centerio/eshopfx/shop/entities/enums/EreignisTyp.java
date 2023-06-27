@@ -23,7 +23,7 @@ public enum EreignisTyp {
     WARENKORB_ANZEIGEN(),
     EREIGNIS_ANZEIGEN();
 
-    public String toString(){
+    public String toGUIString(){
         String ereignisTyp = "";
         switch (this) {
             case BESTANDAENDERUNG -> {ereignisTyp = "Bestandänderung"; return ereignisTyp;}

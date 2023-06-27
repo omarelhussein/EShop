@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 public class RegistrierenController {
 
     @FXML
@@ -95,6 +97,8 @@ public class RegistrierenController {
             infoLabel.setText("Benutzername ist schon vorhanden!");
             usernameField.setStyle("-fx-border-color: red;");
             return;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
     }
