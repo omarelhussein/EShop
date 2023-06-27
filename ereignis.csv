@@ -1,193 +1,48 @@
-EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T20:14:04.376025;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T20:14:08.801251;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Schu;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:14:43.199123;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Schu;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:14:43.199144;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Sch;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:14:45.682300;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Sch;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:14:45.682334;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Sc;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:14:46.927381;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Sc;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:14:46.927431;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;S;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:14:47.611116;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;S;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:14:47.611152;true
-EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T20:15:50.358592;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T20:15:53.517838;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasser;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:15:57.505821;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasser;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:15:57.505896;true
-EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T20:16:59.266655;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T20:17:02.680811;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;W;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:05.095161;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;W;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:05.095180;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wa;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:05.461309;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wa;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:05.461352;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Was;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:05.828401;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Was;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:05.828445;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wass;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:05.995212;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wass;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:05.995246;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasse;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:06.284053;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasse;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:06.284071;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasser;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:06.381160;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasser;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:06.381177;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasse;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:06.650482;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wasse;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:06.650514;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wass;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:06.845064;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wass;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:06.845109;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Was;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:07.061417;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Was;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:07.061456;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wa;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:07.259763;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Wa;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:07.259782;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;W;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:07.333197;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;W;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:07.333212;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;H;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:08.735486;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;H;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:08.735529;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Ho;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:08.943951;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Ho;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:08.943986;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;H;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:09.388916;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;H;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:09.388998;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;R;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:09.948464;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;R;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:09.948513;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Re;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:10.223783;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Re;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:10.223838;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:10.421193;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:10.421236;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red ;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:10.984032;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red ;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:10.984076;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red B;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:11.210343;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red B;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:11.210390;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bu;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:12.344626;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bu;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:12.344677;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bul;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:12.603284;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bul;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:12.603326;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:12.716955;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:12.716983;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull ;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:13.139011;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull ;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:13.139043;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull 4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:13.379667;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull 4;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:13.379703;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull ;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:13.892817;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull ;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:13.892863;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull (;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:14.416028;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull (;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:14.416076;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull (;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:17:15.463085;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Red Bull (;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:17:15.463169;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;148;Red Bull Green;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T20:18:24.020062;true;10
-EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T20:19:13.721152;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T20:19:17.061604;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;H;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:19.911587;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;H;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:19.911632;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Ho;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:20.089846;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Ho;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:20.089859;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hos;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:20.491920;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hos;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:20.491962;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:20.702363;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:20.702386;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:21.110920;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:21.110975;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:21.459626;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:21.459652;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:19:21.902614;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Hose;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:19:21.902660;true
-EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T20:20:10.061105;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T20:20:13.344114;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:15.219965;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:15.219988;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:15.308113;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:15.308126;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tes;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:15.432108;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tes;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:15.432121;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:15.508209;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:15.508222;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:15.827974;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:15.828005;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:16.319097;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:16.319111;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:16.509528;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:16.509554;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:16.738028;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:16.738088;true
-EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T20:20:33.078192;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T20:20:35.653013;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:39.332662;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:39.332715;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:39.507493;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:39.507529;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tes;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:39.559364;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tes;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:39.559381;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:20:39.643685;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:20:39.643701;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;149;Lauch;4.99;2;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T20:21:56.319003;true;2
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:56.222122;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:56.222150;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:56.368818;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:56.368837;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tes;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:56.450728;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tes;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:56.450742;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:56.490696;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:56.490709;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:56.961243;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Test;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:56.961338;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;G;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:57.727444;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;G;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:57.727472;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Gr;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:57.946061;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Gr;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:57.946193;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grü;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:58.131689;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grü;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:58.131739;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grün;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:58.596395;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grün;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:58.596433;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grünt;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:58.913272;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grünt;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:58.913289;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grünte;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:58.985249;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grünte;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:58.985263;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grüntee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:59.160985;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grüntee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:59.161018;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grüntee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:22:59.583936;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Grüntee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:22:59.583980;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;S;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:01.021742;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;S;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:01.021797;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;So;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:02.135584;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;So;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:02.135679;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Soc;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:02.412823;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Soc;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:02.412888;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Soc;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:02.999132;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Soc;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:02.999180;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;K;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:04.655760;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;K;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:04.655910;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Ka;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:04.880126;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Ka;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:04.880174;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;K;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:05.485249;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;K;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:05.485342;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:06.931426;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;T;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:06.931473;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:07.476968;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Te;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:07.477047;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:07.633530;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:07.633607;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:08.343337;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Tee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:08.343384;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;t;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:09.375928;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;t;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:09.375948;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;te;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:09.475944;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;te;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:09.475958;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:09.649840;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:09.649896;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:10.253870;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:10.253967;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;t;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:10.767742;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;t;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:10.767834;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;te;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:10.864276;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;te;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:10.864298;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:13.539025;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:13.539106;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:13.836249;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;tee;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:13.836330;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;m;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:14.665434;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;m;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:14.665479;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;me;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:14.710;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;me;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:14.710015;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;mel;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:15.503461;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;mel;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:15.503531;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;melo;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:15.674451;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;melo;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:15.674506;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;melon;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:15.861938;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;melon;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:15.861986;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;melon;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T20:23:17.465374;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;melon;ARTIKEL_EREIGNIS;ARTIKEL_SUCHEN;2023-06-27T20:23:17.465411;true
-EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T20:24:38.991600;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:33:08.282887400;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:33:11.758312800;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:33:41.148250900;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:33:45.172969600;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:35:42.146483400;true
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;127;Hose;19.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;128;Hemd;29.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;129;Schuhe;39.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;130;Socken;9.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;131;Red Bull;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;132;Kaffee;2.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;134;Grüntee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;135;Red Bull Watermelon;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Massenartikel;137;Red Bull (4er);1.99;2560;4;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.152482900;true;40
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:35:45.411856500;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Massenartikel;138;Pizza Diavolo (3er);6.99;810;3;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:36:11.782698300;true;30
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Massenartikel;139;Pizza Tonno (6er);12.99;12960;6;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:36:37.808158;true;60
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;140;Croissant;0.79;15;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:37:07.022295900;true;15
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:22.512609;true;12
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:27.746862600;true;14
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:32.986339;true;10
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T21:37:34.760766400;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:37:37.591217800;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;133;Schwarztee;3.99;10;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T21:37:40.174367900;true;1
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;133;Schwarztee;3.99;10;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T21:37:40.327369300;true;1
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;KAUF;2023-06-27T21:37:43.427304200;true;8
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T21:37:45.151233500;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:37:47.856573600;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:52.735774800;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:38:19.857354800;true
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;127;Hose;19.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;128;Hemd;29.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;129;Schuhe;39.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;130;Socken;9.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;131;Red Bull;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;132;Kaffee;2.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;134;Grüntee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;135;Red Bull Watermelon;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Massenartikel;137;Red Bull (4er);1.99;640;4;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;40
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:38:23.684986;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T21:38:25.992261100;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:38:28.354394200;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:38:51.781367800;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:39:06.228491600;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:43:52.782873600;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:45:29.415992100;true

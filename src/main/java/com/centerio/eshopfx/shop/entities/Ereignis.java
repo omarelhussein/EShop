@@ -287,9 +287,7 @@ public class Ereignis implements Serializable, CSVSerializable {
             }
         } else {
             person = new Mitarbeiter(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4]);
-            System.out.println("Mitarbeiter ist drinne");
             if(tokens[5].equals("Artikel")){
-                System.out.println("Artikel ist drinne");
                 object = new Artikel(Integer.parseInt(tokens[6]), tokens[7], Double.parseDouble(tokens[8]), Integer.parseInt(tokens[9]));
                 kategorieEreignisTyp = KategorieEreignisTyp.valueOf(tokens[10]);
                 ereignisTyp = EreignisTyp.valueOf(tokens[11]);

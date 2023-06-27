@@ -2,6 +2,7 @@ package com.centerio.eshopfx.shop.utils;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
 import com.centerio.eshopfx.shop.domain.HistorienService;
+import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.Massenartikel;
@@ -41,9 +42,9 @@ public class SeedingUtils {
         artikelList.add(new Artikel(134, "Grüntee", 3.99, 10));
         artikelList.add(new Artikel(135, "Red Bull Watermelon", 1.99, 10));
         artikelList.add(new Massenartikel(137, "Red Bull (4er)", 1.99, 10, 4));
-        for (Artikel artikel : artikelList) {
-            artikelService.addArtikel(artikel);
-        }
+        //for (Artikel artikel : artikelList) {
+        //    ShopAPI.getInstance().addArtikel(artikel);
+       // }
     }
 
 }
