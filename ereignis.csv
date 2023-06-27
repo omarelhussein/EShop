@@ -1,0 +1,48 @@
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:33:08.282887400;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:33:11.758312800;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:33:41.148250900;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:33:45.172969600;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:35:42.146483400;true
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;127;Hose;19.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;128;Hemd;29.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;129;Schuhe;39.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;130;Socken;9.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;131;Red Bull;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;132;Kaffee;2.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;134;Grüntee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;135;Red Bull Watermelon;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.151483100;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Massenartikel;137;Red Bull (4er);1.99;2560;4;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:35:42.152482900;true;40
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:35:45.411856500;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Massenartikel;138;Pizza Diavolo (3er);6.99;810;3;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:36:11.782698300;true;30
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Massenartikel;139;Pizza Tonno (6er);12.99;12960;6;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:36:37.808158;true;60
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;140;Croissant;0.79;15;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:37:07.022295900;true;15
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:22.512609;true;12
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:27.746862600;true;14
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:32.986339;true;10
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T21:37:34.760766400;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:37:37.591217800;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;133;Schwarztee;3.99;10;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T21:37:40.174367900;true;1
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;133;Schwarztee;3.99;10;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T21:37:40.327369300;true;1
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;KAUF;2023-06-27T21:37:43.427304200;true;8
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T21:37:45.151233500;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:37:47.856573600;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_AKTUALISIEREN;2023-06-27T21:37:52.735774800;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:38:19.857354800;true
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;127;Hose;19.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;128;Hemd;29.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;129;Schuhe;39.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;130;Socken;9.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;131;Red Bull;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;132;Kaffee;2.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;133;Schwarztee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;134;Grüntee;3.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Artikel;135;Red Bull Watermelon;1.99;10;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;10
+EreignisClass|Mitarbeiter;1;system;system;system;Massenartikel;137;Red Bull (4er);1.99;640;4;ARTIKEL_EREIGNIS;ARTIKEL_ANLEGEN;2023-06-27T21:38:19.860354900;true;40
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:38:23.684986;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T21:38:25.992261100;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:38:28.354394200;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:38:51.781367800;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:39:06.228491600;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T21:43:52.782873600;true
+EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T21:45:29.415992100;true

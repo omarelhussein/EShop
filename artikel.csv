@@ -13,7 +13,7 @@ ArtikelClass|142;Baum;80.0;2
 ArtikelClass|143;Calzone;1.25;19
 ArtikelClass|134;Grüntee;3.99;10
 ArtikelClass|135;Red Bull Watermelon;1.99;10
-ArtikelClass|144;EreignisÄnderung;22.0;10
-ArtikelClass|145;NochEreignis;19.99;6
-MassengutClass|146;Teeest;123.0;22;2
-ArtikelClass|147;123;123.0;123
+MassengutClass|137;Red Bull (4er);1.99;40;4
+MassengutClass|138;Pizza Diavolo (3er);6.99;30;3
+MassengutClass|139;Pizza Tonno (6er);12.99;60;6
+ArtikelClass|140;Croissant;0.79;15
