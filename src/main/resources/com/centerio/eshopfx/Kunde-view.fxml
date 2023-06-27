@@ -29,9 +29,9 @@
                 <HBox>
                     <VBox HBox.hgrow="ALWAYS">
                         <HBox>
-                            <TextField fx:id="suchField" promptText="Artikel suchen" onKeyPressed="#suchenKey" HBox.hgrow="ALWAYS"/>
+                            <TextField fx:id="suchField" promptText="Artikel suchen" onKeyPressed="#clearSuchFieldKey" onKeyTyped="#artikelSuchen" HBox.hgrow="ALWAYS"/>
                             <Button fx:id="ClearButton" onAction="#clearSuchField" text="X"/>
-                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>
+<!--                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>-->
                         </HBox>
                         <TableView fx:id="artikelTableView" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER"/>
                     </VBox>

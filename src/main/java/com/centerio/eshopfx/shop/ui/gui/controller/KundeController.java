@@ -277,6 +277,12 @@ public class KundeController {
         }
     }
 
+    public void clearSuchFieldKey(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ESCAPE)) {
+            clearSuchField();
+        }
+    }
+
     public void artikelSuchen() {
         try {
             if (!suchField.getText().equals("")) {
