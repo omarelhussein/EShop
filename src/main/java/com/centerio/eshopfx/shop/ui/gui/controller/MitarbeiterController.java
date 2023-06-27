@@ -609,6 +609,12 @@ public class MitarbeiterController {
         }
     }
 
+    public void clearSuchFieldKey(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ESCAPE)) {
+            clearSuchField();
+        }
+    }
+
     public void artikelSuchen() {
         try {
             if (!suchField.getText().equals("")) {
@@ -624,9 +630,9 @@ public class MitarbeiterController {
         }
     }
 
-    public void suchenKey(KeyEvent e) {
-        if (e.getCode().equals(KeyCode.ENTER)) {
-            artikelSuchen();
-        }
-    }
+//    public void suchenKey(KeyEvent e) {
+//        if (e.getCode().equals(KeyCode.ENTER)) {
+//            artikelSuchen();
+//        }
+//    }
 }
