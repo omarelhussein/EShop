@@ -141,7 +141,12 @@ public class ShopAPI {
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
             WarenkorbArtikelNichtGefundenException, IOException {
         try {
-            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, warenkorbService.getWarenkorbArtikelByArtNr(artikelNr).getAnzahl() - anzahl);
+            WarenkorbArtikel wartikel = warenkorbService.getWarenkorbArtikelByArtNr(artikelNr);
+            if (getArtikelByArtNr(artikelNr) instanceof  Massenartikel) {
+                warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, wartikel.getAnzahl() - anzahl * ((Massenartikel) getArtikelByArtNr(artikelNr)).getPackgroesse());
+            } else {
+                warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, wartikel.getAnzahl() - anzahl);
+            }
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
         } catch (Exception e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);

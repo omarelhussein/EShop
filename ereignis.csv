@@ -98,3 +98,27 @@ EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PE
 EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T19:13:23.154060600;true
 EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGIN;2023-06-27T19:13:26.511810;true
 EreignisClass|Mitarbeiter;1;admin;admin;admin;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;LOGOUT;2023-06-27T19:13:55.326448300;true
+EreignisClass|Mitarbeiter;1;system;system;system;Mitarbeiter;1;admin;admin;admin;PERSONEN_EREIGNIS;MITARBEITER_ANLEGEN;2023-06-27T19:41:05.261780500;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;PERSONEN_EREIGNIS;LOGIN;2023-06-27T19:41:14.750216;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:41:22.569173900;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:41:28.266839500;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:41:37.227816700;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T19:41:49.201036600;true;32
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T19:41:49.201036600;true;32
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:41:49.202070800;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T19:41:56.965723700;true;32
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T19:41:56.965723700;true;32
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:41:56.965723700;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:42:00.459974400;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:42:00.780999300;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T19:42:04.833027600;true;32
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;ARTIKEL_EREIGNIS;ARTIKEL_ANZEIGEN;2023-06-27T19:42:04.833027600;true;32
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:42:04.833027600;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Massenartikel;137;Red Bull (4er);1.99;32;4;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:42:08.913820500;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;127;Hose;19.99;6;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:42:12.776640900;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;128;Wasser;29.99;24;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:42:15.452814600;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;128;Wasser;29.99;24;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:42:15.641714500;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;138;Melone;400.0;15;WARENKORB_EREIGNIS;WARENKORB_HINZUFUEGEN;2023-06-27T19:42:17.129848300;true;3
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;127;Hose;19.99;6;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:42:20.928432400;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;128;Wasser;29.99;24;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:42:22.739583600;true
+EreignisClass|Kunde;2;kunde;kunde;kunde;Musterstrasse;1;2222;Musterstadt;Artikel;138;Melone;400.0;15;WARENKORB_EREIGNIS;WARENKORB_AENDERN;2023-06-27T19:42:24.319519600;true
