@@ -1,6 +1,7 @@
 package com.centerio.eshopfx.shop.domain;
 
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PasswortNameException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
@@ -154,12 +155,8 @@ public class ShopAPI {
         }
     }
 
-    public Person login(String nutzername, String passwort) throws IOException {
+    public Person login(String nutzername, String passwort) throws IOException, PasswortNameException {
         var login = personenService.login(nutzername, passwort);
-        if (login == null) {
-            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, null, false);
-            return null;
-        }
         UserContext.setUser(login);
         if (warenkorbService.getWarenkorb() == null && login instanceof Kunde kunde) {
             warenkorbService.neuerKorb(kunde);

@@ -1,7 +1,11 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
+import com.centerio.eshopfx.shop.domain.HistorienService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PasswortNameException;
 import com.centerio.eshopfx.shop.entities.Mitarbeiter;
+import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.fxml.FXML;
@@ -57,16 +61,19 @@ public class LoginController {
             statusLabel.getStyleClass().add("label-error");
             return;
         }
-        var login = shopAPI.login(usernameField.getText(), passwordField.getText());
-        if (login != null) {
+        try {
+            var login = shopAPI.login(usernameField.getText(), passwordField.getText());
             if(login instanceof Mitarbeiter) {
                 StageManager.getInstance().switchScene(SceneRoutes.MITARBEITER_VIEW);
             } else {
                 StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
             }
-        } else {
+        } catch (PasswortNameException e) {
+            System.out.println("Keinen Nutzer mit diesem Namen und Passwort gefunden.");
+        } finally {
             statusLabel.setText("Login fehlgeschlagen!");
             statusLabel.getStyleClass().add("label-error");
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, null, false);
         }
     }
 

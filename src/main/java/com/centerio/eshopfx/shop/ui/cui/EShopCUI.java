@@ -2,6 +2,7 @@ package com.centerio.eshopfx.shop.ui.cui;
 
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PasswortNameException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
@@ -423,6 +424,8 @@ public class EShopCUI {
         } catch (IOException e) {
             System.out.println("Fehler beim Lesen der Eingabe: " + e.getMessage());
             return false;
+        } catch (PasswortNameException e) {
+            throw new RuntimeException(e);
         }
     }
 

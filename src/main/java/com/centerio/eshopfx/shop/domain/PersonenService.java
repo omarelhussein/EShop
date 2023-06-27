@@ -1,5 +1,6 @@
 package com.centerio.eshopfx.shop.domain;
 
+import com.centerio.eshopfx.shop.domain.exceptions.personen.PasswortNameException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
 import com.centerio.eshopfx.shop.entities.Kunde;
@@ -32,13 +33,13 @@ public class PersonenService {
      * einer registrierten Person übereinstimmt wird das eingegebene Passwort mit der Person überprüft
      * trifft Nutzername und Passwort zu wird "true" return ansonsten false
      */
-    public Person login(String nutzername, String passwort) {
+    public Person login(String nutzername, String passwort) throws PasswortNameException, IOException {
         for (Person person : personList) {
             if (nutzername.equals(person.getNutzername()) && passwort.equals(person.getPasswort())) {
                 return person;
             }
         }
-        return null;
+        throw new PasswortNameException(nutzername , passwort);
     }
 
     /**
