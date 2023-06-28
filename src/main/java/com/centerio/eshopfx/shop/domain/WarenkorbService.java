@@ -1,5 +1,6 @@
 package com.centerio.eshopfx.shop.domain;
 
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
@@ -48,7 +49,7 @@ public class WarenkorbService {
     }
 
     public boolean legeArtikelImWarenkorb(int artikelNr, int anzahl)
-            throws ArtikelNichtGefundenException, BestandUeberschrittenException, IOException, WarenkorbArtikelNichtGefundenException {
+            throws ArtikelNichtGefundenException, BestandUeberschrittenException, IOException, WarenkorbArtikelNichtGefundenException, AnzahlPackgroesseException {
         var artikel = artikelservice.getArtikelByArtNr(artikelNr);
 
         if (anzahl <= 0) {
@@ -63,12 +64,12 @@ public class WarenkorbService {
                 return true;
             }
         }
+        artikelservice.anzahlPackgroeßeVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
         var warenkorb = getWarenkorbByKundenNr(UserContext.getUser().getPersNr());
-        var anzahlZuKaufen = (artikel instanceof Massenartikel massenartikel) ? anzahl * massenartikel.getPackgroesse() : anzahl;
-        if (anzahlZuKaufen > artikel.getBestand()) {
-           throw new BestandUeberschrittenException(artikelNr, anzahlZuKaufen, artikel);
+        if (anzahl > artikel.getBestand()) {
+           throw new BestandUeberschrittenException(artikelNr, anzahl, artikel);
         }
-        warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahlZuKaufen));
+        warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
         return true;
     }
 
@@ -98,9 +99,10 @@ public class WarenkorbService {
      * @throws WarenkorbArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer im Warenkorb gefunden wurde
      */
     public void aendereWarenkorbArtikelAnzahl(int artikelNr, int anzahl) throws BestandUeberschrittenException,
-            WarenkorbArtikelNichtGefundenException {
+            WarenkorbArtikelNichtGefundenException, ArtikelNichtGefundenException, AnzahlPackgroesseException {
         var warenkorbArtikel = getWarenkorbArtikelByArtNrOrThrow(artikelNr);
         pruefeBestand(warenkorbArtikel, anzahl);
+        artikelservice.anzahlPackgroeßeVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
         if (anzahl <= 0) {
             removeArtikelVomWarenkorb(artikelNr);
         } else {
@@ -163,26 +165,16 @@ public class WarenkorbService {
     }
 
     public void pruefeBestand(WarenkorbArtikel warenkorbArtikel, int neuAnzahl) throws BestandUeberschrittenException {
-        var anzahl = berechneGenaueAnzahl(warenkorbArtikel, neuAnzahl);
-        var tmpNeuBestand = warenkorbArtikel.getArtikel().getBestand() + anzahl;
-        if (tmpNeuBestand < 0 || tmpNeuBestand < anzahl)
+        var tmpNeuBestand = warenkorbArtikel.getArtikel().getBestand() + neuAnzahl;
+        if (tmpNeuBestand < 0 || tmpNeuBestand < neuAnzahl)
             throw new BestandUeberschrittenException(warenkorbArtikel.getArtikel().getBestand(),
-                    anzahl,
+                    neuAnzahl,
                     warenkorbArtikel.getArtikel());
-    }
-
-    /**
-     * Berechnet die genaue Anzahl eines Artikels im Warenkorb.
-     * Bei Massenartikeln wird die Anzahl mit der Packgröße multipliziert.
-     */
-    private int berechneGenaueAnzahl(WarenkorbArtikel warenkorbArtikel, int neuAnzahl) {
-        return (warenkorbArtikel.getArtikel() instanceof Massenartikel massenartikel) ?
-                neuAnzahl * massenartikel.getPackgroesse() : neuAnzahl;
     }
 
     public void kaufeArtikel(WarenkorbArtikel warenkorbArtikel) throws BestandUeberschrittenException, ArtikelNichtGefundenException {
         pruefeBestand(warenkorbArtikel, warenkorbArtikel.getAnzahl());
-        var neuerBestand = warenkorbArtikel.getArtikel().getBestand() - berechneGenaueAnzahl(warenkorbArtikel, warenkorbArtikel.getAnzahl());
+        var neuerBestand = warenkorbArtikel.getArtikel().getBestand() - warenkorbArtikel.getAnzahl();
         artikelservice.aendereArtikelBestand(warenkorbArtikel.getArtikel().getArtNr(), neuerBestand, true);
     }
 

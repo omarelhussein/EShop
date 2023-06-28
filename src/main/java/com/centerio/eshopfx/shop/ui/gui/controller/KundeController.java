@@ -4,6 +4,7 @@ import com.centerio.eshopfx.shop.domain.ArtikelService;
 import com.centerio.eshopfx.shop.domain.HistorienService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.WarenkorbService;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
@@ -161,7 +162,9 @@ public class KundeController {
                 Artikel artikel = artikelTableView.getItems().get(selectedId);
                 try {
                     if(artikelAnzahlField.getText().isEmpty()){
-                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), 1);
+                        int anzahl = 1;
+                        if (artikel instanceof Massenartikel) anzahl = ((Massenartikel) artikel).getPackgroesse();
+                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
                         setWarenkorbInTable();
                         initializeGesamtPreis();
                     } else {
@@ -171,6 +174,8 @@ public class KundeController {
                     }
                 } catch (NumberFormatException e) {
                     addToWarenkorbButton.setStyle("-fx-border-color: red;");
+                } catch (AnzahlPackgroesseException e) {
+                    System.out.println(e);
                 }
             } else {
                 addToWarenkorbButton.setStyle("-fx-border-color: red;");
@@ -178,6 +183,7 @@ public class KundeController {
         } catch (IOException | ArtikelNichtGefundenException | BestandUeberschrittenException |
                  WarenkorbArtikelNichtGefundenException e) {
             addToWarenkorbButton.setStyle("-fx-border-color: red;");
+            System.out.println(e);
         }
     }
 
@@ -196,7 +202,7 @@ public class KundeController {
                 return;
             }
         } catch (IOException e) {
-            return;
+            System.out.println(e);
         }
 
 
@@ -262,9 +268,10 @@ public class KundeController {
             } else {
                 warenkorbEntfernenButton.setStyle("-fx-border-color: red;");
             }
-        } catch (BestandUeberschrittenException | IOException | WarenkorbArtikelNichtGefundenException | ArtikelNichtGefundenException e) {
+        } catch (BestandUeberschrittenException | IOException | WarenkorbArtikelNichtGefundenException |
+                 ArtikelNichtGefundenException | AnzahlPackgroesseException e) {
             addToWarenkorbButton.setStyle("-fx-border-color: red;");
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
     }
 
@@ -294,7 +301,7 @@ public class KundeController {
                 setArtikelInTable();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.centerio.eshopfx.shop.domain;
 
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PasswortNameException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonNichtGefundenException;
@@ -114,7 +115,7 @@ public class ShopAPI {
 
     public boolean addArtikelToWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
-            WarenkorbArtikelNichtGefundenException, IOException {
+            WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException {
         try {
             var erfolg = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
             HistorienService.getInstance()
@@ -128,7 +129,7 @@ public class ShopAPI {
 
     public void aendereArtikelAnzahlImWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
-            WarenkorbArtikelNichtGefundenException, IOException {
+            WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException {
         try {
             warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
@@ -140,14 +141,10 @@ public class ShopAPI {
 
     public void entferneArtikelAnzahlImWarenkorb(int artikelNr, int anzahl)
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
-            WarenkorbArtikelNichtGefundenException, IOException {
+            WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException {
         try {
             WarenkorbArtikel wartikel = warenkorbService.getWarenkorbArtikelByArtNr(artikelNr);
-            if (getArtikelByArtNr(artikelNr) instanceof  Massenartikel) {
-                warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, wartikel.getAnzahl() - anzahl * ((Massenartikel) getArtikelByArtNr(artikelNr)).getPackgroesse());
-            } else {
-                warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, wartikel.getAnzahl() - anzahl);
-            }
+            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, wartikel.getAnzahl() - anzahl);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
         } catch (Exception e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);

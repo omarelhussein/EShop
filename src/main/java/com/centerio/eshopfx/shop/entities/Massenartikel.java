@@ -5,7 +5,7 @@ public class Massenartikel extends Artikel {
     private int packgroesse;
 
     public Massenartikel(int artNr, String bezeichnung, double preis, int bestand, int packgroesse) {
-        super(artNr, bezeichnung, preis, bestand * packgroesse);
+        super(artNr, bezeichnung, preis, bestand);
         this.packgroesse = packgroesse;
     }
 
@@ -30,7 +30,6 @@ public class Massenartikel extends Artikel {
     }
 
     public void setPackgroesse(int packgroesse) {
-        this.setBestand(this.getBestand()/this.packgroesse * packgroesse);
         this.packgroesse = packgroesse;
     }
 

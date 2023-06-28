@@ -212,6 +212,7 @@ public class MitarbeiterController {
                 packGroesseFeld.setVisible(true);
             } else {
                 packGroesseFeld.setVisible(false);
+                packGroesseFeld.setText("");
             }
         });
     }
@@ -504,18 +505,16 @@ public class MitarbeiterController {
     private void setPersonInTable() throws IOException {
         personenTableView.getItems().clear();
         ObservableList<Person> personObservableList = FXCollections.observableArrayList();
-        for(Person person : shopAPI.getPersonList()){
-            personObservableList.add(person);
-        }
+        personObservableList.addAll(shopAPI.getPersonList());
         personenTableView.setItems(personObservableList);
         setEreingisInTable();
     }
 
-    public void editArtikel() throws ArtikelNichtGefundenException, IOException {
+    public void editArtikel() {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-        Artikel artikel = artikelTableView.getItems().get(selectedId);
         try {
             if(selectedId >= 0) {
+                Artikel artikel = artikelTableView.getItems().get(selectedId);
                 if (artikel instanceof Massenartikel) {
                     if (!artikelBezeichnungFeld.getText().equals("")) {
                         artikel.setBezeichnung(artikelBezeichnungFeld.getText());
@@ -548,6 +547,7 @@ public class MitarbeiterController {
             }
         } catch (IOException | ArtikelNichtGefundenException e) {
             editArtikelButton.setStyle("-fx-border-color: red;");
+            System.out.println(e);
         }
     }
 
@@ -580,7 +580,7 @@ public class MitarbeiterController {
                             logout();
                             alert.close(); // Popup-Fenster schließen
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            System.out.println(e);
                         }
                     }
                 });
@@ -605,7 +605,7 @@ public class MitarbeiterController {
         try {
             setArtikelInTable();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
     }
 
@@ -626,7 +626,7 @@ public class MitarbeiterController {
                 setArtikelInTable();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.centerio.eshopfx.shop.domain;
 
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
 import com.centerio.eshopfx.shop.entities.Massenartikel;
@@ -109,7 +110,7 @@ public class ArtikelService {
         return artikel1.equals(artikel2);
     }
 
-    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException, IOException {
+    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
         // die ID suchen, wenn nicht vorhanden dementsprechend fehlermeldung ausgeben
         var artikelByArtNr = getArtikelByArtNr(artikel.getArtNr());
         if (artikelByArtNr == null) {
@@ -167,4 +168,10 @@ public class ArtikelService {
         persistenceManager.replaceAll(artikelList);
     }
 
+    public void anzahlPackgroeßeVergleich(Artikel artikel, int anzahl) throws AnzahlPackgroesseException {
+        if (artikel instanceof Massenartikel) {
+            double massenanzahl = (double) anzahl / ((Massenartikel) artikel).getPackgroesse();
+            if (massenanzahl%1 != 0) throw new AnzahlPackgroesseException(anzahl, (Massenartikel) artikel);
+        }
+    }
 }
