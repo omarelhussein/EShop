@@ -29,7 +29,7 @@ public class ShopAPI {
     private ShopAPI() {
         try {
             artikelService = ArtikelService.getInstance();
-            personenService = new PersonenService();
+            personenService = PersonenService.getInstance();
             warenkorbService = WarenkorbService.getInstance();
             historienService = HistorienService.getInstance();
             bestellService = new BestellService();
@@ -80,7 +80,7 @@ public class ShopAPI {
         }
     }
 
-    public List<Artikel> getArtikelList() {
+    public List<Artikel> getArtikelList() throws IOException {
         var artikelListe = artikelService.getArtikelList();
         historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikelService.getArtikelList().size(), artikelListe != null);
         return artikelListe;
@@ -93,7 +93,7 @@ public class ShopAPI {
         return artikelListe;
     }
 
-    public Artikel getArtikelByArtNr(int artikelNr) throws ArtikelNichtGefundenException {
+    public Artikel getArtikelByArtNr(int artikelNr) throws ArtikelNichtGefundenException, IOException {
         try {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
             historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikel, true);
@@ -101,6 +101,8 @@ public class ShopAPI {
         } catch (ArtikelNichtGefundenException e) {
             historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikelNr, false);
             throw e;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

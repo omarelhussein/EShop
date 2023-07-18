@@ -17,14 +17,25 @@ import java.util.stream.Stream;
 
 public class PersonenService {
 
-    private final List<Person> personList;
+    private List<Person> personList;
     private final WarenkorbService warenkorbService;
     private final FilePersistenceManager<Person> persistenceManager;
 
-    public PersonenService() throws IOException {
+    private static PersonenService instance;
+
+    private PersonenService() throws IOException {
         warenkorbService = WarenkorbService.getInstance();
         persistenceManager = new FilePersistenceManager<>("personen.csv");
-        personList = persistenceManager.readAll();
+        if(personList == null || personList.isEmpty()){
+            personList = persistenceManager.readAll();
+        }
+    }
+
+    public synchronized static PersonenService getInstance() throws IOException {
+        if (instance == null) {
+            instance = new PersonenService();
+        }
+        return instance;
     }
 
     /**

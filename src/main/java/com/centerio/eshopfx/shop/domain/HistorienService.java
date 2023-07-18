@@ -43,7 +43,7 @@ public class HistorienService {
         return historienService;
     }
 
-    public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg) {
+    public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg) throws IOException {
         var user = UserContext.getUser();
         if (user == null) { // at application start, no user is logged in, but we still want to log events
             user = new Mitarbeiter(1, "system", "system", "system");
@@ -57,7 +57,7 @@ public class HistorienService {
         }
     }
 
-    public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg, int anzahl) {
+    public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg, int anzahl) throws IOException {
         var user = UserContext.getUser();
         if (user == null) { // at application start, no user is logged in, but we still want to log events
             user = new Mitarbeiter(1, "system", "system", "system");
