@@ -10,6 +10,8 @@ import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschritt
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.*;
 import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
+import com.centerio.eshopfx.shop.ui.gui.concerns.ArtikelTableConcern;
+import com.centerio.eshopfx.shop.ui.gui.concerns.WarenkorbTableConcern;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
 import javafx.application.Platform;
@@ -63,6 +65,8 @@ public class KundeController {
     private Label gesamtPreis;
     @FXML
     private TextField suchField;
+    @FXML
+    private Button ClearButton;
 
     private final ShopAPI shopAPI = ShopAPI.getInstance();
 
@@ -75,10 +79,14 @@ public class KundeController {
      */
     public void initialize() {
         try {
-            initializeWarenkorbView();
-            setWarenkorbInTable();
-            initializeArtikelView();
-            setArtikelInTable();
+            ArtikelTableConcern artikelTableConcern = new ArtikelTableConcern(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn, artikelPackgroesseColumn, artikelTableView, suchField, artikelAnzahlField, addToWarenkorbButton, ClearButton);
+            WarenkorbTableConcern warenkorbTableConcern = new WarenkorbTableConcern(warenkorbArtikelStringTableColumn, warenkorbArtikelAnzahlTableColumn, warenkorbArtikelPreisTableColumn, warenkorbTableView, warenkorbEntfernenButton, warenkorbAnzahlField, kaufenButton, gesamtPreis);
+            artikelTableConcern.initializeArtikelView();
+            artikelTableConcern.setArtikelInTable();
+            artikelTableConcern.setKundeEventHandlerForArtikel(warenkorbTableConcern);
+            warenkorbTableConcern.initializeWarenkorbView();
+            warenkorbTableConcern.setWarenkorbInTable();
+            warenkorbTableConcern.setEventHandlerForWarenkorb();
         } catch(IOException e) {
         }
 
@@ -88,226 +96,8 @@ public class KundeController {
         shopAPI.speichern();
     }
 
-    public void initializeWarenkorbView() {
-        warenkorbArtikelStringTableColumn = new TableColumn<WarenkorbArtikel, String>("Artikel");
-        warenkorbArtikelAnzahlTableColumn = new TableColumn<WarenkorbArtikel, Integer>("Anzahl");
-        warenkorbArtikelPreisTableColumn = new TableColumn<WarenkorbArtikel, Double>("Einzelpreis");
-        warenkorbTableView.getColumns().addAll(warenkorbArtikelStringTableColumn, warenkorbArtikelAnzahlTableColumn, warenkorbArtikelPreisTableColumn);
-        warenkorbArtikelStringTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, String>("artikelbezeichnung"));
-        warenkorbArtikelPreisTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, Double>("einzelpreis"));
-        warenkorbArtikelAnzahlTableColumn.setCellValueFactory(new PropertyValueFactory<WarenkorbArtikel, Integer>("anzahl"));
-        initializeGesamtPreis();
-    }
-
-    public void initializeGesamtPreis(){
-        Warenkorb warenkorb = ShopAPI.getInstance().getWarenkorb();
-        gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
-    }
-
-    public void kaufeWarenkorb() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
-        warenkorbTableView.getItems().clear();
-        ShopAPI.getInstance().kaufen();
-        setWarenkorbInTable();
-        setArtikelInTable();
-    }
-
-    public void setWarenkorbInTable() throws IOException {
-        warenkorbTableView.getItems().clear();
-        ObservableList<WarenkorbArtikel> warenkorbObservableList = FXCollections.observableArrayList();
-        for (WarenkorbArtikel warenkorbartikel : WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList()) {
-            warenkorbObservableList.add(warenkorbartikel);
-        }
-        warenkorbTableView.setItems(warenkorbObservableList);
-        initializeGesamtPreis();
-    }
-
-    public void initializeArtikelView(){
-        artikelNummerColumn = new TableColumn("Nummer");
-        artikelBezeichnungColumn = new TableColumn("Bezeichnung");
-        artikelPreisColumn = new TableColumn("Preis");
-        artikelBestandColumn = new TableColumn("Bestand");
-        artikelPackgroesseColumn = new TableColumn("Packgröße");
-        artikelTableView.getColumns().addAll(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn, artikelPackgroesseColumn);
-        artikelNummerColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getArtNr()).asObject());
-        artikelBezeichnungColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getBezeichnung()));
-        artikelPreisColumn.setCellValueFactory(p -> new SimpleDoubleProperty(p.getValue().getPreis()).asObject());
-        artikelBestandColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getBestand()).asObject());
-        artikelPackgroesseColumn.setCellValueFactory(p -> {if (p.getValue() instanceof Massenartikel){
-            return new SimpleIntegerProperty(((Massenartikel)p.getValue()).getPackgroesse()).asObject();
-        }
-            return null;
-        });
-    }
-
-    public void setArtikelInTable() throws IOException {
-        artikelTableView.getItems().clear();
-        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
-        for (Artikel artikel : ArtikelService.getInstance().getArtikelList()) {
-            if (artikel.getBestand()!=0) {
-                artikelObservableList.add(artikel);
-            }
-        }
-        artikelTableView.setItems(artikelObservableList);
-    }
-
     public void logout() throws IOException {
         shopAPI.logout();
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
-    }
-
-    public void toWarenkorb() {
-        try {
-            int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-            if (selectedId >= 0) {
-                Artikel artikel = artikelTableView.getItems().get(selectedId);
-                try {
-                    if(artikelAnzahlField.getText().isEmpty()){
-                        int anzahl = 1;
-                        if (artikel instanceof Massenartikel) anzahl = ((Massenartikel) artikel).getPackgroesse();
-                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
-                        setWarenkorbInTable();
-                        initializeGesamtPreis();
-                    } else {
-                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
-                        setWarenkorbInTable();
-                        initializeGesamtPreis();
-                    }
-                } catch (NumberFormatException e) {
-                    addToWarenkorbButton.setStyle("-fx-border-color: red;");
-                } catch (AnzahlPackgroesseException e) {
-                    System.out.println(e);
-                }
-            } else {
-                addToWarenkorbButton.setStyle("-fx-border-color: red;");
-            }
-        } catch (IOException | ArtikelNichtGefundenException | BestandUeberschrittenException |
-                 WarenkorbArtikelNichtGefundenException e) {
-            addToWarenkorbButton.setStyle("-fx-border-color: red;");
-            System.out.println(e);
-        }
-    }
-
-    private boolean FieldCheck(TextField field) {
-        if (field.getText().isEmpty()) {
-            field.setStyle("-fx-border-color: red;");
-            return true;
-        }
-        return false;
-    }
-
-    public void rechnungErstellen() {
-
-        try {
-            if (WarenkorbService.getInstance().getWarenkorb().getAnzahlArtikel() == 0) {
-                return;
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-
-        addToWarenkorbButton.setVisible(false);
-        kaufenButton.setVisible(false);
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText(shopAPI.erstelleRechnung().toString());
-        alert.setTitle("Rechnung");
-        alert.setHeaderText("Bitte Bestätigen sie ihren Einkauf.");
-
-        // Hinzufügen der Buttons
-        ButtonType buttonTypeConfirm = new ButtonType("Bestätigen");
-        ButtonType buttonTypeCancel = new ButtonType("Abbrechen");
-
-        alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeCancel);
-
-
-
-        // Event Handler für den Bestätigen-Button
-        alert.setOnCloseRequest(dialogEvent -> {
-            if (alert.getResult() == buttonTypeConfirm) {
-                try {
-                    kaufeWarenkorb();
-                } catch (BestandUeberschrittenException e) {
-                    throw new RuntimeException(e);
-                } catch (ArtikelNichtGefundenException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                addToWarenkorbButton.setVisible(true);
-                kaufenButton.setVisible(true);
-                alert.close(); // Popup-Fenster schließen
-            }
-        });
-
-        // Event Handler für den Abbrechen-Button
-        alert.setOnHidden(dialogEvent -> {
-            if (alert.getResult() == buttonTypeCancel) {
-                addToWarenkorbButton.setVisible(true);
-                kaufenButton.setVisible(true);
-                alert.close(); // Popup-Fenster schließen
-            }
-        });
-
-        alert.showAndWait();
-    }
-
-    public void warenkorbEntfernen() {
-        try {
-            int selectedId = warenkorbTableView.getSelectionModel().getSelectedIndex();
-            if (selectedId >= 0) {
-                if(warenkorbAnzahlField.getText().isEmpty()) {
-                    Artikel artikel = ((WarenkorbArtikel)warenkorbTableView.getItems().get(selectedId)).getArtikel();
-                    ShopAPI.getInstance().aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
-                    setWarenkorbInTable();
-                } else {
-                    Artikel artikel = ((WarenkorbArtikel)warenkorbTableView.getItems().get(selectedId)).getArtikel();
-                    ShopAPI.getInstance().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
-                    setWarenkorbInTable();
-                }
-            } else {
-                warenkorbEntfernenButton.setStyle("-fx-border-color: red;");
-            }
-        } catch (BestandUeberschrittenException | IOException | WarenkorbArtikelNichtGefundenException |
-                 ArtikelNichtGefundenException | AnzahlPackgroesseException e) {
-            addToWarenkorbButton.setStyle("-fx-border-color: red;");
-            System.out.println(e);
-        }
-    }
-
-    public void clearSuchField() {
-        suchField.setText("");
-        try {
-            setArtikelInTable();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void clearSuchFieldKey(KeyEvent e) {
-        if (e.getCode().equals(KeyCode.ESCAPE)) {
-            clearSuchField();
-        }
-    }
-
-    public void artikelSuchen() {
-        try {
-            if (!suchField.getText().equals("")) {
-                artikelTableView.getItems().clear();
-                ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
-                artikelObservableList.addAll(shopAPI.getArtikelByQuery(suchField.getText()));
-                artikelTableView.setItems(artikelObservableList);
-            }else {
-                setArtikelInTable();
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
-    public void suchenKey(KeyEvent e) {
-        if (e.getCode().equals(KeyCode.ENTER)) {
-            artikelSuchen();
-        }
     }
 }

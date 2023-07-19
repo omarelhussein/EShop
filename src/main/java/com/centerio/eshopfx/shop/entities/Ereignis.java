@@ -4,6 +4,7 @@ import com.centerio.eshopfx.shop.domain.ArtikelService;
 import com.centerio.eshopfx.shop.domain.LogMessageGenerator;
 import com.centerio.eshopfx.shop.domain.PersonenService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
+import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 import com.centerio.eshopfx.shop.persistence.CSVSerializable;
@@ -23,10 +24,6 @@ public class Ereignis implements Serializable, CSVSerializable {
        private LocalDateTime datum;
        private boolean erfolg;
        private Integer bestand;
-
-
-       private List<Person> personList = PersonenService.getInstance().getPersonList();
-       private List<Artikel> artikelList = ArtikelService.getInstance().getArtikelList();
 
        public Ereignis(Person person, Object object, KategorieEreignisTyp kategorieEreignisTyp, EreignisTyp ereignisTyp, LocalDateTime datum, boolean erfolg) throws IOException {
            this.person = person;
@@ -186,18 +183,19 @@ public class Ereignis implements Serializable, CSVSerializable {
     public void fromCSVString(String csv) {
            System.out.println("fromCSVString");
         String[] tokens = csv.split(";");
-        if(!(personList.isEmpty()))
-        person = personList.stream().filter(p -> p.getPersNr() == Integer.parseInt(tokens[0])).findFirst().get();
-        if (tokens[1].equals("Artikel") || tokens[1].equals("Massenartikel")) {
-            if(!(artikelList.isEmpty()))
-            object = artikelList.stream().filter(p -> p.getArtNr() == Integer.parseInt(tokens[2])).findFirst().get();
-        }
-        if (tokens[1].equals("Kunde") || tokens[1].equals("Mitarbeiter")) {
-            if(!(artikelList.isEmpty()))
-            object = personList.stream().filter(p -> p.getPersNr() == Integer.parseInt(tokens[2])).findFirst().get();
-        }
-        if (tokens[1].equals("null")) {
-            object = null;
+        try {
+            person = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[0]));
+            if (tokens[1].equals("Artikel") || tokens[1].equals("Massenartikel")) {
+                object = ArtikelService.getInstance().getArtikelByArtNr(Integer.parseInt(tokens[2]));
+            }
+            if (tokens[1].equals("Kunde") || tokens[1].equals("Mitarbeiter")) {
+                object = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[2]));
+            }
+            if (tokens[1].equals("null")) {
+                object = null;
+            }
+        } catch (IOException | ArtikelNichtGefundenException e){
+            System.out.println("IOException in Ereignisse");
         }
         kategorieEreignisTyp = KategorieEreignisTyp.valueOf(tokens[3]);
         ereignisTyp = EreignisTyp.valueOf(tokens[4]);
