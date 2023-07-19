@@ -1,5 +1,6 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
+import com.centerio.eshopfx.shop.domain.RemoteInterface;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
 import com.centerio.eshopfx.shop.entities.Adresse;
@@ -13,6 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class RegistrierenController {
 
@@ -34,7 +39,12 @@ public class RegistrierenController {
     @FXML
     private TextField herkunftsortField;
 
-    private final ShopAPI shopAPI = ShopAPI.getInstance();
+    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
+
+    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+
+    public RegistrierenController() throws RemoteException, NotBoundException {
+    }
 
     /**
      * Methode initialize wird automatisch aufgerufen, wenn die View geladen wird.
@@ -47,12 +57,16 @@ public class RegistrierenController {
             if (usernameField.getText().isEmpty()) return;
             // Überprüfung, ob der Benutzername bereits vergeben ist
             // wenn ja, dann wird die InfoLabel rot gefärbt und eine Meldung wird angezeigt
-            if (!shopAPI.istNutzernameVerfuegbar(usernameField.getText())) {
-                infoLabel.setText("Benutzername ist bereits vergeben!");
-                infoLabel.setStyle("-fx-text-fill: red;");
-            } else {
-                infoLabel.setText("Benutzername ist verfügbar!");
-                infoLabel.setStyle("-fx-text-fill: green;");
+            try {
+                if (!shopAPI.istNutzernameVerfuegbar(usernameField.getText())) {
+                    infoLabel.setText("Benutzername ist bereits vergeben!");
+                    infoLabel.setStyle("-fx-text-fill: red;");
+                } else {
+                    infoLabel.setText("Benutzername ist verfügbar!");
+                    infoLabel.setStyle("-fx-text-fill: green;");
+                }
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
         });
     }

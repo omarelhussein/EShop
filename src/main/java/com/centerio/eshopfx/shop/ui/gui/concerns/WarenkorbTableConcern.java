@@ -1,5 +1,6 @@
 package com.centerio.eshopfx.shop.ui.gui.concerns;
 
+import com.centerio.eshopfx.shop.domain.RemoteInterface;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.WarenkorbService;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
@@ -15,6 +16,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class WarenkorbTableConcern {
 
@@ -27,6 +32,10 @@ public class WarenkorbTableConcern {
     private TextField warenkorbAnzahlField;
     private Button kaufenButton;
     private Label gesamtPreis;
+
+    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
+
+    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
     public WarenkorbTableConcern(TableColumn<WarenkorbArtikel, String> warenkorbArtikelStringTableColumn,
                                  TableColumn<WarenkorbArtikel, Integer> warenkorbArtikelAnzahlTableColumn,
                                  TableColumn<WarenkorbArtikel, Double> warenkorbArtikelPreisTableColumn,
@@ -34,7 +43,7 @@ public class WarenkorbTableConcern {
                                  Button warenkorbEntfernenButton,
                                  TextField warenkorbAnzahlField,
                                  Button kaufenButton,
-                                 Label gesamtPreis){
+                                 Label gesamtPreis) throws RemoteException, NotBoundException {
         this.warenkorbArtikelStringTableColumn = warenkorbArtikelStringTableColumn;
         this.warenkorbArtikelAnzahlTableColumn = warenkorbArtikelAnzahlTableColumn;
         this.warenkorbArtikelPreisTableColumn = warenkorbArtikelPreisTableColumn;
@@ -44,7 +53,7 @@ public class WarenkorbTableConcern {
         this.kaufenButton = kaufenButton;
         this.gesamtPreis = gesamtPreis;
     }
-    public void initializeWarenkorbView() {
+    public void initializeWarenkorbView() throws RemoteException {
         warenkorbArtikelStringTableColumn = new TableColumn<WarenkorbArtikel, String>("Artikel");
         warenkorbArtikelAnzahlTableColumn = new TableColumn<WarenkorbArtikel, Integer>("Anzahl");
         warenkorbArtikelPreisTableColumn = new TableColumn<WarenkorbArtikel, Double>("Einzelpreis");
@@ -60,24 +69,28 @@ public class WarenkorbTableConcern {
             warenkorbEntfernen();
         });
         kaufenButton.setOnAction(e -> {
-            rechnungErstellen();
+            try {
+                rechnungErstellen();
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
         });
     }
 
-    public void initializeGesamtPreis(){
-        Warenkorb warenkorb = ShopAPI.getInstance().getWarenkorb();
+    public void initializeGesamtPreis() throws RemoteException {
+        Warenkorb warenkorb = shopAPI.getWarenkorb();
         gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
     }
 
     public void kaufeWarenkorb() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
         warenkorbTableView.getItems().clear();
-        ShopAPI.getInstance().kaufen();
+        shopAPI.kaufen();
         setWarenkorbInTable();
     }
     public void setWarenkorbInTable() throws IOException {
         warenkorbTableView.getItems().clear();
         ObservableList<WarenkorbArtikel> warenkorbObservableList = FXCollections.observableArrayList();
-        for (WarenkorbArtikel warenkorbartikel : WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList()) {
+        for (WarenkorbArtikel warenkorbartikel : shopAPI.getWarenkorb().getWarenkorbArtikelList()) {
             warenkorbObservableList.add(warenkorbartikel);
         }
         warenkorbTableView.setItems(warenkorbObservableList);
@@ -90,11 +103,11 @@ public class WarenkorbTableConcern {
             if (selectedId >= 0) {
                 if(warenkorbAnzahlField.getText().isEmpty()) {
                     Artikel artikel = ((WarenkorbArtikel)warenkorbTableView.getItems().get(selectedId)).getArtikel();
-                    ShopAPI.getInstance().aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
+                    shopAPI.aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
                     setWarenkorbInTable();
                 } else {
                     Artikel artikel = ((WarenkorbArtikel)warenkorbTableView.getItems().get(selectedId)).getArtikel();
-                    ShopAPI.getInstance().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
+                    shopAPI.entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
                     setWarenkorbInTable();
                 }
             } else {
@@ -106,10 +119,10 @@ public class WarenkorbTableConcern {
             System.out.println(e);
         }
     }
-    public void rechnungErstellen() {
+    public void rechnungErstellen() throws RemoteException {
 
         try {
-            if (WarenkorbService.getInstance().getWarenkorb().getAnzahlArtikel() == 0) {
+            if (shopAPI.getWarenkorb().getAnzahlArtikel() == 0) {
                 return;
             }
         } catch (IOException e) {
@@ -121,7 +134,7 @@ public class WarenkorbTableConcern {
         kaufenButton.setVisible(false);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText(ShopAPI.getInstance().erstelleRechnung().toString());
+        alert.setContentText(shopAPI.erstelleRechnung().toString());
         alert.setTitle("Rechnung");
         alert.setHeaderText("Bitte Bestätigen sie ihren Einkauf.");
 

@@ -3,6 +3,7 @@ package com.centerio.eshopfx.shop.entities;
 import com.centerio.eshopfx.shop.persistence.CSVSerializable;
 import com.centerio.eshopfx.shop.utils.StringUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
  * unveränderlich zu halten.
  * Die Rechnung hat auch eine überschriebene toString()-Methode, die eine formatierte Rechnung ausgibt.
  */
-public class Rechnung implements CSVSerializable {
+public class Rechnung implements CSVSerializable, Serializable {
     private final Warenkorb warenkorb;
     private final Kunde kunde;
     private final LocalDateTime rechnungsDatum;

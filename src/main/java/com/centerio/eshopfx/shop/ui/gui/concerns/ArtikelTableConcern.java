@@ -1,6 +1,7 @@
 package com.centerio.eshopfx.shop.ui.gui.concerns;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
+import com.centerio.eshopfx.shop.domain.RemoteInterface;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
@@ -19,6 +20,10 @@ import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.lang.ref.Cleaner;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 public class ArtikelTableConcern {
@@ -43,6 +48,10 @@ public class ArtikelTableConcern {
 
     private Button clearButton;
 
+    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
+
+    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+
 
     public ArtikelTableConcern(
             TableColumn<Artikel, Integer> artikelNummerColumn,
@@ -55,7 +64,7 @@ public class ArtikelTableConcern {
             TextField artikelAnzahlField,
             Button addToWarenkorbButton,
             Button clearButton
-    ){
+    ) throws RemoteException, NotBoundException {
         this.artikelNummerColumn = artikelNummerColumn;
         this.artikelBezeichnungColumn = artikelBezeichnungColumn;
         this.artikelPreisColumn = artikelPreisColumn;
@@ -84,7 +93,7 @@ public class ArtikelTableConcern {
                                Button editArtikelButton,
                                Button removeArtikelButton,
                                Button clearButton
-                               ) {
+                               ) throws RemoteException, NotBoundException {
         this.artikelNummerColumn = artikelNummerColumn;
         this.artikelBezeichnungColumn = artikelBezeichnungColumn;
         this.artikelPreisColumn = artikelPreisColumn;
@@ -168,7 +177,7 @@ public class ArtikelTableConcern {
             if (!suchField.getText().equals("")) {
                 artikelTableView.getItems().clear();
                 ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
-                artikelObservableList.addAll(ShopAPI.getInstance().getArtikelByQuery(suchField.getText()));
+                artikelObservableList.addAll(shopAPI.getArtikelByQuery(suchField.getText()));
                 artikelTableView.setItems(artikelObservableList);
             }else {
                 setArtikelInTable();
@@ -190,11 +199,11 @@ public class ArtikelTableConcern {
                     if(artikelAnzahlField.getText().isEmpty()){
                         int anzahl = 1;
                         if (artikel instanceof Massenartikel) anzahl = ((Massenartikel) artikel).getPackgroesse();
-                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
+                        shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
                         warenkorbTableConcern.setWarenkorbInTable();
                         warenkorbTableConcern.initializeGesamtPreis();
                     } else {
-                        ShopAPI.getInstance().addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
+                        shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
                         warenkorbTableConcern.setWarenkorbInTable();
                         warenkorbTableConcern.initializeGesamtPreis();
                     }
@@ -265,7 +274,7 @@ public class ArtikelTableConcern {
 
     public void removeArtikel() throws IOException, ArtikelNichtGefundenException {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-        ShopAPI.getInstance().removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
+        shopAPI.removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
         artikelTableView.getItems().remove(selectedId);
     }
     public void artikelAdd() throws IOException {
@@ -283,11 +292,11 @@ public class ArtikelTableConcern {
             if(massenArtikelCheckbox.isSelected()){
                 Massenartikel artikel = new Massenartikel(ArtikelService.getInstance().getNaechsteId(), artikelBezeichnungFeld.getText(),
                         Double.parseDouble(artikelPreisFeld.getText()), Integer.parseInt(artikelBestandFeld.getText()), Integer.parseInt(packGroesseFeld.getText()));
-                ShopAPI.getInstance().addArtikel(artikel);
+                shopAPI.addArtikel(artikel);
             } else {
                 Artikel artikel = new Artikel(ArtikelService.getInstance().getNaechsteId(), artikelBezeichnungFeld.getText(),
                         (Double.parseDouble(artikelPreisFeld.getText())), Integer.parseInt(artikelBestandFeld.getText()));
-                ShopAPI.getInstance().addArtikel(artikel);
+                shopAPI.addArtikel(artikel);
             }
             setArtikelInTable();
             clearFelder();
@@ -361,7 +370,7 @@ public class ArtikelTableConcern {
                         artikel.setBestand(Integer.parseInt(artikelBestandFeld.getText()));
                     }
                 }
-                ShopAPI.getInstance().artikelAktualisieren(artikel);
+                shopAPI.artikelAktualisieren(artikel);
                 setArtikelInTable();
                 clearFelder();
             } else {

@@ -5,9 +5,11 @@ module com.centerio.eshopfx {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires java.rmi;
 
     opens com.centerio.eshopfx to javafx.fxml;
     opens com.centerio.eshopfx.shop.entities to javafx.fxml;
+    exports com.centerio.eshopfx.shop.domain;
     exports com.centerio.eshopfx;
     exports com.centerio.eshopfx.shop.ui.gui.utils;
     exports com.centerio.eshopfx.shop.entities;

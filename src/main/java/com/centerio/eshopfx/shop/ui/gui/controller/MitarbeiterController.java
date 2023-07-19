@@ -1,9 +1,6 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
-import com.centerio.eshopfx.shop.domain.ArtikelService;
-import com.centerio.eshopfx.shop.domain.HistorienService;
-import com.centerio.eshopfx.shop.domain.PersonenService;
-import com.centerio.eshopfx.shop.domain.ShopAPI;
+import com.centerio.eshopfx.shop.domain.*;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
@@ -30,6 +27,10 @@ import org.w3c.dom.Text;
 
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -129,9 +130,14 @@ public class MitarbeiterController {
 
     @FXML
     private Button ClearButton;
-    private final ShopAPI shopAPI = ShopAPI.getInstance();
+    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
+
+    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
 
     private Tab selctedTab = mitarbeiterPane.getSelectionModel().getSelectedItem();
+
+    public MitarbeiterController() throws RemoteException, NotBoundException {
+    }
 
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
@@ -140,7 +146,7 @@ public class MitarbeiterController {
      * Hier können UI-Elemente initialisiert werden. In dem Konstruktor können UI-Elemente noch nicht initialisiert werden,
      * da diese noch nicht geladen wurden.
      */
-    public void initialize() throws IOException {
+    public void initialize() throws IOException, NotBoundException {
         ArtikelTableConcern artikelTableConcern = new ArtikelTableConcern(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn,
                 artikelPackgroesseColumn, artikelTableView, suchField, artikelBezeichnungFeld, artikelPreisFeld, massenArtikelCheckbox,
                 packGroesseFeld, artikelBestandFeld, addArtikelButton, editArtikelButton, removeArtikelButton, ClearButton);
@@ -163,7 +169,7 @@ public class MitarbeiterController {
         //initializeMitarbeiterTab();
     }
 
-    public void save() {
+    public void save() throws RemoteException {
         shopAPI.speichern();
     }
 

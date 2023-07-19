@@ -1,9 +1,6 @@
 package com.centerio.eshopfx.shop.ui.gui.controller;
 
-import com.centerio.eshopfx.shop.domain.ArtikelService;
-import com.centerio.eshopfx.shop.domain.HistorienService;
-import com.centerio.eshopfx.shop.domain.ShopAPI;
-import com.centerio.eshopfx.shop.domain.WarenkorbService;
+import com.centerio.eshopfx.shop.domain.*;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
@@ -28,6 +25,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.time.LocalDateTime;
 
 public class KundeController {
@@ -68,7 +69,12 @@ public class KundeController {
     @FXML
     private Button ClearButton;
 
-    private final ShopAPI shopAPI = ShopAPI.getInstance();
+    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
+
+    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+
+    public KundeController() throws RemoteException, NotBoundException {
+    }
 
     /**
      * Diese Methode wird aufgerufen, wenn die View geladen wird.
@@ -88,11 +94,13 @@ public class KundeController {
             warenkorbTableConcern.setWarenkorbInTable();
             warenkorbTableConcern.setEventHandlerForWarenkorb();
         } catch(IOException e) {
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
 
-    public void save() {
+    public void save() throws RemoteException {
         shopAPI.speichern();
     }
 

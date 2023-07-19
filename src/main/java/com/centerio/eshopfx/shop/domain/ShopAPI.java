@@ -13,10 +13,13 @@ import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 
 import java.io.IOException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopAPI {
+public class ShopAPI extends UnicastRemoteObject implements RemoteInterface, Remote {
 
     private final ArtikelService artikelService;
     private final PersonenService personenService;
@@ -26,7 +29,7 @@ public class ShopAPI {
     private static ShopAPI instance;
 
 
-    private ShopAPI() {
+    private ShopAPI() throws RemoteException {
         try {
             artikelService = ArtikelService.getInstance();
             personenService = PersonenService.getInstance();
@@ -46,7 +49,7 @@ public class ShopAPI {
         }
     }
 
-    public static ShopAPI getInstance() {
+    public static ShopAPI getInstance() throws RemoteException {
         if (instance == null) {
             instance = new ShopAPI();
         }

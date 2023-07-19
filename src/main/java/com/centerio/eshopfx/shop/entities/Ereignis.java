@@ -181,7 +181,6 @@ public class Ereignis implements Serializable, CSVSerializable {
         return ereignisCSV;
     }
     public void fromCSVString(String csv) {
-           System.out.println("fromCSVString");
         String[] tokens = csv.split(";");
         try {
             person = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[0]));

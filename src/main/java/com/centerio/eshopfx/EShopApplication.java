@@ -1,5 +1,6 @@
 package com.centerio.eshopfx;
 
+import com.centerio.eshopfx.shop.domain.RemoteInterface;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
@@ -13,6 +14,11 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class EShopApplication extends Application {
 
@@ -81,11 +87,19 @@ public class EShopApplication extends Application {
     }
 
     public static void main(String[] args) {
-        Runtime.getRuntime().addShutdownHook(new Thread(ShopAPI.getInstance()::speichern));
         try {
+            Runtime.getRuntime().addShutdownHook(new Thread(ShopAPI.getInstance()::speichern));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            RemoteInterface remoteObject = (RemoteInterface)registry.lookup("RemoteObject");
             new SeedingUtils();
         } catch (IOException e) {
             throw new RuntimeException("Initzialisierung der Daten fehlgeschlagen: " + e.getMessage());
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
         }
         // Die Anwendung wird gestartet. Diese Methode wird von der Klasse Application geerbt.
         // Die Klasse Application ist die Hauptklasse einer JavaFX-Anwendung. In Java Swing ist das die Klasse JFrame.
