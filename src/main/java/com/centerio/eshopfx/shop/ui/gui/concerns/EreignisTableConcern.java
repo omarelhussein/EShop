@@ -1,7 +1,7 @@
 package com.centerio.eshopfx.shop.ui.gui.concerns;
 
-import com.centerio.eshopfx.shop.domain.ArtikelService;
-import com.centerio.eshopfx.shop.domain.HistorienService;
+import com.centerio.eshopfx.shop.domain.RemoteInterface;
+import com.centerio.eshopfx.shop.domain.RemoteSingletonService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
@@ -19,7 +19,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
-
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 
 public class EreignisTableConcern {
@@ -40,6 +43,10 @@ public class EreignisTableConcern {
 
     private Button bestandshistorieSuchenButton;
 
+    private Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+    private RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+    private RemoteInterface shopAPI = singletonService.getSingletonInstance();
+
     public EreignisTableConcern(TableColumn<Ereignis, Integer> ereignisPersNrTableColumn,
                                 TableColumn<Ereignis, String> ereignisPersNameTableColumn,
                                 TableColumn<Ereignis, String> ereignisArtTableColumn,
@@ -48,7 +55,7 @@ public class EreignisTableConcern {
                                 TableColumn<Ereignis, String> ereignisBestandTableColumn,
                                 TableView ereignisTableView,
                                 ComboBox<String> dropDownEreignisse,
-                                Button bestandshistorieSuchenButton){
+                                Button bestandshistorieSuchenButton) throws NotBoundException, RemoteException {
         this.ereignisPersNrTableColumn = ereignisPersNrTableColumn;
         this.ereignisPersNameTableColumn = ereignisPersNameTableColumn;
         this.ereignisArtTableColumn = ereignisArtTableColumn;
@@ -92,7 +99,7 @@ public class EreignisTableConcern {
                     ereignisTableView.setOnMouseClicked(null);
                     ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
                     try {
-                        for (Ereignis ereignis : HistorienService.getInstance().getEreignisList()){
+                        for (Ereignis ereignis : shopAPI.getEreignisList()){
                             ereignisObservableList.add(ereignis);
                         }
                     } catch (IOException e) {
@@ -105,7 +112,7 @@ public class EreignisTableConcern {
                     ereignisTableView.setOnMouseClicked(null);
                     ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
                     try {
-                        for (Ereignis ereignis : ShopAPI.getInstance().getUngefilterteArtikelhistorie()){
+                        for (Ereignis ereignis : shopAPI.getUngefilterteArtikelhistorie()){
                             ereignisObservableList.add(ereignis);
                         }
                     } catch (IOException e) {
@@ -118,7 +125,7 @@ public class EreignisTableConcern {
                     ereignisTableView.setOnMouseClicked(null);
                     ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
                     try {
-                        for (Ereignis ereignis : ShopAPI.getInstance().getUngefiltertePersonenhistorie()){
+                        for (Ereignis ereignis : shopAPI.getUngefiltertePersonenhistorie()){
                             ereignisObservableList.add(ereignis);
                         }
                     } catch (IOException e) {
@@ -131,7 +138,7 @@ public class EreignisTableConcern {
                     ereignisTableView.setOnMouseClicked(null);
                     ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
                     try {
-                        for (Ereignis ereignis : ShopAPI.getInstance().getUngefilterteWarenkorbhistorie()){
+                        for (Ereignis ereignis : shopAPI.getUngefilterteWarenkorbhistorie()){
                             ereignisObservableList.add(ereignis);
                         }
                     } catch (IOException e) {
@@ -159,7 +166,7 @@ public class EreignisTableConcern {
                     });
                     ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
                     try {
-                        for(Artikel artikel : ArtikelService.getInstance().getArtikelList()){
+                        for(Artikel artikel : shopAPI.getArtikelList()){
                             artikelObservableList.add(artikel);
                         }
                     } catch (IOException e) {
@@ -201,7 +208,7 @@ public class EreignisTableConcern {
                             try {
                                 resetBestandshistorieButtonHandler();
                                 ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
-                                for(Ereignis ereignis : ShopAPI.getInstance().sucheBestandshistorie(Integer.parseInt(firstColumnValue), 0, false)){
+                                for(Ereignis ereignis : shopAPI.sucheBestandshistorie(Integer.parseInt(firstColumnValue), 0, false)){
                                     ereignisObservableList.add(ereignis);
                                 }
                                 ereignisTableView.setItems(ereignisObservableList);
@@ -226,7 +233,7 @@ public class EreignisTableConcern {
     public void setEreingisInTable() throws IOException {
         ereignisTableView.getItems().clear();
         ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();
-        for (Ereignis ereignis : HistorienService.getInstance().getEreignisList()){
+        for (Ereignis ereignis : shopAPI.getEreignisList()){
             ereignisObservableList.add(ereignis);
         }
         ereignisTableView.setItems(ereignisObservableList);

@@ -1,5 +1,7 @@
 package com.centerio.eshopfx.shop.ui.gui.concerns;
 
+import com.centerio.eshopfx.shop.domain.RemoteInterface;
+import com.centerio.eshopfx.shop.domain.RemoteSingletonService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PersonVorhandenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
@@ -16,6 +18,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class PersonenTableConcern {
 
@@ -32,6 +38,10 @@ public class PersonenTableConcern {
 
     private Button registerMitarbeiterButton;
 
+    private Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+    private RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+    private RemoteInterface shopAPI = singletonService.getSingletonInstance();
+
 
     public PersonenTableConcern(
             TableColumn<Person, String> personTypColumn,
@@ -43,7 +53,7 @@ public class PersonenTableConcern {
             TextField nutzernameField,
             TextField passwortField,
             Button registerMitarbeiterButton
-    ){
+    ) throws NotBoundException, RemoteException {
         this.personTypColumn = personTypColumn;
         this.nutzernameColumn = nutzernameColumn;
         this.nameColumn = nameColumn;
@@ -75,12 +85,12 @@ public class PersonenTableConcern {
     public void setPersonInTable() throws IOException {
         personenTableView.getItems().clear();
         ObservableList<Person> personObservableList = FXCollections.observableArrayList();
-        personObservableList.addAll(ShopAPI.getInstance().getPersonList());
+        personObservableList.addAll(shopAPI.getPersonList());
         personenTableView.setItems(personObservableList);
     }
 
     public void mitarbeiterRegistrieren() throws PersonVorhandenException, IOException {
-        ShopAPI.getInstance().registrieren(new Mitarbeiter(ShopAPI.getInstance().getNaechstePersId(), nutzernameField.getText(), mitarbeiterNameField.getText(), passwortField.getText()));
+        shopAPI.registrieren(new Mitarbeiter(shopAPI.getNaechstePersId(), nutzernameField.getText(), mitarbeiterNameField.getText(), passwortField.getText()));
         setPersonInTable();
     }
 

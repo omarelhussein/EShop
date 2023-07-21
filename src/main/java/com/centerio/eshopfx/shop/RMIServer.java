@@ -7,9 +7,9 @@ import java.rmi.registry.Registry;
 public class RMIServer {
     public static void main(String[] args){
         try {
-            RemoteInterface remoteObject = ShopAPI.getInstance();
+            ShopAPI remoteAPI = ShopAPI.getInstance();
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("RemoteObject", remoteObject);
+            registry.rebind("RemoteObject", remoteAPI);
             System.out.println("Server läuft...");
 
         } catch (Exception e) {

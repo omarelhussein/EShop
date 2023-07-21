@@ -2,6 +2,7 @@ package com.centerio.eshopfx.shop.ui.gui.controller;
 
 import com.centerio.eshopfx.shop.domain.HistorienService;
 import com.centerio.eshopfx.shop.domain.RemoteInterface;
+import com.centerio.eshopfx.shop.domain.RemoteSingletonService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.personen.PasswortNameException;
 import com.centerio.eshopfx.shop.entities.Mitarbeiter;
@@ -40,9 +41,9 @@ public class LoginController {
     @FXML
     private ToggleButton showPasswordToggle;
 
-    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
-
-    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+    private Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+    private RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+    private RemoteInterface shopAPI = singletonService.getSingletonInstance();
 
     public LoginController() throws RemoteException, NotBoundException {
     }

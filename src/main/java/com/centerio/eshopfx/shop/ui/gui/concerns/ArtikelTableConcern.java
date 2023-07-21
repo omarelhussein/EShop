@@ -2,6 +2,7 @@ package com.centerio.eshopfx.shop.ui.gui.concerns;
 
 import com.centerio.eshopfx.shop.domain.ArtikelService;
 import com.centerio.eshopfx.shop.domain.RemoteInterface;
+import com.centerio.eshopfx.shop.domain.RemoteSingletonService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenException;
@@ -48,9 +49,9 @@ public class ArtikelTableConcern {
 
     private Button clearButton;
 
-    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
-
-    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+    private Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+    private RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+    private RemoteInterface shopAPI = singletonService.getSingletonInstance();
 
 
     public ArtikelTableConcern(
@@ -166,7 +167,7 @@ public class ArtikelTableConcern {
     public void setArtikelInTable() throws IOException {
         artikelTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
-        for(Artikel artikel : ArtikelService.getInstance().getArtikelList()){
+        for(Artikel artikel : shopAPI.getArtikelList()){
             artikelObservableList.add(artikel);
         }
         artikelTableView.setItems(artikelObservableList);
@@ -290,11 +291,11 @@ public class ArtikelTableConcern {
         }
         try {
             if(massenArtikelCheckbox.isSelected()){
-                Massenartikel artikel = new Massenartikel(ArtikelService.getInstance().getNaechsteId(), artikelBezeichnungFeld.getText(),
+                Massenartikel artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), artikelBezeichnungFeld.getText(),
                         Double.parseDouble(artikelPreisFeld.getText()), Integer.parseInt(artikelBestandFeld.getText()), Integer.parseInt(packGroesseFeld.getText()));
                 shopAPI.addArtikel(artikel);
             } else {
-                Artikel artikel = new Artikel(ArtikelService.getInstance().getNaechsteId(), artikelBezeichnungFeld.getText(),
+                Artikel artikel = new Artikel(shopAPI.getNaechsteArtikelId(), artikelBezeichnungFeld.getText(),
                         (Double.parseDouble(artikelPreisFeld.getText())), Integer.parseInt(artikelBestandFeld.getText()));
                 shopAPI.addArtikel(artikel);
             }

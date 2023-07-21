@@ -1,6 +1,7 @@
 package com.centerio.eshopfx.shop.ui.gui.concerns;
 
 import com.centerio.eshopfx.shop.domain.RemoteInterface;
+import com.centerio.eshopfx.shop.domain.RemoteSingletonService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.domain.WarenkorbService;
 import com.centerio.eshopfx.shop.domain.exceptions.artikel.AnzahlPackgroesseException;
@@ -8,6 +9,7 @@ import com.centerio.eshopfx.shop.domain.exceptions.artikel.ArtikelNichtGefundenE
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.BestandUeberschrittenException;
 import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import com.centerio.eshopfx.shop.entities.Artikel;
+import com.centerio.eshopfx.shop.entities.UserContext;
 import com.centerio.eshopfx.shop.entities.Warenkorb;
 import com.centerio.eshopfx.shop.entities.WarenkorbArtikel;
 import javafx.collections.FXCollections;
@@ -33,9 +35,9 @@ public class WarenkorbTableConcern {
     private Button kaufenButton;
     private Label gesamtPreis;
 
-    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
-
-    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+    private Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+    private RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+    private RemoteInterface shopAPI = singletonService.getSingletonInstance();
     public WarenkorbTableConcern(TableColumn<WarenkorbArtikel, String> warenkorbArtikelStringTableColumn,
                                  TableColumn<WarenkorbArtikel, Integer> warenkorbArtikelAnzahlTableColumn,
                                  TableColumn<WarenkorbArtikel, Double> warenkorbArtikelPreisTableColumn,
@@ -79,6 +81,7 @@ public class WarenkorbTableConcern {
 
     public void initializeGesamtPreis() throws RemoteException {
         Warenkorb warenkorb = shopAPI.getWarenkorb();
+        System.out.println(UserContext.getUser().getPersNr());
         gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
     }
 
@@ -121,12 +124,8 @@ public class WarenkorbTableConcern {
     }
     public void rechnungErstellen() throws RemoteException {
 
-        try {
-            if (shopAPI.getWarenkorb().getAnzahlArtikel() == 0) {
-                return;
-            }
-        } catch (IOException e) {
-            System.out.println(e);
+        if (shopAPI.getWarenkorb().getAnzahlArtikel() == 0) {
+            return;
         }
 
 

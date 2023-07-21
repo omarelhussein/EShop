@@ -69,9 +69,9 @@ public class KundeController {
     @FXML
     private Button ClearButton;
 
-    Registry registry = LocateRegistry.getRegistry("LocalHost", 1099);
-
-    private final RemoteInterface shopAPI = (RemoteInterface) registry.lookup("RemoteObject");
+    private Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+    private RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+    private RemoteInterface shopAPI = singletonService.getSingletonInstance();
 
     public KundeController() throws RemoteException, NotBoundException {
     }
@@ -105,7 +105,7 @@ public class KundeController {
     }
 
     public void logout() throws IOException {
-        shopAPI.logout();
+        shopAPI.speichern();
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }
 }

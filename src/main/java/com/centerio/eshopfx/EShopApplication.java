@@ -1,6 +1,7 @@
 package com.centerio.eshopfx;
 
 import com.centerio.eshopfx.shop.domain.RemoteInterface;
+import com.centerio.eshopfx.shop.domain.RemoteSingletonService;
 import com.centerio.eshopfx.shop.domain.ShopAPI;
 import com.centerio.eshopfx.shop.ui.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.shop.ui.gui.utils.StageManager;
@@ -94,7 +95,8 @@ public class EShopApplication extends Application {
         }
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            RemoteInterface remoteObject = (RemoteInterface)registry.lookup("RemoteObject");
+            RemoteSingletonService singletonService = (RemoteSingletonService) registry.lookup("RemoteObject");
+            RemoteInterface shopAPI = singletonService.getSingletonInstance();
             new SeedingUtils();
         } catch (IOException e) {
             throw new RuntimeException("Initzialisierung der Daten fehlgeschlagen: " + e.getMessage());

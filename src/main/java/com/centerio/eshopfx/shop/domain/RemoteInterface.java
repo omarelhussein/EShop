@@ -11,13 +11,14 @@ import com.centerio.eshopfx.shop.domain.exceptions.warenkorb.WarenkorbArtikelNic
 import com.centerio.eshopfx.shop.entities.*;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.List;
 
 public interface RemoteInterface extends Remote {
-
     void speichern() throws RemoteException;
 
     void addArtikel(Artikel artikel) throws IOException, RemoteException;

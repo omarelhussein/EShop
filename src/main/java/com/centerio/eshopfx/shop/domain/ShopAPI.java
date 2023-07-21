@@ -13,20 +13,21 @@ import com.centerio.eshopfx.shop.entities.enums.EreignisTyp;
 import com.centerio.eshopfx.shop.entities.enums.KategorieEreignisTyp;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopAPI extends UnicastRemoteObject implements RemoteInterface, Remote {
+public class ShopAPI extends UnicastRemoteObject implements RemoteInterface, RemoteSingletonService, Serializable {
 
     private final ArtikelService artikelService;
     private final PersonenService personenService;
     private final WarenkorbService warenkorbService;
     private final HistorienService historienService;
     private final BestellService bestellService;
-    private static ShopAPI instance;
+    private static transient ShopAPI instance;
 
 
     private ShopAPI() throws RemoteException {
@@ -110,6 +111,7 @@ public class ShopAPI extends UnicastRemoteObject implements RemoteInterface, Rem
     }
 
     public Warenkorb getWarenkorb() {
+        System.out.println(UserContext.getUser().getPersNr());
         var warenkorb = warenkorbService.getWarenkorb();
         return warenkorb;
     }
@@ -233,9 +235,9 @@ public class ShopAPI extends UnicastRemoteObject implements RemoteInterface, Rem
     }
 
     public ArrayList<Ereignis> getEreignisList() throws IOException {
-        var ereignisListe = historienService.kundeOderMitarbeiterEreignisListe();
-        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
-        return ereignisListe;
+       // var ereignisListe = historienService.kundeOderMitarbeiterEreignisListe();
+       // HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
+        return HistorienService.getInstance().getEreignisList();
     }
 
     public Rechnung erstelleRechnung() {
@@ -305,5 +307,10 @@ public class ShopAPI extends UnicastRemoteObject implements RemoteInterface, Rem
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public RemoteInterface getSingletonInstance() throws RemoteException {
+        return getInstance();
     }
 }

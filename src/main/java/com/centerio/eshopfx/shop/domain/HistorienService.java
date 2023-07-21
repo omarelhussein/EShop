@@ -164,6 +164,7 @@ public class HistorienService {
     }
 
     public void save() throws IOException {
+        ereignisList.forEach(e -> System.out.println(e.getArt()));
         persistenceManager.replaceAll(ereignisList);
     }
 

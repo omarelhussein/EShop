@@ -138,7 +138,10 @@ public class WarenkorbService {
 
     public Warenkorb getWarenkorb() {
         var user = UserContext.getUser();
-        if (user == null || user instanceof Mitarbeiter) return null;
+        if (user == null || user instanceof Mitarbeiter) {
+            System.out.println("User null");
+            return null;
+        }
         var warenkorb = getWarenkorbByKundenNr(user.getPersNr());
         if (warenkorb == null && user instanceof Kunde kunde) {
             neuerKorb(kunde);
