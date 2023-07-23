@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="786ea8bb-9c88-43d9-9ebc-199d01ab014e" name="Changes" comment="replace search button with typed events&#10;&#10;(cherry picked from commit 045db1b5f940a81dc914c9990295b8d0df655bea)">
+      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/WarenkorbTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/WarenkorbTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/exceptions/artikel/AnzahlPackgroesseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/exceptions/artikel/AnzahlPackgroesseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/ArtikelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ArtikelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/HistorienService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/HistorienService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/WarenkorbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/WarenkorbService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artikel.csv" beforeDir="false" afterPath="$PROJECT_DIR$/artikel.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ereignis.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ereignis.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Common/exceptions/artikel/AnzahlPackgroesseException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Common/exceptions/artikel/AnzahlPackgroesseException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Server/domain/ArtikelService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Server/domain/ArtikelService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Server/domain/HistorienService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Server/domain/HistorienService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Server/domain/ShopAPIImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Server/domain/ShopAPIImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Server/domain/WarenkorbService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Server/domain/WarenkorbService.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="CSS File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2QdznBRG3eCQqxpCGV5d290ZHHN" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "database.data.extractors.current.export.id": "8e16c4ba-1be1-4509-87f4-5a7805ba84f7",
+    "database.data.extractors.current.id": "8e16c4ba-1be1-4509-87f4-5a7805ba84f7",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
+    "last_opened_file_path": "/Users/omarelhussein/IdeaProjects/EShop/Common",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Common" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Common/src" />
+      <recent name="$PROJECT_DIR$/Client/src/main/java" />
+      <recent name="$PROJECT_DIR$/Server/src" />
+      <recent name="$PROJECT_DIR$/Common" />
+      <recent name="$PROJECT_DIR$/Server" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.centerio.eshopfx" />
+      <recent name="com.centerio" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.EShopFX">
+    <configuration name="EShopCUI" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.centerio.eshopfx.cui.EShopCUI" />
+      <module name="Client" />
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EShopFX" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="com.centerio.eshopfx.EShopApplication" />
+      <module name="Client" />
+      <option name="VM_PARAMETERS" value="-Xdock:name=&quot;Alfabet&quot;" />
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EShopServer" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="RMIServer" />
+      <module name="Server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.EShopCUI" />
+      <item itemvalue="Application.EShopFX" />
+      <item itemvalue="Application.EShopServer" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="786ea8bb-9c88-43d9-9ebc-199d01ab014e" name="Changes" comment="" />
+      <created>1685698410458</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685698410458</updated>
+      <workItem from="1685698413877" duration="8583000" />
+      <workItem from="1685728304650" duration="13158000" />
+      <workItem from="1685797860477" duration="10054000" />
+      <workItem from="1686234541242" duration="33681000" />
+      <workItem from="1687467162568" duration="32219000" />
+      <workItem from="1690024243589" duration="3055000" />
+      <workItem from="1690029835887" duration="28351000" />
+    </task>
+    <task id="LOCAL-00001" summary="replace search button with typed events&#10;&#10;(cherry picked from commit 045db1b5f940a81dc914c9990295b8d0df655bea)">
+      <created>1687945584108</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1687945584108</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="replace search button with typed events&#10;&#10;(cherry picked from commit 045db1b5f940a81dc914c9990295b8d0df655bea)" />
+    <option name="LAST_COMMIT_MESSAGE" value="replace search button with typed events&#10;&#10;(cherry picked from commit 045db1b5f940a81dc914c9990295b8d0df655bea)" />
+  </component>
+</project>

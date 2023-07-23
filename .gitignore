@@ -6,7 +6,6 @@ out/
 
 ### IntelliJ IDEA ###
 .idea/jarRepositories.xml
-.idea/compiler.xml
 .idea/libraries/
 *.iws
 *.ipr
