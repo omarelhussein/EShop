@@ -25,6 +25,7 @@ public class ShopAPIImpl implements ShopAPI {
     private final WarenkorbService warenkorbService;
     private final HistorienService historienService;
     private final BestellService bestellService;
+    private final List<ShopEventListener> listeners;
 
 
     public ShopAPIImpl() throws RemoteException {
@@ -34,6 +35,7 @@ public class ShopAPIImpl implements ShopAPI {
             warenkorbService = WarenkorbService.getInstance();
             historienService = HistorienService.getInstance();
             bestellService = new BestellService();
+            listeners = new ArrayList<>();
             try {
                 registrieren(new Mitarbeiter(1, "admin", "admin", "admin"));
                 registrieren(new Kunde(2, "kunde", "kunde", new Adresse(
@@ -50,6 +52,7 @@ public class ShopAPIImpl implements ShopAPI {
     public void speichern() throws RemoteException {
         try {
             artikelService.save();
+            fireArtikelChangedEvent();
             personenService.save();
             historienService.save();
         } catch (IOException e) {
@@ -60,6 +63,7 @@ public class ShopAPIImpl implements ShopAPI {
     public void addArtikel(Artikel artikel) throws IOException {
         artikelService.addArtikel(artikel);
         historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
+        fireArtikelChangedEvent();
     }
 
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException, IOException {
@@ -67,6 +71,7 @@ public class ShopAPIImpl implements ShopAPI {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
             artikelService.removeArtikel(artikel);
             historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
+            fireArtikelChangedEvent();
         } catch (ArtikelNichtGefundenException e) {
             historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_LOESCHEN, artikelNr, false);
             throw e;
@@ -176,6 +181,7 @@ public class ShopAPIImpl implements ShopAPI {
         try {
             artikelService.artikelAktualisieren(artikel);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, true);
+            fireArtikelChangedEvent();
         } catch (ArtikelNichtGefundenException e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
             throw e;
@@ -217,6 +223,7 @@ public class ShopAPIImpl implements ShopAPI {
             var erfolg = artikelService.aendereArtikelBestand(artikelId, bestand, false);
             var artikel = artikelService.getArtikelByArtNr(artikelId);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, artikel, erfolg);
+            fireArtikelChangedEvent();
         } catch (ArtikelNichtGefundenException e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, null, false);
             throw e;
@@ -224,8 +231,8 @@ public class ShopAPIImpl implements ShopAPI {
     }
 
     public ArrayList<Ereignis> getEreignisList() throws IOException {
-       // var ereignisListe = historienService.kundeOderMitarbeiterEreignisListe();
-       // HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
+        // var ereignisListe = historienService.kundeOderMitarbeiterEreignisListe();
+        // HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
         return HistorienService.getInstance().getEreignisList();
     }
 
@@ -245,6 +252,7 @@ public class ShopAPIImpl implements ShopAPI {
         try {
             var warenkorbListGroesse = WarenkorbService.getInstance().getWarenkorbList().size();
             bestellService.kaufen();
+            fireArtikelChangedEvent();
         } catch (Exception e) {
             HistorienService.getInstance()
                     .addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, warenkorbService.getWarenkorb(), false);
@@ -293,7 +301,7 @@ public class ShopAPIImpl implements ShopAPI {
         HistorienService.getInstance().addEreignis(ereignisKategorie, ereignisTyp, obj, erfolg);
     }
 
-    public List<Person> getPersonList(){
+    public List<Person> getPersonList() {
         return personenService.getPersonList();
     }
 
@@ -305,4 +313,41 @@ public class ShopAPIImpl implements ShopAPI {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void addShopEventListener(ShopEventListener listener) throws RemoteException {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void removeShopEventListener(ShopEventListener listener) throws RemoteException {
+        listeners.remove(listener);
+    }
+
+    /**
+     * Hier wird der Event an alle Listener geschickt, dass sich die ArtikelListe geändert hat.
+     * Das wird benötigt, damit die GUI aktualisiert wird.
+     * <p>
+     * Das passiert bei Kauf, Bestandänderung, Artikel hinzufügen, Artikel löschen usw.
+     *
+     * @throws RemoteException wenn ein Fehler auftritt
+     */
+    public void fireArtikelChangedEvent() throws RemoteException {
+        System.out.println("fireArtikelChangedEvent");
+        System.out.println("listeners: " + listeners.size());
+        for (ShopEventListener listener : listeners) {
+            new Thread(() -> {
+                try {
+                    listener.handleArtikelListChanged();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+    public List<ShopEventListener> getShopEventListeners() {
+        return listeners;
+    }
+
 }

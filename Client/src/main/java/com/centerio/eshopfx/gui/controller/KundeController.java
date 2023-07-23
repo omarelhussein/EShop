@@ -8,7 +8,6 @@ import com.centerio.eshopfx.gui.utils.SceneRoutes;
 import com.centerio.eshopfx.gui.utils.StageManager;
 import domain.ShopAPI;
 import entities.Artikel;
-import entities.UserContext;
 import entities.WarenkorbArtikel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -89,7 +88,7 @@ public class KundeController {
                     kaufenButton,
                     gesamtPreis);
             artikelTable.initializeArtikelView();
-            artikelTable.setArtikelInTable();
+            artikelTable.refreshTable();
             artikelTable.setKundeEventHandlerForArtikel(warenkorbTableView);
             warenkorbTableView.initializeWarenkorbView();
             warenkorbTableView.setWarenkorbInTable();

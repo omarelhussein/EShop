@@ -92,4 +92,8 @@ public interface ShopAPI extends Remote {
     List<Person> getPersonList() throws RemoteException;
 
     void accountLoeschen() throws RemoteException;
+
+    void addShopEventListener(ShopEventListener listener) throws RemoteException;
+
+    void removeShopEventListener(ShopEventListener listener) throws RemoteException;
 }

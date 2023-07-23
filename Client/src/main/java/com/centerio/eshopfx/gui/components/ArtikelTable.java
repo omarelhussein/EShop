@@ -2,17 +2,18 @@ package com.centerio.eshopfx.gui.components;
 
 import com.centerio.eshopfx.ShopAPIClient;
 import domain.ShopAPI;
+import domain.ShopEventListener;
 import entities.Artikel;
 import entities.Massenartikel;
 import exceptions.artikel.AnzahlPackgroesseException;
 import exceptions.artikel.ArtikelNichtGefundenException;
 import exceptions.warenkorb.BestandUeberschrittenException;
 import exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -21,9 +22,14 @@ import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class ArtikelTable {
+/**
+ * Hier wird die Tabelle für die Artikel erstellt.
+ * Die Tabelle muss von UnicastRemoteObject erben, um die beim Server registrieren zu können.
+ */
+public class ArtikelTable extends UnicastRemoteObject implements ShopEventListener {
 
     private TableColumn<Artikel, Integer> artikelNummerColumn;
     private TableColumn<Artikel, String> artikelBezeichnungColumn;
@@ -47,7 +53,6 @@ public class ArtikelTable {
 
     private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
 
-
     public ArtikelTable(
             TableColumn<Artikel, Integer> artikelNummerColumn,
             TableColumn<Artikel, String> artikelBezeichnungColumn,
@@ -70,6 +75,7 @@ public class ArtikelTable {
         this.artikelAnzahlField = artikelAnzahlField;
         this.addToWarenkorbButton = addToWarenkorbButton;
         this.clearButton = clearButton;
+        shopAPI.addShopEventListener(this);
     }
 
     public ArtikelTable(TableColumn<Artikel, Integer> artikelNummerColumn,
@@ -105,6 +111,7 @@ public class ArtikelTable {
         this.editArtikelButton = editArtikelButton;
         this.removeArtikelButton = removeArtikelButton;
         this.clearButton = clearButton;
+        shopAPI.addShopEventListener(this);
     }
 
     public void initializeArtikelView() {
@@ -145,26 +152,13 @@ public class ArtikelTable {
             }
         });
         suchField.setOnKeyPressed(this::clearSuchFieldKey);
-        suchField.setOnKeyTyped(e -> {
-            artikelSuchen();
-        });
-        clearButton.setOnAction(e -> {
-            clearSuchField();
-        });
-
+        suchField.setOnKeyTyped(e -> artikelSuchen());
+        clearButton.setOnAction(e -> clearSuchField());
     }
 
-    public void setArtikelInTable() throws IOException {
+    public void refreshTable() throws IOException {
         artikelTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(shopAPI.getArtikelList());
-        artikelObservableList.addListener((ListChangeListener<Artikel>) c -> {
-            System.out.println("List changed");
-            while (c.next()) {
-                if (c.wasAdded()) {
-                    artikelTableView.getItems().addAll(c.getAddedSubList());
-                }
-            }
-        });
         artikelTableView.setItems(artikelObservableList);
     }
 
@@ -176,7 +170,7 @@ public class ArtikelTable {
                 artikelObservableList.addAll(shopAPI.getArtikelByQuery(suchField.getText()));
                 artikelTableView.setItems(artikelObservableList);
             } else {
-                setArtikelInTable();
+                refreshTable();
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -292,7 +286,7 @@ public class ArtikelTable {
                         (Double.parseDouble(artikelPreisFeld.getText())), Integer.parseInt(artikelBestandFeld.getText()));
                 shopAPI.addArtikel(artikel);
             }
-            setArtikelInTable();
+            refreshTable();
             clearFelder();
         } catch (RuntimeException e) {
             addArtikelButton.setStyle("-fx-border-color: red;");
@@ -324,7 +318,7 @@ public class ArtikelTable {
     public void clearSuchField() {
         suchField.setText("");
         try {
-            setArtikelInTable();
+            refreshTable();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -366,7 +360,7 @@ public class ArtikelTable {
                     }
                 }
                 shopAPI.artikelAktualisieren(artikel);
-                setArtikelInTable();
+                refreshTable();
                 clearFelder();
             } else {
                 editArtikelButton.setStyle("-fx-border-color: red;");
@@ -377,4 +371,16 @@ public class ArtikelTable {
         }
     }
 
+    @Override
+    public void handleArtikelListChanged() throws RemoteException {
+        // put refreshTable() in Platform.runLater() to avoid IllegalStateException
+        // In this case it is necessary because the method is called from another thread
+        Platform.runLater(() -> {
+            try {
+                refreshTable();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

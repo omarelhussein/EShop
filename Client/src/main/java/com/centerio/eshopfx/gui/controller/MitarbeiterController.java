@@ -11,7 +11,6 @@ import domain.ShopAPI;
 import entities.Artikel;
 import entities.Ereignis;
 import entities.Person;
-import entities.UserContext;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -127,7 +126,7 @@ public class MitarbeiterController {
      * da diese noch nicht geladen wurden.
      */
     public void initialize() throws IOException, NotBoundException {
-        ArtikelTable artikelTableConcern = new ArtikelTable(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn,
+        ArtikelTable artikelTable = new ArtikelTable(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn,
                 artikelPackgroesseColumn, artikelTableView, suchField, artikelBezeichnungFeld, artikelPreisFeld, massenArtikelCheckbox,
                 packGroesseFeld, artikelBestandFeld, addArtikelButton, editArtikelButton, removeArtikelButton, ClearButton);
         PersonenTable personenTableConcern = new PersonenTable(personTypColumn, nutzernameColumn, nameColumn,
@@ -135,11 +134,11 @@ public class MitarbeiterController {
         EreignisTable ereignisTableConcern = new EreignisTable(ereignisPersNrTableColumn,
                 ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn, ereignisDatumTableColumn,
                 ereignisBestandTableColumn, ereignisTableView, dropDownEreignisse, bestandshistorieSuchenButton);
-        artikelTableConcern.initializeArtikelView();
-        artikelTableConcern.setArtikelInTable();
-        artikelTableConcern.setMitarbeiterEventHandlersForArtikel();
-        artikelTableConcern.artikelOnClickToTextfield();
-        artikelTableConcern.massenArtikelHandler();
+        artikelTable.initializeArtikelView();
+        artikelTable.refreshTable();
+        artikelTable.setMitarbeiterEventHandlersForArtikel();
+        artikelTable.artikelOnClickToTextfield();
+        artikelTable.massenArtikelHandler();
         personenTableConcern.initializePersonView();
         personenTableConcern.setPersonInTable();
         personenTableConcern.setEventHandlerForPersonen();
