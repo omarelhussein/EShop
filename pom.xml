@@ -7,7 +7,11 @@
     <groupId>com.centerio</groupId>
     <artifactId>EShopFX</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>EShopFX</name>
+    <modules>
+        <module>Client</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,7 +74,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.centerio.eshopfx/com.centerio.eshopfx.EShopApplication</mainClass>
+                            <mainClass>com.centerio.eshopfx/com.centerio.eshopfx.com.centerio.eshopfx.EShopApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

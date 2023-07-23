@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.centerio.eshopfx.gui.controller.MitarbeiterController">
+    <top>
+        <MenuBar useSystemMenuBar="true">
+            <Menu mnemonicParsing="false" text="File">
+                <MenuItem text="Save" onAction="#save" accelerator="Shortcut+S"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Logout" onAction="#logout" accelerator="Shortcut+L"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Account Löschen" onAction="#deleteAccount"/>
+            </Menu>
+            <Menu text="Edit">
+                <MenuItem text="Delete"/>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="About"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <TabPane fx:id="mitarbeiterPane" tabClosingPolicy="UNAVAILABLE">
+            <Tab fx:id="artikelTab" text="Artikel">
+                <HBox>
+                    <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" spacing="30">
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        </padding>
+                        <VBox>
+                            <Label fx:id="artikelBezeichnungLabel" text="Artikelbezeichnung:"/>
+                            <TextField fx:id="artikelBezeichnungFeld" promptText="Artikelbezeichnung"/>
+                        </VBox>
+                        <VBox>
+                            <Label fx:id="artikelPreisLabel" text="Artikelpreis:"/>
+                            <TextField fx:id="artikelPreisFeld" promptText="Artikelpreis"/>
+                        </VBox>
+                        <VBox>
+                            <Label fx:id="artikelBestandLabel" text="Artikelbestand:"/>
+                            <TextField fx:id="artikelBestandFeld" promptText="Artikelbestand"/>
+                        </VBox>
+                        <VBox>
+                            <HBox>
+                                <Label fx:id="massenArtikelLabel" text="Mengenartikel"/>
+                                <CheckBox fx:id="massenArtikelCheckbox"/>
+                            </HBox>
+                            <TextField fx:id="packGroesseFeld" promptText="Packgröße" visible="false"/>
+                        </VBox>
+                        <VBox>
+                            <Button fx:id="addArtikelButton" text="Hinzufügen"/>
+                            <Button fx:id="editArtikelButton" text="Bearbeiten"/>
+                            <Button fx:id="removeArtikelButton" text="Löschen"/>
+                        </VBox>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS">
+                        <HBox>
+                            <TextField fx:id="suchField" promptText="Artikel suchen" HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="ClearButton" text="X"/>
+                            <!--                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>-->
+                        </HBox>
+                        <TableView fx:id="artikelTableView" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                    </VBox>
+                </HBox>
+            </Tab>
+            <Tab fx:id="mitarbeiterTab" text="Accounts">
+                <HBox>
+                    <VBox>
+                        <VBox spacing="30">
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                            <VBox>
+                                <Label fx:id="nutzernameLabel" text="Nutzername:"/>
+                                <TextField fx:id="nutzernameField" promptText="Nutzername"/>
+                            </VBox>
+                            <VBox>
+                                <Label fx:id="mitarbeiterNameLabel" text="Name:"/>
+                                <TextField fx:id="mitarbeiterNameField" promptText="Name"/>
+                            </VBox>
+                            <VBox>
+                                <Label fx:id="passwortLabel" text="Passwort:"/>
+                                <TextField fx:id="passwortField" promptText="Passwort"/>
+                            </VBox>
+                            <Button fx:id="registerMitarbeiterButton" text="Registrieren"/>
+                        </VBox>
+                    </VBox>
+                    <TableView fx:id="personenTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                </HBox>
+            </Tab>
+            <Tab fx:id="ereignisTab" text="Ereignisse">
+                <HBox>
+                    <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" spacing="30">
+                        <ComboBox fx:id="dropDownEreignisse">
+                        </ComboBox>
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        </padding>
+                        <Button fx:id="bestandshistorieSuchenButton" text="Suchen" visible="false"/>
+                    </VBox>
+                    <TableView fx:id="ereignisTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                </HBox>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>
