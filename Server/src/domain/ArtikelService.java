@@ -4,8 +4,6 @@ import exceptions.artikel.AnzahlPackgroesseException;
 import exceptions.artikel.ArtikelNichtGefundenException;
 import entities.Artikel;
 import entities.Massenartikel;
-import entities.enums.EreignisTyp;
-import entities.enums.KategorieEreignisTyp;
 import persistence.FilePersistenceManager;
 
 import java.io.IOException;
@@ -168,10 +166,10 @@ public class ArtikelService {
         persistenceManager.replaceAll(artikelList);
     }
 
-    public void anzahlPackgroeßeVergleich(Artikel artikel, int anzahl) throws AnzahlPackgroesseException {
+    public void anzahlPackgroesseVergleich(Artikel artikel, int anzahl) throws AnzahlPackgroesseException {
         if (artikel instanceof Massenartikel) {
             double massenanzahl = (double) anzahl / ((Massenartikel) artikel).getPackgroesse();
-            if (massenanzahl%1 != 0) throw new AnzahlPackgroesseException(anzahl, (Massenartikel) artikel);
+            if (massenanzahl % 1 != 0) throw new AnzahlPackgroesseException(anzahl, (Massenartikel) artikel);
         }
     }
 }

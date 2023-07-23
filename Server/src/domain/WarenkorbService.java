@@ -56,19 +56,20 @@ public class WarenkorbService {
         if (anzahl <= 0) {
             return false;
         }
-        for(WarenkorbArtikel warenkorbArtikel : WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList()){
-            if(artikel.equals(warenkorbArtikel.getArtikel()) && (warenkorbArtikel.getAnzahl()+anzahl > artikel.getBestand())){
+        var warenkorbArtikelList = WarenkorbService.getInstance().getWarenkorb().getWarenkorbArtikelList();
+        for (WarenkorbArtikel warenkorbArtikel : warenkorbArtikelList) {
+            if (artikel.equals(warenkorbArtikel.getArtikel()) && (warenkorbArtikel.getAnzahl() + anzahl > artikel.getBestand())) {
                 return false;
             }
-            if(artikel.equals(warenkorbArtikel.getArtikel())){
-                WarenkorbService.getInstance().aendereWarenkorbArtikelAnzahl(warenkorbArtikel.getArtikel().getArtNr(), anzahl+warenkorbArtikel.getAnzahl());
+            if (artikel.equals(warenkorbArtikel.getArtikel())) {
+                WarenkorbService.getInstance().aendereWarenkorbArtikelAnzahl(warenkorbArtikel.getArtikel().getArtNr(), anzahl + warenkorbArtikel.getAnzahl());
                 return true;
             }
         }
-        artikelservice.anzahlPackgroeßeVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
+        artikelservice.anzahlPackgroesseVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
         var warenkorb = getWarenkorbByKundenNr(UserContext.getUser().getPersNr());
         if (anzahl > artikel.getBestand()) {
-           throw new BestandUeberschrittenException(artikelNr, anzahl, artikel);
+            throw new BestandUeberschrittenException(artikelNr, anzahl, artikel);
         }
         warenkorb.addArtikel(new WarenkorbArtikel(artikel, anzahl));
         return true;
@@ -103,7 +104,7 @@ public class WarenkorbService {
             WarenkorbArtikelNichtGefundenException, ArtikelNichtGefundenException, AnzahlPackgroesseException {
         var warenkorbArtikel = getWarenkorbArtikelByArtNrOrThrow(artikelNr);
         pruefeBestand(warenkorbArtikel, anzahl);
-        artikelservice.anzahlPackgroeßeVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
+        artikelservice.anzahlPackgroesseVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
         if (anzahl <= 0) {
             removeArtikelVomWarenkorb(artikelNr);
         } else {

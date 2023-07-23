@@ -105,9 +105,7 @@ public class ShopAPIImpl implements ShopAPI {
     }
 
     public Warenkorb getWarenkorb() {
-        System.out.println(UserContext.getUser().getPersNr());
-        var warenkorb = warenkorbService.getWarenkorb();
-        return warenkorb;
+        return warenkorbService.getWarenkorb();
     }
 
     public double getWarenkorbGesamtpreis() {

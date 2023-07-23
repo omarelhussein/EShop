@@ -186,30 +186,25 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
             if (selectedId >= 0) {
                 Artikel artikel = artikelTableView.getItems().get(selectedId);
                 try {
+                    int anzahl = 1;
                     if (artikelAnzahlField.getText().isEmpty()) {
-                        int anzahl = 1;
                         if (artikel instanceof Massenartikel) anzahl = ((Massenartikel) artikel).getPackgroesse();
-                        shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
-                        warenkorbTable.setWarenkorbInTable();
-                        warenkorbTable.initializeGesamtPreis();
                     } else {
-                        shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), Integer.parseInt(artikelAnzahlField.getText()));
-                        warenkorbTable.setWarenkorbInTable();
-                        warenkorbTable.initializeGesamtPreis();
+                        anzahl = Integer.parseInt(artikelAnzahlField.getText());
                     }
+                    shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
+                    warenkorbTable.setWarenkorbInTable();
+                    warenkorbTable.initializeGesamtPreis();
                 } catch (NumberFormatException e) {
-                    addToWarenkorbButton.setStyle("-fx-border-color: red;");
-                } catch (AnzahlPackgroesseException e) {
-                    System.out.println(e);
-                } catch (WarenkorbArtikelNichtGefundenException e) {
-                    throw new RuntimeException(e);
+                    new Alert(Alert.AlertType.ERROR, "Bitte geben Sie eine Zahl ein!").showAndWait();
+                } catch (AnzahlPackgroesseException | WarenkorbArtikelNichtGefundenException e) {
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
                 }
             } else {
-                addToWarenkorbButton.setStyle("-fx-border-color: red;");
+                new Alert(Alert.AlertType.ERROR, "Bitte wählen Sie einen Artikel aus!").showAndWait();
             }
         } catch (IOException | ArtikelNichtGefundenException | BestandUeberschrittenException e) {
-            addToWarenkorbButton.setStyle("-fx-border-color: red;");
-            System.out.println(e);
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         }
     }
 

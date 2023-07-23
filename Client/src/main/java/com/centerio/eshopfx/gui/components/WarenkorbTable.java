@@ -77,7 +77,6 @@ public class WarenkorbTable {
 
     public void initializeGesamtPreis() throws RemoteException {
         Warenkorb warenkorb = shopAPI.getWarenkorb();
-        System.out.println(UserContext.getUser().getPersNr());
         gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
     }
 
