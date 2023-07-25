@@ -1,9 +1,9 @@
 package domain;
 
 
+import entities.Kunde;
 import entities.Mitarbeiter;
 import entities.Person;
-import entities.Kunde;
 import entities.enums.EreignisTyp;
 import entities.enums.KategorieEreignisTyp;
 import exceptions.personen.PasswortNameException;
@@ -12,7 +12,6 @@ import exceptions.personen.PersonVorhandenException;
 import persistence.FilePersistenceManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -51,7 +50,7 @@ public class PersonenService {
                 return person;
             }
         }
-        throw new PasswortNameException(nutzername, passwort);
+        throw new PasswortNameException();
     }
 
     /**

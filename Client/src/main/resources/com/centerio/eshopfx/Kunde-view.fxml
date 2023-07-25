@@ -9,7 +9,7 @@
     <top>
         <MenuBar useSystemMenuBar="true">
             <Menu mnemonicParsing="false" text="File">
-                <MenuItem text="Logout" onAction="#logout" accelerator="Shortcut+L" />
+                <MenuItem text="Logout" onAction="#logout" accelerator="Shortcut+L"/>
             </Menu>
             <Menu text="Edit">
                 <MenuItem text="Delete"/>
@@ -27,16 +27,16 @@
                         <HBox>
                             <TextField fx:id="suchField" promptText="Artikel suchen" HBox.hgrow="ALWAYS"/>
                             <Button fx:id="ClearButton" text="X" prefHeight="32"/>
-<!--                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>-->
+                            <!--                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>-->
                         </HBox>
                         <TableView fx:id="artikelTableView" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER"/>
                     </VBox>
-                    <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" spacing="30">
+                    <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" spacing="15">
                         <padding>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="35.0"/>
                         </padding>
                         <TextField fx:id="artikelAnzahlField" promptText="Anzahl"/>
-                        <Button fx:id="addToWarenkorbButton" text="Hinzufügen"/>
+                        <Button fx:id="addToWarenkorbButton" text="Hinzufügen" prefWidth="Infinity"/>
                     </VBox>
                 </HBox>
             </Tab>
@@ -49,12 +49,12 @@
                         <padding>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                         </padding>
-                        <VBox>
+                        <VBox spacing="15">
                             <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="20.0"/>
                             </padding>
                             <TextField fx:id="warenkorbAnzahlField" promptText="Anzahl"/>
-                            <Button fx:id="warenkorbEntfernenButton" text="entfernen"/>
+                            <Button fx:id="warenkorbEntfernenButton" text="Entfernen" prefWidth="Infinity"/>
                             <VBox>
                                 <padding>
                                     <Insets bottom="10.0" top="10.0"/>
@@ -63,7 +63,8 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Label fx:id="gesamtPreis" prefWidth="200" text="gesamtPreis"/>
                                 </HBox>
-                                <Button fx:id="kaufenButton" text="Kaufen"/>
+                                <Region prefHeight="8.0"/>
+                                <Button fx:id="kaufenButton" text="Kaufen" prefWidth="Infinity"/>
                             </VBox>
                         </VBox>
                     </VBox>

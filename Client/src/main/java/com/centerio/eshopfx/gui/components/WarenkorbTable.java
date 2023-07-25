@@ -81,8 +81,8 @@ public class WarenkorbTable {
     }
 
     public void kaufeWarenkorb() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
-        warenkorbTableView.getItems().clear();
         shopAPI.kaufen();
+        warenkorbTableView.getItems().clear();
         setWarenkorbInTable();
     }
 
@@ -107,19 +107,20 @@ public class WarenkorbTable {
                     shopAPI.entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
                     setWarenkorbInTable();
                 }
+                warenkorbAnzahlField.clear();
             } else {
-                warenkorbEntfernenButton.setStyle("-fx-border-color: red;");
+                new Alert(Alert.AlertType.ERROR, "Bitte wählen Sie einen Artikel aus.").showAndWait();
             }
         } catch (BestandUeberschrittenException | IOException | WarenkorbArtikelNichtGefundenException |
                  ArtikelNichtGefundenException | AnzahlPackgroesseException e) {
-            warenkorbEntfernenButton.setStyle("-fx-border-color: red;");
-            System.out.println(e);
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         }
     }
 
     public void rechnungErstellen() throws RemoteException {
 
         if (shopAPI.getWarenkorb().getAnzahlArtikel() == 0) {
+            new Alert(Alert.AlertType.ERROR, "Bitte fügen Sie Artikel zum Warenkorb hinzu.").showAndWait();
             return;
         }
 
@@ -145,7 +146,7 @@ public class WarenkorbTable {
                 try {
                     kaufeWarenkorb();
                 } catch (BestandUeberschrittenException | ArtikelNichtGefundenException | IOException e) {
-                    throw new RuntimeException(e);
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
                 }
                 //addToWarenkorbButton.setVisible(true);
                 kaufenButton.setVisible(true);

@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="Graph">
+    <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/domain/ShopAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/domain/ShopAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/WarenkorbTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/WarenkorbTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/Kunde-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/Kunde-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/exceptions/personen/PasswortNameException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/exceptions/personen/PasswortNameException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/PersonenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/PersonenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/WarenkorbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/WarenkorbService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artikel.csv" beforeDir="false" afterPath="$PROJECT_DIR$/artikel.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personen.csv" beforeDir="false" afterPath="$PROJECT_DIR$/personen.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +57,7 @@
   }
 }</component>
   <component name="RunManager" selected="Application.EShopApplication">
-    <configuration name="EShopApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="EShopApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.centerio.eshopfx.EShopApplication" />
       <module name="Client" />
       <extension name="coverage">
@@ -144,6 +149,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/domain/WarenkorbService.java</url>
+          <line>174</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

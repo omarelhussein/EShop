@@ -130,7 +130,7 @@ public class ShopAPIImpl implements ShopAPI {
             throws BestandUeberschrittenException, ArtikelNichtGefundenException,
             WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException {
         try {
-            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl);
+            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, anzahl, false);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
         } catch (Exception e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);
@@ -143,7 +143,7 @@ public class ShopAPIImpl implements ShopAPI {
             WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException {
         try {
             WarenkorbArtikel warenkorbArtikel = warenkorbService.getWarenkorbArtikelByArtNr(artikelNr);
-            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, warenkorbArtikel.getAnzahl() - anzahl);
+            warenkorbService.aendereWarenkorbArtikelAnzahl(artikelNr, warenkorbArtikel.getAnzahl() - anzahl, false);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), true);
         } catch (Exception e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_AENDERN, artikelService.getArtikelByArtNr(artikelNr), false);
@@ -257,7 +257,6 @@ public class ShopAPIImpl implements ShopAPI {
 
     public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
         try {
-            var warenkorbListGroesse = WarenkorbService.getInstance().getWarenkorbList().size();
             bestellService.kaufen();
             fireArtikelChangedEvent();
         } catch (Exception e) {

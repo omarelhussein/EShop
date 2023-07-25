@@ -62,7 +62,7 @@ public class WarenkorbService {
                 return false;
             }
             if (artikel.equals(warenkorbArtikel.getArtikel())) {
-                WarenkorbService.getInstance().aendereWarenkorbArtikelAnzahl(warenkorbArtikel.getArtikel().getArtNr(), anzahl + warenkorbArtikel.getAnzahl());
+                WarenkorbService.getInstance().aendereWarenkorbArtikelAnzahl(warenkorbArtikel.getArtikel().getArtNr(), anzahl + warenkorbArtikel.getAnzahl(), true);
                 return true;
             }
         }
@@ -100,10 +100,10 @@ public class WarenkorbService {
      * @throws exceptions.warenkorb.BestandUeberschrittenException         Wenn die Anzahl der Artikel im Warenkorb den Bestand des Artikels übersteigt
      * @throws exceptions.warenkorb.WarenkorbArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer im Warenkorb gefunden wurde
      */
-    public void aendereWarenkorbArtikelAnzahl(int artikelNr, int anzahl) throws BestandUeberschrittenException,
+    public void aendereWarenkorbArtikelAnzahl(int artikelNr, int anzahl, boolean pruefeBestand) throws BestandUeberschrittenException,
             WarenkorbArtikelNichtGefundenException, ArtikelNichtGefundenException, AnzahlPackgroesseException {
         var warenkorbArtikel = getWarenkorbArtikelByArtNrOrThrow(artikelNr);
-        pruefeBestand(warenkorbArtikel, anzahl);
+        if (pruefeBestand) pruefeBestand(warenkorbArtikel, anzahl);
         artikelservice.anzahlPackgroesseVergleich(artikelservice.getArtikelByArtNr(artikelNr), anzahl);
         if (anzahl <= 0) {
             removeArtikelVomWarenkorb(artikelNr);
@@ -169,12 +169,11 @@ public class WarenkorbService {
         }
     }
 
-    public void pruefeBestand(WarenkorbArtikel warenkorbArtikel, int neuAnzahl) throws BestandUeberschrittenException {
-        var tmpNeuBestand = warenkorbArtikel.getArtikel().getBestand() + neuAnzahl;
-        if (tmpNeuBestand < 0 || tmpNeuBestand < neuAnzahl)
-            throw new BestandUeberschrittenException(warenkorbArtikel.getArtikel().getBestand(),
-                    neuAnzahl,
-                    warenkorbArtikel.getArtikel());
+    public void pruefeBestand(WarenkorbArtikel warenkorbArtikel, int neuAnzahl) throws BestandUeberschrittenException, ArtikelNichtGefundenException {
+        var artikel = artikelservice.getArtikelByArtNr(warenkorbArtikel.getArtikel().getArtNr());
+        var tmpNeuBestand = artikel.getBestand() - neuAnzahl;
+        if (tmpNeuBestand < 0)
+            throw new BestandUeberschrittenException(artikel.getBestand(), neuAnzahl, artikel);
     }
 
     public void kaufeArtikel(WarenkorbArtikel warenkorbArtikel) throws BestandUeberschrittenException, ArtikelNichtGefundenException {

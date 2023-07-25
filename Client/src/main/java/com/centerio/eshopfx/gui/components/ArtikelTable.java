@@ -196,6 +196,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
                     }
                     shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
                     warenkorbTable.setWarenkorbInTable();
+                    artikelAnzahlField.clear();
                     warenkorbTable.initializeGesamtPreis();
                 } catch (NumberFormatException e) {
                     new Alert(Alert.AlertType.ERROR, "Bitte geben Sie eine Zahl ein!").showAndWait();
