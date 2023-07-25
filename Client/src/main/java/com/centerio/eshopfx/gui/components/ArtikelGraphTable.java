@@ -77,36 +77,38 @@ public class ArtikelGraphTable {
         artikelGraphTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 int selectedId = artikelGraphTableView.getSelectionModel().getSelectedIndex();
-                Artikel artikel = artikelGraphTableView.getItems().get(selectedId);
-                try {
-                    List<Ereignis> ereignisse = shopAPI.sucheBestandshistorie(artikel.getArtNr(), 30, false);
-                    var iterator = ereignisse.iterator();
-                    int i=30;
-                    XYChart.Series series = new XYChart.Series();
-                    while (iterator.hasNext()) {
-                        LocalDate date = LocalDate.now();
-                        Ereignis ereignis = iterator.next();
-                        while (date.minus(i, ChronoUnit.DAYS).isBefore(ereignis.getDatum().toLocalDate()) ) {
-                            if (i > 0) {
-                                if (ereignis.getEreignisTyp() == EreignisTyp.ARTIKEL_ANLEGEN) {
-                                    series.getData().add(new XYChart.Data(i, 0));
-                                } else {
-                                    series.getData().add(new XYChart.Data(i, ereignis.getBestand()));
+                if(selectedId > -1) {
+                    Artikel artikel = artikelGraphTableView.getItems().get(selectedId);
+                    try {
+                        List<Ereignis> ereignisse = shopAPI.sucheBestandshistorie(artikel.getArtNr(), 30, false);
+                        var iterator = ereignisse.iterator();
+                        int i=30;
+                        XYChart.Series series = new XYChart.Series();
+                        while (iterator.hasNext()) {
+                            LocalDate date = LocalDate.now();
+                            Ereignis ereignis = iterator.next();
+                            while (date.minus(i, ChronoUnit.DAYS).isBefore(ereignis.getDatum().toLocalDate()) ) {
+                                if (i > 0) {
+                                    if (ereignis.getEreignisTyp() == EreignisTyp.ARTIKEL_ANLEGEN) {
+                                        series.getData().add(new XYChart.Data(i, 0));
+                                    } else {
+                                        series.getData().add(new XYChart.Data(i, ereignis.getBestand()));
+                                    }
+                                    i--;
                                 }
-                                i--;
                             }
                         }
+                        while (i > 0) {
+                            series.getData().add(new XYChart.Data(i, artikel.getBestand()));
+                            i--;
+                        }
+                        series.getData().add(new XYChart.Data(0, artikel.getBestand()));
+                        graph.getData().add(series);
+                        graph.getXAxis().setLabel("days ago");
+                        graph.getYAxis().setLabel("Bestand");
+                    } catch (ArtikelNichtGefundenException | IOException e) {
+                        new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
                     }
-                    while (i > 0) {
-                        series.getData().add(new XYChart.Data(i, artikel.getBestand()));
-                        i--;
-                    }
-                    series.getData().add(new XYChart.Data(0, artikel.getBestand()));
-                    graph.getData().add(series);
-                    graph.getXAxis().setLabel("days ago");
-                    graph.getYAxis().setLabel("Bestand");
-                } catch (ArtikelNichtGefundenException | IOException e) {
-                    new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
                 }
             }
         });

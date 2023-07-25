@@ -181,22 +181,34 @@ public class Ereignis implements Serializable, CSVSerializable {
         return ereignisCSV;
     }
 
+    public void setPerson(Person person){
+        this.person = person;
+    }
+    public void setObject(Object object){
+        this.object = object;
+    }
+    public void setKategorieEreignisTyp(KategorieEreignisTyp kategorieEreignisTyp){
+        this.kategorieEreignisTyp = kategorieEreignisTyp;
+    }
+
+    public void setEreignisTyp(EreignisTyp ereignisTyp){
+        this.ereignisTyp = ereignisTyp;
+    }
+    public void setDatum(LocalDateTime datum){
+        this.datum = datum;
+    }
+
+    public void setErfolg(Boolean erfolg){
+        this.erfolg = erfolg;
+    }
+
+    public void setBestand(Integer bestand){
+        this.bestand = bestand;
+    }
+
     public void fromCSVString(String csv) {
+        /*
         String[] tokens = csv.split(";");
-        /*try { // FIXME : Services können hier nicht verwendet werden!
-            person = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[0]));
-            if (tokens[1].equals("Artikel") || tokens[1].equals("Massenartikel")) {
-                object = ArtikelService.getInstance().getArtikelByArtNr(Integer.parseInt(tokens[2]));
-            }
-            if (tokens[1].equals("Kunde") || tokens[1].equals("Mitarbeiter")) {
-                object = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[2]));
-            }
-            if (tokens[1].equals("null")) {
-                object = null;
-            }
-        } catch (IOException | ArtikelNichtGefundenException e) {
-            System.out.println("IOException in Ereignisse");
-        }*/
         kategorieEreignisTyp = KategorieEreignisTyp.valueOf(tokens[3]);
         ereignisTyp = EreignisTyp.valueOf(tokens[4]);
         datum = LocalDateTime.parse(tokens[5]);
@@ -204,8 +216,9 @@ public class Ereignis implements Serializable, CSVSerializable {
         if (!(tokens[7].equals("null")))
             bestand = Integer.parseInt(tokens[7]);
 
-    }
 
+         */
+    }
 }
 
 

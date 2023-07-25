@@ -80,7 +80,6 @@ public class ShopAPIImpl implements ShopAPI {
 
     public List<Artikel> getArtikelList() throws IOException {
         var artikelListe = artikelService.getArtikelList();
-        historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANZEIGEN, artikelService.getArtikelList().size(), artikelListe != null);
         return artikelListe;
     }
 
@@ -157,13 +156,16 @@ public class ShopAPIImpl implements ShopAPI {
         if (warenkorbService.getWarenkorb() == null && login instanceof Kunde kunde) {
             warenkorbService.neuerKorb(kunde);
         }
-        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, login, true);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, login, true);
+
         return login;
     }
 
 
     public Person registrieren(Person person) throws PersonVorhandenException, IOException {
-        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_ANLEGEN, person, true);
+        if(!person.getNutzername().equals("admin") && !person.getNutzername().equals("kunde")) {
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_ANLEGEN, person, true);
+        }
         return personenService.registerPerson(person);
     }
 

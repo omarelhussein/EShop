@@ -1,9 +1,14 @@
 package persistence;
 
 
+import domain.ArtikelService;
+import domain.PersonenService;
 import entities.*;
+import entities.enums.EreignisTyp;
+import entities.enums.KategorieEreignisTyp;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,8 +77,27 @@ public class FilePersistenceManager<T extends CSVSerializable> {
                 // create instance of object parameter
                 Class<? extends T> clazz = getClassForIdentifier(identifier);
                 T obj = clazz.getDeclaredConstructor().newInstance();
-                obj.fromCSVString(data);
-
+                if (obj instanceof Ereignis) {
+                    String[] tokens = data.split(";");
+                    Person person = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[0]));
+                    ((Ereignis) obj).setPerson(person);
+                    if (tokens[1].equals("Artikel") || tokens[1].equals("Massenartikel")) {
+                        Object object = ArtikelService.getInstance().getArtikelByArtNr(Integer.parseInt(tokens[2]));
+                        ((Ereignis) obj).setObject(object);
+                    }
+                    if (tokens[1].equals("Kunde") || tokens[1].equals("Mitarbeiter")) {
+                        Object object = PersonenService.getInstance().getPersonByPersNr(Integer.parseInt(tokens[2]));
+                        ((Ereignis) obj).setObject(object);
+                    }
+                    ((Ereignis) obj).setKategorieEreignisTyp(KategorieEreignisTyp.valueOf(tokens[3]));
+                    ((Ereignis) obj).setEreignisTyp(EreignisTyp.valueOf(tokens[4]));
+                    ((Ereignis) obj).setDatum(LocalDateTime.parse(tokens[5]));
+                    ((Ereignis) obj).setErfolg(((Ereignis) obj).stringToErfolg(tokens[6]));
+                    if (!(tokens[7].equals("null")))
+                        ((Ereignis) obj).setBestand(Integer.parseInt(tokens[7]));
+                } else {
+                    obj.fromCSVString(data);
+                }
                 objects.add(obj);
             }
         } catch (FileNotFoundException e) {
