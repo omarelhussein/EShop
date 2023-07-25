@@ -75,7 +75,7 @@ public class ArtikelGraphTable {
 
     public void artikelOnClickToGraph() {
         artikelGraphTableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
+            if (event.getClickCount() == 2) {
                 int selectedId = artikelGraphTableView.getSelectionModel().getSelectedIndex();
                 if(selectedId > -1) {
                     Artikel artikel = artikelGraphTableView.getItems().get(selectedId);

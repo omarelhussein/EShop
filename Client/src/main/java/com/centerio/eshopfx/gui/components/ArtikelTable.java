@@ -158,7 +158,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
 
     public void refreshTable() throws IOException {
         artikelTableView.getItems().clear();
-        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(shopAPI.getArtikelList());
+        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(shopAPI.getArtikelList().stream().filter(a -> a.getBestand() != 0).toList());
         artikelTableView.setItems(artikelObservableList);
     }
 

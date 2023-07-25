@@ -61,6 +61,7 @@ public class ShopAPIImpl implements ShopAPI {
     }
 
     public void addArtikel(Artikel artikel) throws IOException {
+
         artikelService.addArtikel(artikel);
         historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
         fireArtikelChangedEvent();
@@ -69,7 +70,7 @@ public class ShopAPIImpl implements ShopAPI {
     public void removeArtikel(int artikelNr) throws ArtikelNichtGefundenException, IOException {
         try {
             var artikel = artikelService.getArtikelByArtNr(artikelNr);
-            artikelService.removeArtikel(artikel);
+            artikelService.aendereArtikelBestand(artikelNr, 0, false);
             historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_LOESCHEN, artikel, true);
             fireArtikelChangedEvent();
         } catch (ArtikelNichtGefundenException e) {
