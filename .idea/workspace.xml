@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="Fixed removeArtikel Bug">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/css/tab.css" afterDir="false" />
+    <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="Graph">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelGraphTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelGraphTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/MitarbeiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/MitarbeiterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/Kunde-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/Kunde-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/Mitarbeiter-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/Mitarbeiter-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/css/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/css/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/registrieren-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/resources/com/centerio/eshopfx/registrieren-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/domain/ShopAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/domain/ShopAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artikel.csv" beforeDir="false" afterPath="$PROJECT_DIR$/artikel.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,25 +32,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.EShopApplication">
     <configuration name="EShopApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.centerio.eshopfx.EShopApplication" />

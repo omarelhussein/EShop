@@ -151,6 +151,12 @@ public class ShopAPIImpl implements ShopAPI {
         }
     }
 
+    public int getWarenkorbArtikelAnzahl(int artNr) {
+        WarenkorbArtikel warenkorbArtikel = warenkorbService.getWarenkorbArtikelByArtNr(artNr);
+        if (warenkorbArtikel == null) return 0;
+        return warenkorbArtikel.getAnzahl();
+    }
+
     public Person login(String nutzername, String passwort) throws IOException, PasswortNameException {
         var login = personenService.login(nutzername, passwort);
         UserContext.setUser(login);

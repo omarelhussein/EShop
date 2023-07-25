@@ -191,6 +191,9 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
                     } else {
                         anzahl = Integer.parseInt(artikelAnzahlField.getText());
                     }
+                    if (artikel.getBestand() - shopAPI.getWarenkorbArtikelAnzahl(artikel.getArtNr()) < anzahl) {
+                        throw new BestandUeberschrittenException(artikel.getBestand() - shopAPI.getWarenkorbArtikelAnzahl(artikel.getArtNr()), anzahl, artikel);
+                    }
                     shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
                     warenkorbTable.setWarenkorbInTable();
                     warenkorbTable.initializeGesamtPreis();

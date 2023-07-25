@@ -42,6 +42,8 @@ public interface ShopAPI extends Remote {
 
     void entferneArtikelAnzahlImWarenkorb(int artikelNr, int anzahl) throws BestandUeberschrittenException, ArtikelNichtGefundenException, WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException, RemoteException;
 
+    int getWarenkorbArtikelAnzahl(int artNr) throws RemoteException;
+
     Person login(String nutzername, String passwort) throws IOException, PasswortNameException, RemoteException;
 
     Person registrieren(Person person) throws PersonVorhandenException, IOException, RemoteException;
