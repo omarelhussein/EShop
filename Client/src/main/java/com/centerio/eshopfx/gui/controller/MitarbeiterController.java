@@ -12,12 +12,9 @@ import domain.ShopAPI;
 import entities.Artikel;
 import entities.Ereignis;
 import entities.Person;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
-import javafx.scene.chart.XYChart;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -118,6 +115,8 @@ public class MitarbeiterController {
 
     @FXML private LineChart<Number, Number> graph;
 
+    @FXML private Button clearGraphButton;
+
     @FXML
     private Button ClearButton;
     private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
@@ -140,26 +139,25 @@ public class MitarbeiterController {
         ArtikelTable artikelTable = new ArtikelTable(artikelNummerColumn, artikelBezeichnungColumn, artikelPreisColumn, artikelBestandColumn,
                 artikelPackgroesseColumn, artikelTableView, suchField, artikelBezeichnungFeld, artikelPreisFeld, massenArtikelCheckbox,
                 packGroesseFeld, artikelBestandFeld, addArtikelButton, editArtikelButton, removeArtikelButton, ClearButton);
-        PersonenTable personenTableConcern = new PersonenTable(personTypColumn, nutzernameColumn, nameColumn,
+        PersonenTable personenTable = new PersonenTable(personTypColumn, nutzernameColumn, nameColumn,
                 personNummerColumn, personenTableView, mitarbeiterNameField, nutzernameField, passwortField, registerMitarbeiterButton);
-        EreignisTable ereignisTableConcern = new EreignisTable(ereignisPersNrTableColumn,
+        EreignisTable ereignisTable = new EreignisTable(ereignisPersNrTableColumn,
                 ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn, ereignisDatumTableColumn,
                 ereignisBestandTableColumn, ereignisTableView, dropDownEreignisse, bestandshistorieSuchenButton);
         artikelGraphTable = new ArtikelGraphTable(artikelNummerColumn, artikelBezeichnungColumn,
-                artikelGraphTableView, graph);
+                artikelGraphTableView, graph, clearGraphButton);
         artikelTable.initializeArtikelView();
         artikelTable.refreshTable();
         artikelTable.setMitarbeiterEventHandlersForArtikel();
-        artikelTable.artikelOnClickToTextfield();
+        artikelTable.handleRowClicked();
         artikelTable.massenArtikelHandler();
         artikelGraphTable.initializeArtikelGraphView();
         artikelGraphTable.refreshTable();
-        artikelGraphTable.artikelOnClickToGraph();
-        personenTableConcern.initializePersonView();
-        personenTableConcern.setPersonInTable();
-        personenTableConcern.setEventHandlerForPersonen();
-        ereignisTableConcern.initializeEreignisView();
-        ereignisTableConcern.setEreingisInTable();
+        personenTable.initializePersonView();
+        personenTable.setPersonInTable();
+        personenTable.setEventHandlerForPersonen();
+        ereignisTable.initializeEreignisView();
+        ereignisTable.setEreingisInTable();
     }
 
     public void save() throws RemoteException {

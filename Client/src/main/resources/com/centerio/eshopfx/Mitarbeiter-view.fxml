@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.centerio.eshopfx.gui.controller.MitarbeiterController">
+            fx:controller="com.centerio.eshopfx.gui.controller.MitarbeiterController" stylesheets="@css/tab.css">
     <top>
         <MenuBar useSystemMenuBar="true">
             <Menu mnemonicParsing="false" text="File">
@@ -29,7 +29,7 @@
         <TabPane fx:id="mitarbeiterPane" tabClosingPolicy="UNAVAILABLE">
             <Tab fx:id="artikelTab" text="Artikel">
                 <HBox>
-                    <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" spacing="30">
+                    <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" spacing="15">
                         <padding>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                         </padding>
@@ -45,23 +45,24 @@
                             <Label fx:id="artikelBestandLabel" text="Artikelbestand:"/>
                             <TextField fx:id="artikelBestandFeld" promptText="Artikelbestand"/>
                         </VBox>
-                        <VBox>
+                        <VBox spacing="8">
                             <HBox>
-                                <Label fx:id="massenArtikelLabel" text="Mengenartikel"/>
+                                <Label fx:id="massenArtikelLabel" text="Massenartikel"/>
+                                <Region HBox.hgrow="ALWAYS"/>
                                 <CheckBox fx:id="massenArtikelCheckbox"/>
                             </HBox>
                             <TextField fx:id="packGroesseFeld" promptText="Packgröße" visible="false"/>
                         </VBox>
-                        <VBox>
-                            <Button fx:id="addArtikelButton" text="Hinzufügen"/>
-                            <Button fx:id="editArtikelButton" text="Bearbeiten"/>
-                            <Button fx:id="removeArtikelButton" text="Löschen"/>
+                        <VBox spacing="8">
+                            <Button fx:id="addArtikelButton" text="Hinzufügen" prefWidth="Infinity"/>
+                            <Button fx:id="editArtikelButton" text="Bearbeiten" prefWidth="Infinity"/>
+                            <Button fx:id="removeArtikelButton" text="Löschen" prefWidth="Infinity"/>
                         </VBox>
                     </VBox>
                     <VBox HBox.hgrow="ALWAYS">
                         <HBox>
                             <TextField fx:id="suchField" promptText="Artikel suchen" HBox.hgrow="ALWAYS"/>
-                            <Button fx:id="ClearButton" text="X"/>
+                            <Button fx:id="ClearButton" text="X" prefHeight="32"/>
                             <!--                            <Button fx:id="suchenButton" onAction="#artikelSuchen" text="Suchen"/>-->
                         </HBox>
                         <TableView fx:id="artikelTableView" VBox.vgrow="ALWAYS" BorderPane.alignment="CENTER"/>
@@ -70,23 +71,23 @@
             </Tab>
             <Tab fx:id="mitarbeiterTab" text="Accounts">
                 <HBox>
-                    <VBox>
-                        <VBox spacing="30">
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </padding>
-                            <VBox>
-                                <Label fx:id="nutzernameLabel" text="Nutzername:"/>
-                                <TextField fx:id="nutzernameField" promptText="Nutzername"/>
-                            </VBox>
-                            <VBox>
-                                <Label fx:id="mitarbeiterNameLabel" text="Name:"/>
-                                <TextField fx:id="mitarbeiterNameField" promptText="Name"/>
-                            </VBox>
-                            <VBox>
-                                <Label fx:id="passwortLabel" text="Passwort:"/>
-                                <TextField fx:id="passwortField" promptText="Passwort"/>
-                            </VBox>
+                    <VBox spacing="15">
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        </padding>
+                        <VBox>
+                            <Label fx:id="nutzernameLabel" text="Nutzername:"/>
+                            <TextField fx:id="nutzernameField" promptText="Nutzername"/>
+                        </VBox>
+                        <VBox>
+                            <Label fx:id="mitarbeiterNameLabel" text="Name:"/>
+                            <TextField fx:id="mitarbeiterNameField" promptText="Name"/>
+                        </VBox>
+                        <VBox>
+                            <Label fx:id="passwortLabel" text="Passwort:"/>
+                            <TextField fx:id="passwortField" promptText="Passwort"/>
+                        </VBox>
+                        <VBox>
                             <Button fx:id="registerMitarbeiterButton" text="Registrieren"/>
                         </VBox>
                     </VBox>
@@ -109,7 +110,9 @@
             <Tab fx:id="artikelgraphTab" text="Graph" onSelectionChanged="#graphTableAktualisieren">
                 <HBox>
                     <TableView fx:id="artikelGraphTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
-                    <LineChart fx:id="graph" title="Bestand der letzten 30 Tage" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER">
+                    <Button fx:id="clearGraphButton" text="X" prefHeight="30"/>
+                    <LineChart fx:id="graph" title="Bestand der letzten 30 Tage" HBox.hgrow="ALWAYS"
+                               BorderPane.alignment="CENTER">
                         <xAxis>
                             <NumberAxis side="BOTTOM" lowerBound="30" upperBound="0" autoRanging="false"/>
                         </xAxis>

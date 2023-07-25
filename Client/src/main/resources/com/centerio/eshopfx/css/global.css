@@ -1,0 +1,23 @@
+#suchField {
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.table-row-cell:highlighted {
+    -fx-background-color: -fx-selection-bar;
+    -fx-text-fill: white;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.table-row-cell:highlighted .text {
+    -fx-fill: white;
+}
+
+#clearGraphButton {
+    -fx-cursor: hand;
+    -fx-padding: 8px;
+    -fx-pref-height: 30px;
+    -fx-pref-width: 30px;
+}

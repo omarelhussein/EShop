@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 
 /**
  * Hier wird die Tabelle für die Artikel erstellt.
@@ -209,7 +208,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
     }
 
     public void setKundeEventHandlerForArtikel(WarenkorbTable warenkorbTable) {
-        suchField.setOnKeyPressed(this::clearSuchFieldKey);
+        suchField.setOnKeyPressed(e -> clearSuchFieldKey(e));
         suchField.setOnKeyTyped(e -> {
             artikelSuchen();
         });
@@ -224,20 +223,21 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
     /**
      * Mitarbeiterfunktionen
      */
-    public void artikelOnClickToTextfield() {
+    public void handleRowClicked() {
         artikelTableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
-                TablePosition<?, ?> position = artikelTableView.getSelectionModel().getSelectedCells().get(0);
-                int row = position.getRow();
-                ArrayList<TextField> TextFieldList = new ArrayList<TextField>();
-                TextFieldList.add(artikelBezeichnungFeld);
-                TextFieldList.add(artikelPreisFeld);
-                TextFieldList.add(artikelBestandFeld);
-                for (int i = 0; i < 3; i++) {
-                    TableColumn<?, ?> column = artikelTableView.getColumns().get(i + 1);
-                    Object value = column.getCellObservableValue(row).getValue();
-                    TextFieldList.get(i).setText(value.toString());
-                }
+            TablePosition<?, ?> position = artikelTableView.getSelectionModel().getSelectedCells().get(0);
+            int row = position.getRow();
+            Artikel artikel = artikelTableView.getItems().get(row);
+            artikelBezeichnungFeld.setText(artikel.getBezeichnung());
+            artikelPreisFeld.setText(String.valueOf(artikel.getPreis()));
+            artikelBestandFeld.setText(String.valueOf(artikel.getBestand()));
+            if (artikel instanceof Massenartikel) {
+                massenArtikelCheckbox.setSelected(true);
+                packGroesseFeld.setText(String.valueOf(((Massenartikel) artikel).getPackgroesse()));
+                packGroesseFeld.setVisible(true);
+            } else {
+                massenArtikelCheckbox.setSelected(false);
+                packGroesseFeld.setVisible(false);
             }
         });
     }
@@ -333,7 +333,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
                 Artikel newartikel;
                 if (artikel instanceof Massenartikel) {
                     newartikel = new Massenartikel(artikel.getArtNr(), artikelBezeichnungFeld.getText(), Double.parseDouble(artikelPreisFeld.getText()),
-                            Integer.parseInt(artikelBestandFeld.getText()),Integer.parseInt(packGroesseFeld.getText()));
+                            Integer.parseInt(artikelBestandFeld.getText()), Integer.parseInt(packGroesseFeld.getText()));
                 } else {
                     newartikel = new Artikel(artikel.getArtNr(), artikelBezeichnungFeld.getText(), Double.parseDouble(artikelPreisFeld.getText()),
                             Integer.parseInt(artikelBestandFeld.getText()));

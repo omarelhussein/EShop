@@ -1,0 +1,38 @@
+.root {
+    -fx-primary-color: #7948c4;
+    -fx-font-family: 'Roboto', sans-serif;
+    -fx-font-size: 14px;
+}
+
+/*When hovering, hand should be displayed*/
+.tab-pane > .tab-header-area > .headers-region > .tab:hover {
+    -fx-cursor: hand;
+}
+
+/* TabPane styling */
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #757575;
+    -fx-padding: 8px 16px;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+/* Style for the content area below the tabs */
+.tab-content-area {
+    -fx-background-color: #ffffff;
+}
+
+/* Removing focus traversal visuals */
+.tab-pane:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}

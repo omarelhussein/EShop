@@ -1,42 +1,27 @@
 package com.centerio.eshopfx.gui.components;
 
-import domain.ShopEventListener;
-
 import com.centerio.eshopfx.ShopAPIClient;
 import domain.ShopAPI;
-import domain.ShopEventListener;
 import entities.Artikel;
 import entities.Ereignis;
-import entities.Massenartikel;
 import entities.enums.EreignisTyp;
-import exceptions.artikel.AnzahlPackgroesseException;
 import exceptions.artikel.ArtikelNichtGefundenException;
-import exceptions.warenkorb.BestandUeberschrittenException;
-import exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ArtikelGraphTable {
 
@@ -44,26 +29,90 @@ public class ArtikelGraphTable {
     private TableColumn<Artikel, String> artikelBezeichnungColumn;
     private TableView<Artikel> artikelGraphTableView;
     private LineChart<Number, Number> graph;
-
+    private Map<Artikel, XYChart.Series<Number, Number>> seriesMap = new HashMap<>();
     private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
+    private final Set<Artikel> selectedArtikelSet = new HashSet<>();
+    private final Button clearGraphButton;
 
 
     public ArtikelGraphTable(TableColumn<Artikel, Integer> artikelNummerColumn,
                              TableColumn<Artikel, String> artikelBezeichnungColumn,
                              TableView<Artikel> artikelGraphTableView,
-                             LineChart<Number, Number> graph) throws RemoteException {
+                             LineChart<Number, Number> graph, Button clearGraphButton) throws RemoteException {
         this.artikelNummerColumn = artikelNummerColumn;
         this.artikelBezeichnungColumn = artikelBezeichnungColumn;
         this.artikelGraphTableView = artikelGraphTableView;
         this.graph = graph;
+        this.clearGraphButton = clearGraphButton;
+        initializeArtikelGraphView();
     }
 
     public void initializeArtikelGraphView() {
-        artikelNummerColumn = new TableColumn<Artikel, Integer>("Nummer");
-        artikelBezeichnungColumn = new TableColumn<Artikel, String>("Bezeichnung");
-        artikelGraphTableView.getColumns().addAll(artikelNummerColumn, artikelBezeichnungColumn);
+        // Initialize and set cell value factory for artikelNummerColumn
+        artikelNummerColumn = new TableColumn<>("ArtikelNr");
         artikelNummerColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getArtNr()).asObject());
+
+        // Initialize and set cell value factory for artikelBezeichnungColumn
+        artikelBezeichnungColumn = new TableColumn<>("Bezeichnung");
         artikelBezeichnungColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getBezeichnung()));
+
+        // Add columns to the TableView
+        artikelGraphTableView.getColumns().setAll(artikelNummerColumn, artikelBezeichnungColumn);
+
+        artikelGraphTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        PseudoClass HIGHLIGHTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("highlighted");
+
+        artikelGraphTableView.setRowFactory(tableView -> {
+            TableRow<Artikel> row = new TableRow<>();
+            row.itemProperty().addListener((obs, oldItem, newItem) -> {
+                if (newItem == null) {
+                    row.pseudoClassStateChanged(HIGHLIGHTED_PSEUDO_CLASS, false);
+                } else {
+                    row.pseudoClassStateChanged(HIGHLIGHTED_PSEUDO_CLASS, selectedArtikelSet.contains(newItem));
+                }
+            });
+
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 1) {
+                    Artikel clickedItem = row.getItem();
+                    if (selectedArtikelSet.contains(clickedItem)) {
+                        this.removeFromGraph(clickedItem);
+                        selectedArtikelSet.remove(clickedItem);
+                        Platform.runLater(() -> {
+                            artikelGraphTableView.getSelectionModel().clearSelection();
+                            artikelGraphTableView.getFocusModel().focus(-1);
+                        });
+                    } else {
+                        this.addToGraph(clickedItem);
+                        selectedArtikelSet.add(clickedItem);
+                    }
+                    row.pseudoClassStateChanged(HIGHLIGHTED_PSEUDO_CLASS, selectedArtikelSet.contains(clickedItem));
+                    event.consume();
+                }
+            });
+
+            return row;
+        });
+
+        clearGraphButton.setOnAction(event -> {
+            // Clear the graph data
+            graph.getData().clear();
+
+            // Clear the selected items set
+            selectedArtikelSet.clear();
+
+            // Refresh the table view to update row highlighting
+            artikelGraphTableView.refresh();
+        });
+
+    }
+
+    private void removeFromGraph(Artikel artikel) {
+        XYChart.Series<Number, Number> series = seriesMap.remove(artikel);
+        if (series != null) {
+            graph.getData().remove(series);
+        }
     }
 
     public void refreshTable() throws IOException {
@@ -72,46 +121,40 @@ public class ArtikelGraphTable {
         artikelGraphTableView.setItems(artikelObservableList);
     }
 
-    public void artikelOnClickToGraph() {
-        artikelGraphTableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                int selectedId = artikelGraphTableView.getSelectionModel().getSelectedIndex();
-                Artikel artikel = artikelGraphTableView.getItems().get(selectedId);
-                if(selectedId > -1) {
-                    try {
-                        List<Ereignis> ereignisse = shopAPI.sucheBestandshistorie(artikel.getArtNr(), 30, false);
-                        var iterator = ereignisse.iterator();
-                        int i = 30;
-                        XYChart.Series series = new XYChart.Series();
-                        while (iterator.hasNext()) {
-                            LocalDate date = LocalDate.now();
-                            Ereignis ereignis = iterator.next();
-                            while (date.minus(i, ChronoUnit.DAYS).isBefore(ereignis.getDatum().toLocalDate())) {
-                                if (i > 0) {
-                                    if (ereignis.getEreignisTyp() == EreignisTyp.ARTIKEL_ANLEGEN) {
-                                        series.getData().add(new XYChart.Data(i, 0));
-                                    } else {
-                                        series.getData().add(new XYChart.Data(i, ereignis.getBestand()));
-                                    }
-                                    i--;
-                                }
-                            }
+    private void addToGraph(Artikel artikel) {
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName(artikel.getArtNr() + ":" + artikel.getBezeichnung());
+
+        try {
+            List<Ereignis> ereignisse = shopAPI.sucheBestandshistorie(artikel.getArtNr(), 30, false);
+            var iterator = ereignisse.iterator();
+            int i = 30;
+            while (iterator.hasNext()) {
+                LocalDate date = LocalDate.now();
+                Ereignis ereignis = iterator.next();
+                while (date.minus(i, ChronoUnit.DAYS).isBefore(ereignis.getDatum().toLocalDate())) {
+                    if (i > 0) {
+                        if (ereignis.getEreignisTyp() == EreignisTyp.ARTIKEL_ANLEGEN) {
+                            series.getData().add(new XYChart.Data<>(i, 0));
+                        } else {
+                            series.getData().add(new XYChart.Data<>(i, ereignis.getBestand()));
                         }
-                        while (i > 0) {
-                            series.getData().add(new XYChart.Data(i, artikel.getBestand()));
-                            i--;
-                        }
-                        series.getData().add(new XYChart.Data(0, artikel.getBestand()));
-                        graph.getData().add(series);
-                        graph.getXAxis().setLabel("days ago");
-                        graph.getYAxis().setLabel("Bestand");
-                    } catch (ArtikelNichtGefundenException | IOException e) {
-                        new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+                        i--;
                     }
                 }
             }
-        });
-
+            while (i > 0) {
+                series.getData().add(new XYChart.Data<>(i, artikel.getBestand()));
+                i--;
+            }
+            series.getData().add(new XYChart.Data<>(0, artikel.getBestand()));
+            graph.getData().add(series);
+            seriesMap.put(artikel, series);
+        } catch (ArtikelNichtGefundenException | IOException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        }
     }
+
+
 
 }
