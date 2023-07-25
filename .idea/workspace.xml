@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="Ereignispersistence fixed">
+    <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="Fixed removeArtikel Bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelGraphTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelGraphTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artikel.csv" beforeDir="false" afterPath="$PROJECT_DIR$/artikel.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ereignis.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ereignis.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ereignis.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +52,7 @@
       <workItem from="1690205997645" duration="1087000" />
       <workItem from="1690208365942" duration="872000" />
       <workItem from="1690276454984" duration="5509000" />
-      <workItem from="1690281970659" duration="7504000" />
+      <workItem from="1690281970659" duration="9081000" />
     </task>
     <task id="LOCAL-00001" summary="Ereignispersistence fixed">
       <option name="closed" value="true" />
@@ -64,7 +62,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690287554278</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixed removeArtikel Bug">
+      <option name="closed" value="true" />
+      <created>1690290134417</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1690290134417</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -83,7 +89,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Ereignispersistence fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ereignispersistence fixed" />
+    <MESSAGE value="Fixed removeArtikel Bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed removeArtikel Bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

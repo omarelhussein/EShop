@@ -48,7 +48,6 @@ public class ArtikelGraphTable {
     private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
 
 
-
     public ArtikelGraphTable(TableColumn<Artikel, Integer> artikelNummerColumn,
                              TableColumn<Artikel, String> artikelBezeichnungColumn,
                              TableView<Artikel> artikelGraphTableView,
@@ -60,9 +59,9 @@ public class ArtikelGraphTable {
     }
 
     public void initializeArtikelGraphView() {
-        artikelNummerColumn         = new TableColumn("Nummer");
-        artikelBezeichnungColumn    = new TableColumn("Bezeichnung");
-        artikelGraphTableView.getColumns().addAll(artikelNummerColumn,artikelBezeichnungColumn);
+        artikelNummerColumn = new TableColumn<Artikel, Integer>("Nummer");
+        artikelBezeichnungColumn = new TableColumn<Artikel, String>("Bezeichnung");
+        artikelGraphTableView.getColumns().addAll(artikelNummerColumn, artikelBezeichnungColumn);
         artikelNummerColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getArtNr()).asObject());
         artikelBezeichnungColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getBezeichnung()));
     }
@@ -77,17 +76,17 @@ public class ArtikelGraphTable {
         artikelGraphTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 int selectedId = artikelGraphTableView.getSelectionModel().getSelectedIndex();
+                Artikel artikel = artikelGraphTableView.getItems().get(selectedId);
                 if(selectedId > -1) {
-                    Artikel artikel = artikelGraphTableView.getItems().get(selectedId);
                     try {
                         List<Ereignis> ereignisse = shopAPI.sucheBestandshistorie(artikel.getArtNr(), 30, false);
                         var iterator = ereignisse.iterator();
-                        int i=30;
+                        int i = 30;
                         XYChart.Series series = new XYChart.Series();
                         while (iterator.hasNext()) {
                             LocalDate date = LocalDate.now();
                             Ereignis ereignis = iterator.next();
-                            while (date.minus(i, ChronoUnit.DAYS).isBefore(ereignis.getDatum().toLocalDate()) ) {
+                            while (date.minus(i, ChronoUnit.DAYS).isBefore(ereignis.getDatum().toLocalDate())) {
                                 if (i > 0) {
                                     if (ereignis.getEreignisTyp() == EreignisTyp.ARTIKEL_ANLEGEN) {
                                         series.getData().add(new XYChart.Data(i, 0));
@@ -112,5 +111,7 @@ public class ArtikelGraphTable {
                 }
             }
         });
+
     }
+
 }
