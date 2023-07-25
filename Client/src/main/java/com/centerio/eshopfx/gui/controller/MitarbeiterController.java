@@ -1,6 +1,7 @@
 package com.centerio.eshopfx.gui.controller;
 
 import com.centerio.eshopfx.ShopAPIClient;
+import com.centerio.eshopfx.gui.components.ArtikelGraphTable;
 import com.centerio.eshopfx.gui.components.ArtikelTable;
 import com.centerio.eshopfx.gui.components.EreignisTable;
 import com.centerio.eshopfx.gui.components.PersonenTable;
@@ -11,8 +12,12 @@ import domain.ShopAPI;
 import entities.Artikel;
 import entities.Ereignis;
 import entities.Person;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
+import javafx.scene.chart.XYChart;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -56,6 +61,9 @@ public class MitarbeiterController {
 
     @FXML
     private TableView<Artikel> artikelTableView;
+
+    @FXML
+    private TableView<Artikel> artikelGraphTableView;
 
     @FXML
     private TableView<Person> personenTableView;
@@ -108,11 +116,14 @@ public class MitarbeiterController {
     @FXML
     private Button bestandshistorieSuchenButton;
 
+    @FXML private LineChart<Number, Number> graph;
+
     @FXML
     private Button ClearButton;
     private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
     private Tab selctedTab = mitarbeiterPane.getSelectionModel().getSelectedItem();
     private final LoginUtils loginUtils;
+    private ArtikelGraphTable artikelGraphTable;
 
     public MitarbeiterController() throws RemoteException {
         loginUtils = new LoginUtils();
@@ -134,11 +145,16 @@ public class MitarbeiterController {
         EreignisTable ereignisTableConcern = new EreignisTable(ereignisPersNrTableColumn,
                 ereignisPersNameTableColumn, ereignisArtTableColumn, ereignisObjektTableColumn, ereignisDatumTableColumn,
                 ereignisBestandTableColumn, ereignisTableView, dropDownEreignisse, bestandshistorieSuchenButton);
+        artikelGraphTable = new ArtikelGraphTable(artikelNummerColumn, artikelBezeichnungColumn,
+                artikelGraphTableView, graph);
         artikelTable.initializeArtikelView();
         artikelTable.refreshTable();
         artikelTable.setMitarbeiterEventHandlersForArtikel();
         artikelTable.artikelOnClickToTextfield();
         artikelTable.massenArtikelHandler();
+        artikelGraphTable.initializeArtikelGraphView();
+        artikelGraphTable.refreshTable();
+        artikelGraphTable.artikelOnClickToGraph();
         personenTableConcern.initializePersonView();
         personenTableConcern.setPersonInTable();
         personenTableConcern.setEventHandlerForPersonen();
@@ -192,4 +208,7 @@ public class MitarbeiterController {
         alert.showAndWait();
     }
 
+    public void graphTableAktualisieren() throws IOException {
+        artikelGraphTable.refreshTable();
+    }
 }

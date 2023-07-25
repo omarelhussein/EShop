@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.centerio.eshopfx.gui.controller.MitarbeiterController">
@@ -102,6 +104,19 @@
                         <Button fx:id="bestandshistorieSuchenButton" text="Suchen" visible="false"/>
                     </VBox>
                     <TableView fx:id="ereignisTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                </HBox>
+            </Tab>
+            <Tab fx:id="artikelgraphTab" text="Graph" onSelectionChanged="#graphTableAktualisieren">
+                <HBox>
+                    <TableView fx:id="artikelGraphTableView" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER"/>
+                    <LineChart fx:id="graph" title="Bestand der letzten 30 Tage" HBox.hgrow="ALWAYS" BorderPane.alignment="CENTER">
+                        <xAxis>
+                            <NumberAxis side="BOTTOM" lowerBound="30" upperBound="0" autoRanging="false"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis side="LEFT"/>
+                        </yAxis>
+                    </LineChart>
                 </HBox>
             </Tab>
         </TabPane>

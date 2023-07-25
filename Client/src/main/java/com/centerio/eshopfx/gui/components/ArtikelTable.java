@@ -330,31 +330,15 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         try {
             if (selectedId >= 0) {
                 Artikel artikel = artikelTableView.getItems().get(selectedId);
+                Artikel newartikel;
                 if (artikel instanceof Massenartikel) {
-                    if (!artikelBezeichnungFeld.getText().isEmpty()) {
-                        artikel.setBezeichnung(artikelBezeichnungFeld.getText());
-                    }
-                    if (!artikelPreisFeld.getText().isEmpty()) {
-                        artikel.setPreis(Double.parseDouble(artikelPreisFeld.getText()));
-                    }
-                    if (!artikelBestandFeld.getText().isEmpty()) {
-                        artikel.setBestand(Integer.parseInt(artikelBestandFeld.getText()));
-                    }
-                    if (!packGroesseFeld.getText().isEmpty()) {
-                        ((Massenartikel) artikel).setPackgroesse(Integer.parseInt(packGroesseFeld.getText()));
-                    }
+                    newartikel = new Massenartikel(artikel.getArtNr(), artikelBezeichnungFeld.getText(), Double.parseDouble(artikelPreisFeld.getText()),
+                            Integer.parseInt(artikelBestandFeld.getText()),Integer.parseInt(packGroesseFeld.getText()));
                 } else {
-                    if (!artikelBezeichnungFeld.getText().isEmpty()) {
-                        artikel.setBezeichnung(artikelBezeichnungFeld.getText());
-                    }
-                    if (!artikelPreisFeld.getText().isEmpty()) {
-                        artikel.setPreis(Double.parseDouble(artikelPreisFeld.getText()));
-                    }
-                    if (!artikelBestandFeld.getText().isEmpty()) {
-                        artikel.setBestand(Integer.parseInt(artikelBestandFeld.getText()));
-                    }
+                    newartikel = new Artikel(artikel.getArtNr(), artikelBezeichnungFeld.getText(), Double.parseDouble(artikelPreisFeld.getText()),
+                            Integer.parseInt(artikelBestandFeld.getText()));
                 }
-                shopAPI.artikelAktualisieren(artikel);
+                shopAPI.artikelAktualisieren(newartikel);
                 refreshTable();
                 clearFelder();
             } else {

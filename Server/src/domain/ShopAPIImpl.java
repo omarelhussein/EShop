@@ -177,8 +177,8 @@ public class ShopAPIImpl implements ShopAPI {
 
     public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException, IOException {
         try {
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikelService.getArtikelByArtNr(artikel.getArtNr()), true);
             artikelService.artikelAktualisieren(artikel);
-            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, true);
             fireArtikelChangedEvent();
         } catch (ArtikelNichtGefundenException e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_AKTUALISIEREN, artikel, false);
@@ -218,9 +218,9 @@ public class ShopAPIImpl implements ShopAPI {
 
     public void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException, IOException {
         try {
-            var erfolg = artikelService.aendereArtikelBestand(artikelId, bestand, false);
             var artikel = artikelService.getArtikelByArtNr(artikelId);
-            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, artikel, erfolg);
+            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, artikel, true);
+            artikelService.aendereArtikelBestand(artikelId, bestand, false);
             fireArtikelChangedEvent();
         } catch (ArtikelNichtGefundenException e) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.BESTANDAENDERUNG, null, false);

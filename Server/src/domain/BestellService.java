@@ -29,8 +29,8 @@ public class BestellService {
             warenkorbservice.pruefeBestand(artikel, artikel.getAnzahl());
         }
         for (WarenkorbArtikel artikel : warenkorb.getWarenkorbArtikelList()) {
-            warenkorbservice.kaufeArtikel(artikel);
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.KAUF, artikel.getArtikel(),  true);
+            warenkorbservice.kaufeArtikel(artikel);
         }
 
         warenkorbservice.warenkorbLeeren();
