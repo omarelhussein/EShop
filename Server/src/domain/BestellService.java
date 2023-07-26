@@ -22,6 +22,13 @@ public class BestellService {
         rechnungen = new ArrayList<>();
     }
 
+    /**
+     * kauft den Warenkorb des aktiellen Kunden. Verändert den Bestand im Lager um die Anzahl den Bestand der Artikel
+     * im Warenkorb und leert den Warenkorb
+     * @throws BestandUeberschrittenException
+     * @throws ArtikelNichtGefundenException
+     * @throws IOException
+     */
     public void kaufen() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
         var warenkorb = warenkorbservice.getWarenkorb();
         for (WarenkorbArtikel artikel : warenkorb.getWarenkorbArtikelList()) {
@@ -36,6 +43,11 @@ public class BestellService {
         warenkorbservice.warenkorbLeeren();
     }
 
+    /**
+     * Erstellt ein Rechnungsobjekt, fügt dies in die Liste in der Rechnungen gespeichert werden ein und gibt
+     * die erstellte Rechnung wieder
+     * @return
+     */
     public Rechnung erstelleRechnung() {
         Rechnung rechnung = new Rechnung(
                 warenkorbservice.getWarenkorb(),
@@ -46,10 +58,20 @@ public class BestellService {
         return rechnung;
     }
 
+    /**
+     * Gibt die Liste aller Rechnungen wieder
+     * @return
+     */
     public List<Rechnung> getRechnungen() {
         return rechnungen;
     }
 
+    /**
+     * sucht die Liste der Rechnungen nach der Rechnung mit der angegebenen Rechnungsnummer ab und returnt diese
+     * @param rechnungsNr
+     * @return
+     * @throws RechnungNichtGefundenException
+     */
     public Rechnung getRechnung(int rechnungsNr) throws RechnungNichtGefundenException {
         for (Rechnung rechnung : rechnungen) {
             if (rechnung.getRechnungsNr() == rechnungsNr) {
@@ -59,6 +81,11 @@ public class BestellService {
         throw new RechnungNichtGefundenException(rechnungsNr);
     }
 
+    /**
+     * sucht die Liste der Rechnungen nach der Rechnung mit der angegebenen Kundennummer ab und returnt diese
+     * @param kundenNr
+     * @return
+     */
     public List<Rechnung> getRechnungenByKunde(int kundenNr) {
         List<Rechnung> rechnungen = new ArrayList<>();
         for (Rechnung rechnung : this.rechnungen) {

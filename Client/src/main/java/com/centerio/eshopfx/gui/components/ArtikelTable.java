@@ -149,7 +149,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
                 throw new RuntimeException(ex);
             }
         });
-        suchField.setOnKeyPressed(this::clearSuchFieldKey);
+        suchField.setOnKeyPressed(e -> clearSuchFieldKey(e));
         suchField.setOnKeyTyped(e -> artikelSuchen());
         clearButton.setOnAction(e -> clearSuchField());
     }

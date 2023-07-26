@@ -75,6 +75,10 @@ public class PersonenTable {
         nameColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getName()));
     }
 
+    /**
+     * updatet die Personentabelle
+     * @throws IOException
+     */
     public void setPersonInTable() throws IOException {
         personenTableView.getItems().clear();
         ObservableList<Person> personObservableList = FXCollections.observableArrayList();
@@ -82,11 +86,19 @@ public class PersonenTable {
         personenTableView.setItems(personObservableList);
     }
 
+    /**
+     * registriert einen neuen Mitarbeiter mit den Daten in den dafür vorgesehenen Feldern
+     * @throws PersonVorhandenException
+     * @throws IOException
+     */
     public void mitarbeiterRegistrieren() throws PersonVorhandenException, IOException {
         shopAPI.registrieren(new Mitarbeiter(shopAPI.getNaechstePersId(), nutzernameField.getText(), mitarbeiterNameField.getText(), passwortField.getText()));
         setPersonInTable();
     }
 
+    /**
+     * Eventhandler für die Personentabelle
+     */
     public void setEventHandlerForPersonen(){
         registerMitarbeiterButton.setOnAction(e -> {
             try {

@@ -49,6 +49,18 @@ public class WarenkorbService {
         return instance;
     }
 
+    /**
+     * legt den Artikel mit der gewählten Artikelnummer in den Warenkorb, überprüft ob der Bestand überstiegen wird und
+     * ob der Artikel bereits im Warenkorb vorhanden ist, also ein neuer angelegt werden muss oder lediglich die Anzahl erhöht wird
+     * @param artikelNr
+     * @param anzahl
+     * @return
+     * @throws ArtikelNichtGefundenException
+     * @throws BestandUeberschrittenException
+     * @throws IOException
+     * @throws WarenkorbArtikelNichtGefundenException
+     * @throws AnzahlPackgroesseException
+     */
     public boolean legeArtikelImWarenkorb(int artikelNr, int anzahl)
             throws ArtikelNichtGefundenException, BestandUeberschrittenException,
             IOException, WarenkorbArtikelNichtGefundenException, AnzahlPackgroesseException {
@@ -76,6 +88,12 @@ public class WarenkorbService {
         return true;
     }
 
+    /**
+     * entfernt den Artikel mit der angegebenen Artikelnummer aus dem Warenkorb
+     * @param artikelNr
+     * @return
+     * @throws WarenkorbArtikelNichtGefundenException
+     */
     public boolean removeArtikelVomWarenkorb(int artikelNr) throws WarenkorbArtikelNichtGefundenException {
         var artikel = getWarenkorbArtikelByArtNrOrThrow(artikelNr);
         var warenkorb = getWarenkorb();
@@ -113,12 +131,25 @@ public class WarenkorbService {
         }
     }
 
+    /**
+     * sucht den Warenkorb des eingeloggten Kunden nach dem Artikel mit der Nummer artNr ab und gibt diesen zurück
+     * oder wirft eine Exception wenn kein Artikel gefunden wurde
+     * @param artNr
+     * @return
+     * @throws WarenkorbArtikelNichtGefundenException
+     */
     public WarenkorbArtikel getWarenkorbArtikelByArtNrOrThrow(int artNr) throws WarenkorbArtikelNichtGefundenException {
         var warenkorb = getWarenkorbArtikelByArtNr(artNr);
         if (warenkorb == null) throw new WarenkorbArtikelNichtGefundenException(artNr);
         return warenkorb;
     }
 
+    /**
+     * sucht den Warenkorb des eingeloggten Kunden nach dem Artikel mit der Nummer artNr ab und gibt diesen zurück
+     * oder gibt null zurück
+     * @param artNr
+     * @return
+     */
     public synchronized WarenkorbArtikel getWarenkorbArtikelByArtNr(int artNr) {
         var warenkorb = getWarenkorb();
         var warenkorbArtikelList = warenkorb.getWarenkorbArtikelList();
@@ -130,6 +161,11 @@ public class WarenkorbService {
         return null;
     }
 
+    /**
+     * gibt den Warenkorb eines bestimmten Kunden wieder
+     * @param kundenNr
+     * @return
+     */
     public synchronized Warenkorb getWarenkorbByKundenNr(int kundenNr) {
         for (Warenkorb value : warenkorbList) {
             if (kundenNr == value.getKunde().getPersNr()) {
@@ -139,6 +175,10 @@ public class WarenkorbService {
         return null;
     }
 
+    /**
+     * gibt den Warenkorb des eingeloggten Kunden wieder
+     * @return
+     */
     public synchronized Warenkorb getWarenkorb() {
         var user = UserContext.getUser();
         if (user == null || user instanceof Mitarbeiter) {
@@ -155,6 +195,11 @@ public class WarenkorbService {
         return warenkorb;
     }
 
+    /**
+     * erstellt einen neuen Korb für den angegebenen Kunden
+     * @param kunde
+     * @return
+     */
     public synchronized Warenkorb neuerKorb(Kunde kunde) {
         var warenkorb = getWarenkorbByKundenNr(kunde.getPersNr());
         if (warenkorb != null) {
@@ -165,16 +210,30 @@ public class WarenkorbService {
         return neuerKorb;
     }
 
+    /**
+     * gibt die Warenkorbliste wieder
+     * @return
+     */
     public List<Warenkorb> getWarenkorbList() {
         return warenkorbList;
     }
 
+    /**
+     * leert den Warenkorb des eingeloggten Kunden
+     */
     public void warenkorbLeeren() {
         if (UserContext.getUser() instanceof Kunde kunde) {
             neuerKorb(kunde);
         }
     }
 
+    /**
+     * überprüft ob die angegebene Anzahl den Bestand des angegebenen Artikels übersteigt
+     * @param warenkorbArtikel
+     * @param neuAnzahl
+     * @throws BestandUeberschrittenException
+     * @throws ArtikelNichtGefundenException
+     */
     public void pruefeBestand(WarenkorbArtikel warenkorbArtikel, int neuAnzahl) throws BestandUeberschrittenException, ArtikelNichtGefundenException {
         var artikel = artikelservice.getArtikelByArtNr(warenkorbArtikel.getArtikel().getArtNr());
         var tmpNeuBestand = artikel.getBestand() - neuAnzahl;
@@ -182,6 +241,12 @@ public class WarenkorbService {
             throw new BestandUeberschrittenException(artikel.getBestand(), neuAnzahl, artikel);
     }
 
+    /**
+     * kauft den Artikel des Warenkorbs. Verändert also den Bestand des angegebenen Artikels in der Artikelliste.
+     * @param warenkorbArtikel
+     * @throws BestandUeberschrittenException
+     * @throws ArtikelNichtGefundenException
+     */
     public void kaufeArtikel(WarenkorbArtikel warenkorbArtikel) throws BestandUeberschrittenException, ArtikelNichtGefundenException {
         pruefeBestand(warenkorbArtikel, warenkorbArtikel.getAnzahl());
         var neuerBestand = warenkorbArtikel.getArtikel().getBestand() - warenkorbArtikel.getAnzahl();

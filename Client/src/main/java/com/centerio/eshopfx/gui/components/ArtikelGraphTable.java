@@ -107,6 +107,10 @@ public class ArtikelGraphTable {
 
     }
 
+    /**
+     * löscht die Anzeige des angegebenen Artikels im Graphen
+     * @param artikel
+     */
     private void removeFromGraph(Artikel artikel) {
         XYChart.Series<Number, Number> series = seriesMap.remove(artikel);
         if (series != null) {
@@ -114,12 +118,20 @@ public class ArtikelGraphTable {
         }
     }
 
+    /**
+     * updatet die Tabelle im Graphtab
+     * @throws IOException
+     */
     public void refreshTable() throws IOException {
         artikelGraphTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(ShopAPIClient.getShopAPI().getArtikelList());
         artikelGraphTableView.setItems(artikelObservableList);
     }
 
+    /**
+     * fügt die Bestandsveränderungen des Artikels der letzten 30 Tage dem Graphen hinzu
+     * @param artikel
+     */
     private void addToGraph(Artikel artikel) {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(artikel.getArtNr() + ":" + artikel.getBezeichnung());

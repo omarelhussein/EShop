@@ -100,6 +100,9 @@ public class KundeController {
 
     }
 
+    /**
+     * loggt den aktuellen Kunden aus und bringt den Nutzer zurück zum Login-UI
+     */
     public void logout() {
         // Nutzer muss (noch) nichts speichern, daher direkt zur Login-View wechseln
         // Speicherung ist derzeit nur bei der Admin-View notwendig

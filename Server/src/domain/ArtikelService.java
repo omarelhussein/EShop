@@ -88,6 +88,11 @@ public class ArtikelService {
                 .findFirst().orElseThrow(() -> new ArtikelNichtGefundenException(artikelNr));
     }
 
+    /**
+     * returnt eine Liste mit Artikeln dessen Bezeichnung den angegebenen String/ dessen Artikelnummer
+     * mit diesem übereinstimmt beinhalten.
+     * @return
+     */
     public List<Artikel> sucheArtikelByQuery(String query) {
         // .stream() wandelt die Liste in einen Stream um, der die Methoden filter, map, reduce, etc. zur Verfügung stellt.
         // .filter() filtert die Liste nach den angegebenen Kriterien. Ein filter() kann auch mehrfach hintereinander aufgerufen werden
@@ -147,11 +152,18 @@ public class ArtikelService {
         return true;
     }
 
+    /**
+     * gibt die Artikelliste aller Artikel wieder
+     * @return
+     */
     public synchronized List<Artikel> getArtikelList() {
         return this.artikelList;
     }
 
-
+    /**
+     * gibt die Nummer der nächstfreien Artikelnummer wieder
+     * @return
+     */
     public int getNaechsteId() {
         int max = 0;
         for (Artikel artikel : artikelList) {
@@ -162,10 +174,21 @@ public class ArtikelService {
         return max + 1;
     }
 
+    /**
+     * speichert die Artikelliste aller Artikel in einer Datei
+     * @throws IOException
+     */
     public void save() throws IOException {
         persistenceManager.replaceAll(artikelList);
     }
 
+    /**
+     * überprüft ob die angegebene Anzahl sich durch die Packgröße des angegebenen Artikels teilen lässt und
+     * throwt im Falle dass dies nicht zutrifft eine Exception
+     * @param artikel
+     * @param anzahl
+     * @throws AnzahlPackgroesseException
+     */
     public synchronized void anzahlPackgroesseVergleich(Artikel artikel, int anzahl) throws AnzahlPackgroesseException {
         if (artikel instanceof Massenartikel) {
             double massenanzahl = (double) anzahl / ((Massenartikel) artikel).getPackgroesse();

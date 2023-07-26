@@ -117,12 +117,20 @@ public class LoginController {
         });
     }
 
+    /**
+     * lässt den Nutzer den Loginvorgang durch das Drücken des Enterkeys starten
+     * @param e
+     * @throws IOException
+     */
     public void loginKey(KeyEvent e) throws IOException {
         if (e.getCode().equals(KeyCode.ENTER)) {
             login();
         }
     }
 
+    /**
+     * entfernt die roten MArkierungen um die Textfelder
+     */
     public void resetLoginStyles() {
         usernameField.getStyleClass().remove("text-field-error");
         passwordField.getStyleClass().remove("text-field-error");
@@ -130,6 +138,9 @@ public class LoginController {
         statusLabel.getStyleClass().remove("label-error");
     }
 
+    /**
+     * wechselt zum Registrierungs-UI
+     */
     public void registrieren() {
         StageManager.getInstance().switchScene(SceneRoutes.REGISTRIEREN_VIEW);
     }

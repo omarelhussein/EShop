@@ -60,6 +60,9 @@ public class WarenkorbTable {
         initializeGesamtPreis();
     }
 
+    /**
+     * Eventhandler für die Warenkorbtabelle
+     */
     public void setEventHandlerForWarenkorb() {
         warenkorbEntfernenButton.setOnAction(e -> {
             warenkorbEntfernen();

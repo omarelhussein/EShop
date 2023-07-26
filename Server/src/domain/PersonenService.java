@@ -76,6 +76,11 @@ public class PersonenService {
         return person;
     }
 
+    /**
+     * gibt die Person mit der angegebenen Personennummer aus der Personenliste wieder
+     * @param persNr
+     * @return
+     */
     public Person getPersonByPersNr(int persNr) {
         for (Person person : personList) {
             if (person.getPersNr() == persNr) {
@@ -126,6 +131,11 @@ public class PersonenService {
                 .toList();
     }
 
+    /**
+     * gibt eine Liste aus Personen wieder dessen Name/Nutzername den angegebenen string beinhalten
+     * @param query
+     * @return
+     */
     public Stream<Person> suchePersonByQuery(String query) {
         return personList.stream()
                 .filter(person -> person.getName().toLowerCase().contains(query.toLowerCase()) ||
@@ -134,6 +144,10 @@ public class PersonenService {
                 );
     }
 
+    /**
+     * gibt die nächstfreie Personennummer wieder
+     * @return
+     */
     public int getNaechsteId() {
         int max = 0;
         for (Person person : personList) {
@@ -144,6 +158,11 @@ public class PersonenService {
         return max + 1;
     }
 
+    /**
+     * überprüft ob der angegebene Nutzername schon vergeben ist
+     * @param nutzername
+     * @return
+     */
     public boolean istNutzernameVerfuegbar(String nutzername) {
         for (Person person : personList) {
             if (person.getNutzername().trim().equalsIgnoreCase(nutzername.trim())) {
@@ -153,10 +172,18 @@ public class PersonenService {
         return true;
     }
 
+    /**
+     * gibt die Liste aller Personenen wieder
+     * @return
+     */
     public List<Person> getPersonList() {
         return this.personList;
     }
 
+    /**
+     * speichert die aktuelle Personenliste in einer Datei ab
+     * @throws IOException
+     */
     public void save() throws IOException {
         persistenceManager.replaceAll(this.personList);
     }

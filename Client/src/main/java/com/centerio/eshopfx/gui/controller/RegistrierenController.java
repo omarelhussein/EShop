@@ -71,6 +71,11 @@ public class RegistrierenController {
     }
 
 
+    /**
+     * registriert den Nutzer mit den Daten in den dafür vorgesehenen Feldern, überprüft diese Daten
+     * und loggt den Nutzer direkt ein
+     * @param actionEvent
+     */
     public void registrieren(ActionEvent actionEvent) {
         resetRegistrierenStyles();
         if (checkField(usernameField)) {
@@ -116,6 +121,11 @@ public class RegistrierenController {
         StageManager.getInstance().switchScene(SceneRoutes.KUNDE_VIEW);
     }
 
+    /**
+     * checkt ob ein Textfeld beim registrieren leer gelassen wurde und markiert dies rot
+     * @param field
+     * @return
+     */
     private boolean checkField(TextField field) {
         if (field.getText().isEmpty()) {
             field.setStyle("-fx-border-color: red;");
@@ -124,6 +134,9 @@ public class RegistrierenController {
         return false;
     }
 
+    /**
+     * entfernt die rote Markierung
+     */
     public void resetRegistrierenStyles() {
         usernameField.setStyle("");
         passwordField.getStyleClass().remove("error");
@@ -134,6 +147,9 @@ public class RegistrierenController {
         infoLabel.setStyle("");
     }
 
+    /**
+     * bricht den Registrierungsvorgang ab und bringt den Nutzer zum Loginmenu zurück
+     */
     public void abbrechen() {
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }

@@ -160,16 +160,27 @@ public class MitarbeiterController {
         ereignisTable.setEreingisInTable();
     }
 
+    /**
+     * speichert die aktuellen Listen ab
+     * @throws RemoteException
+     */
     public void save() throws RemoteException {
         shopAPI.speichern();
     }
 
+    /**
+     * loggt den eingeloggten Nutzer aus
+     * @throws IOException
+     */
     public void logout() throws IOException {
         loginUtils.logout();
 //        save(); // FIXME: Eine Exception wird geworfen weil Ereignis noch kaputt ist
         StageManager.getInstance().switchScene(SceneRoutes.LOGIN_VIEW);
     }
 
+    /**
+     * löscht den Account des eingeloggten Nutzers
+     */
     public void deleteAccount() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText("Diese Aktion kann nicht rückgängig gemacht werden!");
@@ -206,6 +217,10 @@ public class MitarbeiterController {
         alert.showAndWait();
     }
 
+    /**
+     * aktuallisiert die Tabelle im Graphtab
+     * @throws IOException
+     */
     public void graphTableAktualisieren() throws IOException {
         artikelGraphTable.refreshTable();
     }
