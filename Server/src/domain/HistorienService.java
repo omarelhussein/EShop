@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HistorienService {
     private static HistorienService historienService;
-    private final ArrayList<Ereignis> ereignisList;
+    private final List<Ereignis> ereignisList;
 
     private FilePersistenceManager<Ereignis> persistenceManager;
 
@@ -25,8 +25,7 @@ public class HistorienService {
         persistenceManager = new FilePersistenceManager<>("ereignis.csv");
         // FIXME: Wird nicht richtig gespeichert und auch nicht richtig gelesen
         //  Führt zu NullPointerExceptions
-        ereignisList = (ArrayList<Ereignis>)persistenceManager.readAll();
-//        ereignisList = new ArrayList<>();
+        ereignisList = persistenceManager.readAll();
     }
 
     /**
@@ -68,6 +67,7 @@ public class HistorienService {
             ereignisList.add(ereignis);
         }
     }
+
     public List<Ereignis> getUngefiltertPersonEreignishistorie() {
         List<Ereignis> personhistorie = new ArrayList<>();
         for (Ereignis ereignis : ereignisList) {
@@ -104,7 +104,7 @@ public class HistorienService {
         for (Ereignis ereignis : ereignisList) {
             EreignisTyp artikelEreignisTyp = ereignis.getEreignisTyp();
             if (ereignis.getKategorieEreignisTyp() == KategorieEreignisTyp.WARENKORB_EREIGNIS
-                    && (artikelEreignisTyp == EreignisTyp.WARENKORB_AENDERN ||
+                && (artikelEreignisTyp == EreignisTyp.WARENKORB_AENDERN ||
                     artikelEreignisTyp == EreignisTyp.WARENKORB_ANZEIGEN ||
                     artikelEreignisTyp == EreignisTyp.WARENKORB_HINZUFUEGEN)) {
                 warenkorbhistorie.add(ereignis);
@@ -141,7 +141,7 @@ public class HistorienService {
         return tage;
     }
 
-    public ArrayList<Ereignis> kundeOderMitarbeiterEreignisListe() {
+    public List<Ereignis> kundeOderMitarbeiterEreignisListe() {
         if (UserContext.getUser() instanceof Kunde) {
             ArrayList<Ereignis> kundenEreignisListe = new ArrayList<>();
             for (Ereignis ereignis : getEreignisList()) {
@@ -168,7 +168,7 @@ public class HistorienService {
         persistenceManager.replaceAll(ereignisList);
     }
 
-    public ArrayList<Ereignis> getEreignisList() {
+    public List<Ereignis> getEreignisList() {
         return ereignisList;
     }
 

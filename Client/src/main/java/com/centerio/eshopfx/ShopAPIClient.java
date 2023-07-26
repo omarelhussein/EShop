@@ -1,6 +1,7 @@
 package com.centerio.eshopfx;
 
 import domain.ShopAPI;
+import entities.UserContext;
 import entities.enums.Constants;
 
 import java.rmi.Naming;
@@ -23,6 +24,7 @@ public class ShopAPIClient {
                 throw new RemoteException("Could not find ShopAPI in RMI registry", e);
             }
         }
+        shopAPI.setUserContext(UserContext.getUser());
         return shopAPI;
     }
 

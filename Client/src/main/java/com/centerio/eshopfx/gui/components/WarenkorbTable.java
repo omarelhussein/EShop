@@ -31,8 +31,6 @@ public class WarenkorbTable {
     private Button kaufenButton;
     private Label gesamtPreis;
 
-    private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
-
     public WarenkorbTable(TableColumn<WarenkorbArtikel, String> warenkorbArtikelStringTableColumn,
                           TableColumn<WarenkorbArtikel, Integer> warenkorbArtikelAnzahlTableColumn,
                           TableColumn<WarenkorbArtikel, Double> warenkorbArtikelPreisTableColumn,
@@ -76,12 +74,12 @@ public class WarenkorbTable {
     }
 
     public void initializeGesamtPreis() throws RemoteException {
-        Warenkorb warenkorb = shopAPI.getWarenkorb();
+        Warenkorb warenkorb = ShopAPIClient.getShopAPI().getWarenkorb();
         gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
     }
 
     public void kaufeWarenkorb() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
-        shopAPI.kaufen();
+        ShopAPIClient.getShopAPI().kaufen();
         warenkorbTableView.getItems().clear();
         setWarenkorbInTable();
     }
@@ -89,7 +87,7 @@ public class WarenkorbTable {
     public void setWarenkorbInTable() throws IOException {
         warenkorbTableView.getItems().clear();
         ObservableList<WarenkorbArtikel> warenkorbObservableList = FXCollections.observableArrayList();
-        warenkorbObservableList.addAll(shopAPI.getWarenkorb().getWarenkorbArtikelList());
+        warenkorbObservableList.addAll(ShopAPIClient.getShopAPI().getWarenkorb().getWarenkorbArtikelList());
         warenkorbTableView.setItems(warenkorbObservableList);
         initializeGesamtPreis();
     }
@@ -100,11 +98,11 @@ public class WarenkorbTable {
             if (selectedId >= 0) {
                 if (warenkorbAnzahlField.getText().isEmpty()) {
                     Artikel artikel = ((WarenkorbArtikel) warenkorbTableView.getItems().get(selectedId)).getArtikel();
-                    shopAPI.aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
+                    ShopAPIClient.getShopAPI().aendereArtikelAnzahlImWarenkorb(artikel.getArtNr(), 0);
                     setWarenkorbInTable();
                 } else {
                     Artikel artikel = ((WarenkorbArtikel) warenkorbTableView.getItems().get(selectedId)).getArtikel();
-                    shopAPI.entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
+                    ShopAPIClient.getShopAPI().entferneArtikelAnzahlImWarenkorb(artikel.getArtNr(), Integer.parseInt(warenkorbAnzahlField.getText()));
                     setWarenkorbInTable();
                 }
                 warenkorbAnzahlField.clear();
@@ -119,7 +117,7 @@ public class WarenkorbTable {
 
     public void rechnungErstellen() throws RemoteException {
 
-        if (shopAPI.getWarenkorb().getAnzahlArtikel() == 0) {
+        if (ShopAPIClient.getShopAPI().getWarenkorb().getAnzahlArtikel() == 0) {
             new Alert(Alert.AlertType.ERROR, "Bitte fügen Sie Artikel zum Warenkorb hinzu.").showAndWait();
             return;
         }
@@ -129,7 +127,7 @@ public class WarenkorbTable {
         kaufenButton.setVisible(false);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText(shopAPI.erstelleRechnung().toString());
+        alert.setContentText(ShopAPIClient.getShopAPI().erstelleRechnung().toString());
         alert.setTitle("Rechnung");
         alert.setHeaderText("Bitte Bestätigen sie ihren Einkauf.");
 

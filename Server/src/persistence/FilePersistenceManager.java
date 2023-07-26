@@ -9,10 +9,7 @@ import entities.enums.KategorieEreignisTyp;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
@@ -67,7 +64,7 @@ public class FilePersistenceManager<T extends CSVSerializable> {
      */
     public List<T> readAll() throws IOException {
         lock.readLock().lock();
-        List<T> objects = new ArrayList<>();
+        List<T> objects = Collections.synchronizedList(new ArrayList<>());
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {

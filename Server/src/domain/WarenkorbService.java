@@ -8,6 +8,7 @@ import exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * Sie nutzt den ArtikelService, um Artikelinformationen abzurufen.
  */
 public class WarenkorbService {
-    private final List<Warenkorb> warenkorbList = new ArrayList<>();
+    private final List<Warenkorb> warenkorbList = Collections.synchronizedList(new ArrayList<>());
     private final ArtikelService artikelservice;
     private static WarenkorbService instance;
 
@@ -118,7 +119,7 @@ public class WarenkorbService {
         return warenkorb;
     }
 
-    public WarenkorbArtikel getWarenkorbArtikelByArtNr(int artNr) {
+    public synchronized WarenkorbArtikel getWarenkorbArtikelByArtNr(int artNr) {
         var warenkorb = getWarenkorb();
         var warenkorbArtikelList = warenkorb.getWarenkorbArtikelList();
         for (WarenkorbArtikel warenkorbArtikel : warenkorbArtikelList) {
@@ -129,7 +130,7 @@ public class WarenkorbService {
         return null;
     }
 
-    public Warenkorb getWarenkorbByKundenNr(int kundenNr) {
+    public synchronized Warenkorb getWarenkorbByKundenNr(int kundenNr) {
         for (Warenkorb value : warenkorbList) {
             if (kundenNr == value.getKunde().getPersNr()) {
                 return value;
@@ -138,25 +139,30 @@ public class WarenkorbService {
         return null;
     }
 
-    public Warenkorb getWarenkorb() {
+    public synchronized Warenkorb getWarenkorb() {
         var user = UserContext.getUser();
         if (user == null || user instanceof Mitarbeiter) {
             System.out.println("User null");
+            System.out.println("ON THREAD: " + Thread.currentThread().getName());
             return null;
         }
         var warenkorb = getWarenkorbByKundenNr(user.getPersNr());
         if (warenkorb == null && user instanceof Kunde kunde) {
-            neuerKorb(kunde);
+            warenkorb = neuerKorb(kunde);
         }
-        return getWarenkorbByKundenNr(user.getPersNr());
+        System.out.println("USER: " + user.getNutzername() + " has WARENKORB: " + warenkorb);
+        System.out.println("ON THREAD: " + Thread.currentThread().getName());
+        return warenkorb;
     }
 
-    public void neuerKorb(Kunde kunde) {
+    public synchronized Warenkorb neuerKorb(Kunde kunde) {
         var warenkorb = getWarenkorbByKundenNr(kunde.getPersNr());
         if (warenkorb != null) {
             warenkorbList.remove(warenkorb);
         }
-        warenkorbList.add(new Warenkorb(kunde));
+        var neuerKorb = new Warenkorb(kunde);
+        warenkorbList.add(neuerKorb);
+        return neuerKorb;
     }
 
     public List<Warenkorb> getWarenkorbList() {

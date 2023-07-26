@@ -30,7 +30,6 @@ public class ArtikelGraphTable {
     private TableView<Artikel> artikelGraphTableView;
     private LineChart<Number, Number> graph;
     private Map<Artikel, XYChart.Series<Number, Number>> seriesMap = new HashMap<>();
-    private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
     private final Set<Artikel> selectedArtikelSet = new HashSet<>();
     private final Button clearGraphButton;
 
@@ -117,7 +116,7 @@ public class ArtikelGraphTable {
 
     public void refreshTable() throws IOException {
         artikelGraphTableView.getItems().clear();
-        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(shopAPI.getArtikelList());
+        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(ShopAPIClient.getShopAPI().getArtikelList());
         artikelGraphTableView.setItems(artikelObservableList);
     }
 
@@ -126,7 +125,7 @@ public class ArtikelGraphTable {
         series.setName(artikel.getArtNr() + ":" + artikel.getBezeichnung());
 
         try {
-            List<Ereignis> ereignisse = shopAPI.sucheBestandshistorie(artikel.getArtNr(), 30, false);
+            List<Ereignis> ereignisse = ShopAPIClient.getShopAPI().sucheBestandshistorie(artikel.getArtNr(), 30, false);
             var iterator = ereignisse.iterator();
             int i = 30;
             while (iterator.hasNext()) {
@@ -154,7 +153,6 @@ public class ArtikelGraphTable {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         }
     }
-
 
 
 }

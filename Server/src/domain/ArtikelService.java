@@ -39,7 +39,7 @@ public class ArtikelService {
     /**
      * Artikel der Liste hinzufügen
      */
-    public void addArtikel(Artikel artikel) throws IOException {
+    public synchronized void addArtikel(Artikel artikel) throws IOException {
         try {
             getArtikelByArtNr(artikel.getArtNr());
         } catch (ArtikelNichtGefundenException e) {
@@ -50,7 +50,7 @@ public class ArtikelService {
     /**
      * Artikel löschen
      */
-    public void removeArtikel(Artikel artikel) throws ArtikelNichtGefundenException {
+    public synchronized void removeArtikel(Artikel artikel) throws ArtikelNichtGefundenException {
         if (getArtikelByArtNr(artikel.getArtNr()) == null) {
             throw new ArtikelNichtGefundenException(artikel.getArtNr());
         }
@@ -108,7 +108,7 @@ public class ArtikelService {
         return artikel1.equals(artikel2);
     }
 
-    public void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
+    public synchronized void artikelAktualisieren(Artikel artikel) throws ArtikelNichtGefundenException {
         // die ID suchen, wenn nicht vorhanden dementsprechend fehlermeldung ausgeben
         var artikelByArtNr = getArtikelByArtNr(artikel.getArtNr());
         if (artikelByArtNr == null) {
@@ -138,7 +138,7 @@ public class ArtikelService {
      * @return true, wenn der Bestand geändert werden konnte, false, wenn der Bestand nicht geändert werden konnte, weil er unter 0 fallen würde
      * @throws ArtikelNichtGefundenException Wenn kein Artikel mit der angegebenen Artikelnummer gefunden wurde
      */
-    public boolean aendereArtikelBestand(int artikelNr, int neuerBestand, boolean istKauf) throws ArtikelNichtGefundenException {
+    public synchronized boolean aendereArtikelBestand(int artikelNr, int neuerBestand, boolean istKauf) throws ArtikelNichtGefundenException {
         var gefundenerArtikel = getArtikelByArtNr(artikelNr);
         if (neuerBestand < 0) {
             return false;
@@ -147,7 +147,7 @@ public class ArtikelService {
         return true;
     }
 
-    public List<Artikel> getArtikelList() {
+    public synchronized List<Artikel> getArtikelList() {
         return this.artikelList;
     }
 
@@ -166,7 +166,7 @@ public class ArtikelService {
         persistenceManager.replaceAll(artikelList);
     }
 
-    public void anzahlPackgroesseVergleich(Artikel artikel, int anzahl) throws AnzahlPackgroesseException {
+    public synchronized void anzahlPackgroesseVergleich(Artikel artikel, int anzahl) throws AnzahlPackgroesseException {
         if (artikel instanceof Massenartikel) {
             double massenanzahl = (double) anzahl / ((Massenartikel) artikel).getPackgroesse();
             if (massenanzahl % 1 != 0) throw new AnzahlPackgroesseException(anzahl, (Massenartikel) artikel);

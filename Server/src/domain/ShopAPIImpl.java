@@ -61,7 +61,6 @@ public class ShopAPIImpl implements ShopAPI {
     }
 
     public void addArtikel(Artikel artikel) throws IOException {
-
         artikelService.addArtikel(artikel);
         historienService.addEreignis(KategorieEreignisTyp.ARTIKEL_EREIGNIS, EreignisTyp.ARTIKEL_ANLEGEN, artikel, true);
         fireArtikelChangedEvent();
@@ -117,6 +116,8 @@ public class ShopAPIImpl implements ShopAPI {
             WarenkorbArtikelNichtGefundenException, IOException, AnzahlPackgroesseException {
         try {
             var erfolg = warenkorbService.legeArtikelImWarenkorb(artikelNr, anzahl);
+            System.out.println("USER LEGT ARTIKEL IM WARENKORB: " + UserContext.getUser().getNutzername());
+            System.out.println("THREAD: " + Thread.currentThread().getName());
             HistorienService.getInstance()
                     .addEreignis(KategorieEreignisTyp.WARENKORB_EREIGNIS, EreignisTyp.WARENKORB_HINZUFUEGEN, ArtikelService.getInstance().getArtikelByArtNr(artikelNr), erfolg, anzahl);
             return erfolg;
@@ -151,7 +152,7 @@ public class ShopAPIImpl implements ShopAPI {
         }
     }
 
-    public int getWarenkorbArtikelAnzahl(int artNr) {
+    public synchronized int getWarenkorbArtikelAnzahl(int artNr) {
         WarenkorbArtikel warenkorbArtikel = warenkorbService.getWarenkorbArtikelByArtNr(artNr);
         if (warenkorbArtikel == null) return 0;
         return warenkorbArtikel.getAnzahl();
@@ -163,14 +164,14 @@ public class ShopAPIImpl implements ShopAPI {
         if (warenkorbService.getWarenkorb() == null && login instanceof Kunde kunde) {
             warenkorbService.neuerKorb(kunde);
         }
-            HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, login, true);
+        HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.LOGIN, login, true);
 
         return login;
     }
 
 
     public Person registrieren(Person person) throws PersonVorhandenException, IOException {
-        if(!person.getNutzername().equals("admin") && !person.getNutzername().equals("kunde")) {
+        if (!person.getNutzername().equals("admin") && !person.getNutzername().equals("kunde")) {
             HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.MITARBEITER_ANLEGEN, person, true);
         }
         return personenService.registerPerson(person);
@@ -237,7 +238,7 @@ public class ShopAPIImpl implements ShopAPI {
         }
     }
 
-    public ArrayList<Ereignis> getEreignisList() throws IOException {
+    public List<Ereignis> getEreignisList() throws IOException {
         // var ereignisListe = historienService.kundeOderMitarbeiterEreignisListe();
         // HistorienService.getInstance().addEreignis(KategorieEreignisTyp.PERSONEN_EREIGNIS, EreignisTyp.EREIGNIS_ANZEIGEN, ereignisListe.size(), true);
         return HistorienService.getInstance().getEreignisList();
@@ -354,6 +355,10 @@ public class ShopAPIImpl implements ShopAPI {
 
     public List<ShopEventListener> getShopEventListeners() {
         return listeners;
+    }
+
+    public void setUserContext(Person user) throws RemoteException {
+        UserContext.setUser(user);
     }
 
 }

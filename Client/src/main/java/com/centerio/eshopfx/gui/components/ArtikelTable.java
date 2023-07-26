@@ -50,7 +50,6 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
 
     private Button clearButton;
 
-    private final ShopAPI shopAPI = ShopAPIClient.getShopAPI();
 
     public ArtikelTable(
             TableColumn<Artikel, Integer> artikelNummerColumn,
@@ -74,7 +73,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         this.artikelAnzahlField = artikelAnzahlField;
         this.addToWarenkorbButton = addToWarenkorbButton;
         this.clearButton = clearButton;
-        shopAPI.addShopEventListener(this);
+        ShopAPIClient.getShopAPI().addShopEventListener(this);
     }
 
     public ArtikelTable(TableColumn<Artikel, Integer> artikelNummerColumn,
@@ -110,7 +109,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         this.editArtikelButton = editArtikelButton;
         this.removeArtikelButton = removeArtikelButton;
         this.clearButton = clearButton;
-        shopAPI.addShopEventListener(this);
+        ShopAPIClient.getShopAPI().addShopEventListener(this);
     }
 
     public void initializeArtikelView() {
@@ -157,7 +156,8 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
 
     public void refreshTable() throws IOException {
         artikelTableView.getItems().clear();
-        ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList(shopAPI.getArtikelList().stream().filter(a -> a.getBestand() != 0).toList());
+        ObservableList<Artikel> artikelObservableList =
+                FXCollections.observableArrayList(ShopAPIClient.getShopAPI().getArtikelList().stream().filter(a -> a.getBestand() != 0).toList());
         artikelTableView.setItems(artikelObservableList);
     }
 
@@ -166,7 +166,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
             if (!suchField.getText().isEmpty()) {
                 artikelTableView.getItems().clear();
                 ObservableList<Artikel> artikelObservableList = FXCollections.observableArrayList();
-                artikelObservableList.addAll(shopAPI.getArtikelByQuery(suchField.getText()));
+                artikelObservableList.addAll(ShopAPIClient.getShopAPI().getArtikelByQuery(suchField.getText()));
                 artikelTableView.setItems(artikelObservableList);
             } else {
                 refreshTable();
@@ -191,10 +191,10 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
                     } else {
                         anzahl = Integer.parseInt(artikelAnzahlField.getText());
                     }
-                    if (artikel.getBestand() - shopAPI.getWarenkorbArtikelAnzahl(artikel.getArtNr()) < anzahl) {
-                        throw new BestandUeberschrittenException(artikel.getBestand() - shopAPI.getWarenkorbArtikelAnzahl(artikel.getArtNr()), anzahl, artikel);
+                    if (artikel.getBestand() - ShopAPIClient.getShopAPI().getWarenkorbArtikelAnzahl(artikel.getArtNr()) < anzahl) {
+                        throw new BestandUeberschrittenException(artikel.getBestand() - ShopAPIClient.getShopAPI().getWarenkorbArtikelAnzahl(artikel.getArtNr()), anzahl, artikel);
                     }
-                    shopAPI.addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
+                    ShopAPIClient.getShopAPI().addArtikelToWarenkorb(artikel.getArtNr(), anzahl);
                     warenkorbTable.setWarenkorbInTable();
                     artikelAnzahlField.clear();
                     warenkorbTable.initializeGesamtPreis();
@@ -260,7 +260,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
 
     public void removeArtikel() throws IOException, ArtikelNichtGefundenException {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
-        shopAPI.removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
+        ShopAPIClient.getShopAPI().removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
         artikelTableView.getItems().remove(selectedId);
     }
 
@@ -277,13 +277,13 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         }
         try {
             if (massenArtikelCheckbox.isSelected()) {
-                Massenartikel artikel = new Massenartikel(shopAPI.getNaechsteArtikelId(), artikelBezeichnungFeld.getText(),
+                Massenartikel artikel = new Massenartikel(ShopAPIClient.getShopAPI().getNaechsteArtikelId(), artikelBezeichnungFeld.getText(),
                         Double.parseDouble(artikelPreisFeld.getText()), Integer.parseInt(artikelBestandFeld.getText()), Integer.parseInt(packGroesseFeld.getText()));
-                shopAPI.addArtikel(artikel);
+                ShopAPIClient.getShopAPI().addArtikel(artikel);
             } else {
-                Artikel artikel = new Artikel(shopAPI.getNaechsteArtikelId(), artikelBezeichnungFeld.getText(),
+                Artikel artikel = new Artikel(ShopAPIClient.getShopAPI().getNaechsteArtikelId(), artikelBezeichnungFeld.getText(),
                         (Double.parseDouble(artikelPreisFeld.getText())), Integer.parseInt(artikelBestandFeld.getText()));
-                shopAPI.addArtikel(artikel);
+                ShopAPIClient.getShopAPI().addArtikel(artikel);
             }
             refreshTable();
             clearFelder();
@@ -342,7 +342,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
                     newartikel = new Artikel(artikel.getArtNr(), artikelBezeichnungFeld.getText(), Double.parseDouble(artikelPreisFeld.getText()),
                             Integer.parseInt(artikelBestandFeld.getText()));
                 }
-                shopAPI.artikelAktualisieren(newartikel);
+                ShopAPIClient.getShopAPI().artikelAktualisieren(newartikel);
                 refreshTable();
                 clearFelder();
             } else {

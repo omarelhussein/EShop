@@ -2,6 +2,7 @@ package entities;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Warenkorb implements Serializable {
@@ -11,10 +12,10 @@ public class Warenkorb implements Serializable {
 
     public Warenkorb(Kunde kunde) {
         this.kunde = kunde;
-        this.warenkorbArtikelList = new ArrayList<>();
+        this.warenkorbArtikelList = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void addArtikel(WarenkorbArtikel artikel) {
+    public synchronized void addArtikel(WarenkorbArtikel artikel) {
         this.warenkorbArtikelList.add(artikel);
     }
 

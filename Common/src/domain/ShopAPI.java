@@ -15,10 +15,11 @@ import exceptions.warenkorb.WarenkorbArtikelNichtGefundenException;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ShopAPI extends Remote {
+
+    void setUserContext(Person user) throws RemoteException;
 
     void speichern() throws RemoteException;
 
@@ -64,7 +65,7 @@ public interface ShopAPI extends Remote {
 
     void aendereArtikelBestand(int artikelId, int bestand) throws ArtikelNichtGefundenException, IOException, RemoteException;
 
-    ArrayList<Ereignis> getEreignisList() throws IOException, RemoteException;
+    List<Ereignis> getEreignisList() throws IOException, RemoteException;
 
     void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg, int anzahl) throws IOException, RemoteException;
     void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg) throws IOException, RemoteException;
