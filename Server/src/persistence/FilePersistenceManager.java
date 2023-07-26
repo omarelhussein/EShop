@@ -108,9 +108,10 @@ public class FilePersistenceManager<T extends CSVSerializable> {
         }
         return objects;
     }
-
-    // Hier die Hilfsmethoden für die Reflexion
-    // Reflektion ist eine Technik, die es ermöglicht, zur Laufzeit Informationen über Klassen zu erhalten
+     /**
+     Hier die Hilfsmethoden für die Reflexion
+     Reflektion ist eine Technik, die es ermöglicht, zur Laufzeit Informationen über Klassen zu erhalten
+     */
     private static final Map<String, Class<? extends CSVSerializable>> identifierToClassMap = new HashMap<>();
 
     static {

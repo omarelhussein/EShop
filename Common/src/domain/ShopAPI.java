@@ -19,6 +19,9 @@ import java.util.List;
 
 public interface ShopAPI extends Remote {
 
+    /**
+     * Remoteinterface für die ShopAPI
+     */
     void setUserContext(Person user) throws RemoteException;
 
     void speichern() throws RemoteException;

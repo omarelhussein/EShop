@@ -66,6 +66,9 @@ public class EreignisTable {
 
     }
 
+    /**
+     * Initialisiert den Ereignis-Table je nach Auswahl im dropdown-Menü
+     */
     public void initializeEreignisView(){
         ereignisPersNrTableColumn = new TableColumn("PersNr");
         ereignisPersNameTableColumn = new TableColumn("Name");
@@ -167,6 +170,9 @@ public class EreignisTable {
         });
     }
 
+    /**
+     * Setzt die Ereignisse in der Ereignis-Tabelle dazu, das wieder alle Ereignisse in der Tabelle sind.
+     */
     public void resetBestandshistorieButtonHandler(){
         ereignisTableView.getItems().clear();
         ereignisTableView.getColumns().clear();
@@ -178,9 +184,11 @@ public class EreignisTable {
         ereignisBestandTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("bestandString"));
         ereignisDatumTableColumn.setCellValueFactory(new PropertyValueFactory<Ereignis, String>("datumString"));
 
-
-
     }
+
+    /**
+     * Die Bestandhistorie wird mit einem Doppelklick auf einen Eintrag in der Bestandshistorien-Tabelle aufgerufen.
+     */
     public void bestandsHistorieSuchenButtonHandler(){
         try {
             ereignisTableView.setOnMouseClicked(event -> {
@@ -213,6 +221,11 @@ public class EreignisTable {
         }
 
     }
+
+    /**
+     * Setzt die Ereignisse in die Tabelle.
+     * @throws IOException
+     */
     public void setEreingisInTable() throws IOException {
         ereignisTableView.getItems().clear();
         ObservableList<Ereignis> ereignisObservableList = FXCollections.observableArrayList();

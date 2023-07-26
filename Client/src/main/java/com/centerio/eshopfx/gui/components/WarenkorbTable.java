@@ -31,6 +31,7 @@ public class WarenkorbTable {
     private Button kaufenButton;
     private Label gesamtPreis;
 
+
     public WarenkorbTable(TableColumn<WarenkorbArtikel, String> warenkorbArtikelStringTableColumn,
                           TableColumn<WarenkorbArtikel, Integer> warenkorbArtikelAnzahlTableColumn,
                           TableColumn<WarenkorbArtikel, Double> warenkorbArtikelPreisTableColumn,
@@ -76,17 +77,31 @@ public class WarenkorbTable {
         });
     }
 
+    /**
+     * Initialisiert den Gesamtpreis im Warenkorbtab
+     * @throws RemoteException
+     */
     public void initializeGesamtPreis() throws RemoteException {
         Warenkorb warenkorb = ShopAPIClient.getShopAPI().getWarenkorb();
         gesamtPreis.setText("Gesamtpreis: " + warenkorb.getGesamtSumme());
     }
 
+    /**
+     * Kauft den Warenkorb
+     * @throws BestandUeberschrittenException
+     * @throws ArtikelNichtGefundenException
+     * @throws IOException
+     */
     public void kaufeWarenkorb() throws BestandUeberschrittenException, ArtikelNichtGefundenException, IOException {
         ShopAPIClient.getShopAPI().kaufen();
         warenkorbTableView.getItems().clear();
         setWarenkorbInTable();
     }
 
+    /**
+     * Setzt die WarenkorbArtikel in die Warenkorb-Tabelle
+     * @throws IOException
+     */
     public void setWarenkorbInTable() throws IOException {
         warenkorbTableView.getItems().clear();
         ObservableList<WarenkorbArtikel> warenkorbObservableList = FXCollections.observableArrayList();
@@ -95,6 +110,9 @@ public class WarenkorbTable {
         initializeGesamtPreis();
     }
 
+    /**
+     * Entfernt Warenkorb-Artikel aus dem Warenkorb
+     */
     public void warenkorbEntfernen() {
         try {
             int selectedId = warenkorbTableView.getSelectionModel().getSelectedIndex();
@@ -118,6 +136,10 @@ public class WarenkorbTable {
         }
     }
 
+    /**
+     * Erstellt die Rechnung
+     * @throws RemoteException
+     */
     public void rechnungErstellen() throws RemoteException {
 
         if (ShopAPIClient.getShopAPI().getWarenkorb().getAnzahlArtikel() == 0) {

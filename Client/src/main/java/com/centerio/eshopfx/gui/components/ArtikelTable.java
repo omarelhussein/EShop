@@ -112,6 +112,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         ShopAPIClient.getShopAPI().addShopEventListener(this);
     }
 
+
     public void initializeArtikelView() {
         artikelNummerColumn = new TableColumn("Nummer");
         artikelBezeichnungColumn = new TableColumn("Bezeichnung");
@@ -131,6 +132,9 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         });
     }
 
+    /**
+     * Setted die Eventlistener für die UI-Komponente des Artikeltable der Mitarbeiter
+     */
     public void setMitarbeiterEventHandlersForArtikel() {
         addArtikelButton.setOnAction(e -> {
             try {
@@ -154,6 +158,10 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         clearButton.setOnAction(e -> clearSuchField());
     }
 
+    /**
+     * Aktualisiert den Artikeltable
+     * @throws IOException
+     */
     public void refreshTable() throws IOException {
         artikelTableView.getItems().clear();
         ObservableList<Artikel> artikelObservableList =
@@ -161,6 +169,9 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         artikelTableView.setItems(artikelObservableList);
     }
 
+    /**
+     * Sucht Artikel anhand Query
+     */
     public void artikelSuchen() {
         try {
             if (!suchField.getText().isEmpty()) {
@@ -177,7 +188,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
     }
 
     /**
-     * Kundenfunktionen
+     * Fügt einen angeklickten Artikel in den Warenkorb hinzu.
      */
     public void toWarenkorb(WarenkorbTable warenkorbTable) {
         try {
@@ -211,6 +222,9 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         }
     }
 
+    /**
+     * Setted die Eventlistener für die UI-Komponente des Artikeltable der Kunde
+     */
     public void setKundeEventHandlerForArtikel(WarenkorbTable warenkorbTable) {
         suchField.setOnKeyPressed(e -> clearSuchFieldKey(e));
         suchField.setOnKeyTyped(e -> {
@@ -225,7 +239,7 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
     }
 
     /**
-     * Mitarbeiterfunktionen
+     * Fügt den Inhalt der Tabelle in die Textfelder in der UI hinzu.
      */
     public void handleRowClicked() {
         artikelTableView.setOnMouseClicked(event -> {
@@ -246,6 +260,9 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         });
     }
 
+    /**
+     * Verwaltet die Checkbox für Massenartikel
+     */
     public void massenArtikelHandler() {
         massenArtikelCheckbox.setOnAction(observable -> {
             var isSelected = massenArtikelCheckbox.isSelected();
@@ -258,12 +275,21 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         });
     }
 
+    /**
+     * Entfernt einen angeklickten Artikel aus der Artikel-Tabelle
+     * @throws IOException
+     * @throws ArtikelNichtGefundenException
+     */
     public void removeArtikel() throws IOException, ArtikelNichtGefundenException {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
         ShopAPIClient.getShopAPI().removeArtikel(artikelTableView.getItems().get(selectedId).getArtNr());
         artikelTableView.getItems().remove(selectedId);
     }
 
+    /**
+     * Fügt einen Artikel in die Artikel-Tabelle hinzu.
+     * @throws IOException
+     */
     public void artikelAdd() throws IOException {
         resetArtikelAddStyles();
         if (isEmpty(artikelBezeichnungFeld)) {
@@ -292,12 +318,18 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         }
     }
 
+    /**
+     * Resetted die Artikel Textfelder.
+     */
     public void resetArtikelAddStyles() {
         artikelBezeichnungFeld.setStyle("");
         artikelPreisFeld.setStyle("");
         artikelBestandFeld.setStyle("");
     }
 
+    /**
+     * Resetted die Artikel Textfelder.
+     */
     private void clearFelder() {
         artikelBestandFeld.setText("");
         artikelPreisFeld.setText("");
@@ -305,6 +337,11 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         packGroesseFeld.setText("");
     }
 
+    /**
+     * Überprüft ein Textfeld, ob dieses Leer ist, wenn dies zutrifft, wird dessen Rand rot
+     * @param field
+     * @return
+     */
     private boolean isEmpty(TextField field) {
         if (field.getText().isEmpty()) {
             field.setStyle("-fx-border-color: red;");
@@ -314,6 +351,9 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         return false;
     }
 
+    /**
+     * Löscht den Inhalt des Suchtextfeld
+     */
     public void clearSuchField() {
         suchField.setText("");
         try {
@@ -323,12 +363,19 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         }
     }
 
+    /**
+     * Löscht den Inhalt des Suchtextfeld mit der Escape eingabe auf der Tastatur
+     * @param e
+     */
     public void clearSuchFieldKey(KeyEvent e) {
         if (e.getCode().equals(KeyCode.ESCAPE)) {
             clearSuchField();
         }
     }
 
+    /**
+     * Editiert einen Artikel, nach dem Inhalt, welcher in den Artikeltextfeldern enthalten sind
+     */
     public void editArtikel() {
         int selectedId = artikelTableView.getSelectionModel().getSelectedIndex();
         try {
@@ -354,6 +401,10 @@ public class ArtikelTable extends UnicastRemoteObject implements ShopEventListen
         }
     }
 
+    /**
+     * Wird aufgerufen, wenn ein Artikellisten-Event auftritt, um die Artikelliste auf jedem Thread zu aktualisieren.
+     * @throws RemoteException
+     */
     @Override
     public void handleArtikelListChanged() throws RemoteException {
         // put refreshTable() in Platform.runLater() to avoid IllegalStateException

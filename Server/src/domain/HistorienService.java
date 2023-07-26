@@ -42,7 +42,15 @@ public class HistorienService {
         }
         return historienService;
     }
-
+    /**
+     * Nimmt
+     * @Param ereignisKategorie
+     * @Param ereignisTyp
+     * @Param obj
+     * @Param erfolg
+     * und erstellt ein Ereignis.
+     * diesem Ereignis wird ein Datum hinzugefügt.
+     */
     public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg) throws IOException {
         var user = UserContext.getUser();
         if (user == null) { // at application start, no user is logged in, but we still want to log events
@@ -56,7 +64,15 @@ public class HistorienService {
             ereignisList.add(ereignis);
         }
     }
-
+    /**
+     * Nimmt
+     * @Param ereignisKategorie
+     * @Param ereignisTyp
+     * @Param obj
+     * @Param erfolg
+     * und erstellt ein Ereignis.
+     * diesem Ereignis wird ein Datum und eine Anzahl hinzugefügt.
+     */
     public void addEreignis(KategorieEreignisTyp ereignisKategorie, EreignisTyp ereignisTyp, Object obj, boolean erfolg, int anzahl) throws IOException {
         var user = UserContext.getUser();
         if (user == null) { // at application start, no user is logged in, but we still want to log events
@@ -68,6 +84,10 @@ public class HistorienService {
         }
     }
 
+    /**
+     * gibt eine Liste aller Personen-Ereignisse zurück.
+     * @return
+     */
     public List<Ereignis> getUngefiltertPersonEreignishistorie() {
         List<Ereignis> personhistorie = new ArrayList<>();
         for (Ereignis ereignis : ereignisList) {
@@ -82,7 +102,10 @@ public class HistorienService {
         }
         return personhistorie;
     }
-
+    /**
+     * gibt eine Liste aller Artikel-Ereignisse zurück.
+     * @return
+     */
     public List<Ereignis> getUngefiltertArtikelEreignishistorie() {
         List<Ereignis> artikelhistorie = new ArrayList<>();
         for (Ereignis ereignis : ereignisList) {
@@ -98,7 +121,10 @@ public class HistorienService {
         }
         return artikelhistorie;
     }
-
+    /**
+     * gibt eine Liste aller Warenkorb-Ereignisse zurück.
+     * @return
+     */
     public List<Ereignis> getUngefiltertWarenkorbEreignishistorie() {
         List<Ereignis> warenkorbhistorie = new ArrayList<>();
         for (Ereignis ereignis : ereignisList) {
@@ -112,7 +138,10 @@ public class HistorienService {
         }
         return warenkorbhistorie;
     }
-
+    /**
+     * gibt eine Liste der Ereignisse einer Person zurück.
+     * @return
+     */
     public List<Ereignis> suchPersonhistorie(int persNr, int tage, Person person) throws ArtikelNichtGefundenException, IOException {
         List<Ereignis> personhistorie = new ArrayList<>();
         var neueTage = ueberpruefeTage(tage);
@@ -123,7 +152,13 @@ public class HistorienService {
         }
         return personhistorie;
     }
-
+    /**
+     * gibt eine Liste der Ereignisse betreffend zu einem Artikel zurück.
+     * @param artNr
+     * @param tage
+     * @param istKaufFilter
+     * @return
+     */
     public List<Ereignis> suchBestandshistorie(int artNr, int tage, Boolean istKaufFilter) throws ArtikelNichtGefundenException, IOException {
         var artikel = ArtikelService.getInstance().getArtikelByArtNr(artNr);
         var neueTage = ueberpruefeTage(tage);
@@ -136,11 +171,20 @@ public class HistorienService {
         return betroffeneArtikelEreignisList;
     }
 
+    /**
+     * Überprüft ob die Tage wieviel zurück geblickt werden soll, valide sind.
+     * @param tage
+     * @return
+     */
     private int ueberpruefeTage(int tage) {
         if (tage <= 0) tage = STANDARD_TAGE_ZURUECK;
         return tage;
     }
 
+    /**
+     * gibt eine Ereignisliste zurück, welche basierend darauf ist, ob die Person ein Kunde oder ein Mitarbeiter ist.
+     * @return
+     */
     public List<Ereignis> kundeOderMitarbeiterEreignisListe() {
         if (UserContext.getUser() instanceof Kunde) {
             ArrayList<Ereignis> kundenEreignisListe = new ArrayList<>();
@@ -164,6 +208,10 @@ public class HistorienService {
         }
     }
 
+    /**
+     * speichert die Ereignisse
+     * @throws IOException
+     */
     public void save() throws IOException {
         persistenceManager.replaceAll(ereignisList);
     }

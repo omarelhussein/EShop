@@ -5,24 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ecad196f-22dd-4d59-aec1-8fceaa71f013" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelGraphTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelGraphTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/ShopAPIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/ShopAPIClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/ArtikelTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/PersonenTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/PersonenTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/EreignisTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/EreignisTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/WarenkorbTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/components/WarenkorbTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/KundeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/KundeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/MitarbeiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/MitarbeiterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/RegistrierenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/RegistrierenController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/exceptions/artikel/AnzahlPackgroesseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/exceptions/artikel/AnzahlPackgroesseException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/exceptions/artikel/ArtikelNichtGefundenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/exceptions/artikel/ArtikelNichtGefundenException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/exceptions/personen/PasswortNameException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/exceptions/personen/PasswortNameException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/exceptions/personen/PersonNichtGefundenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/exceptions/personen/PersonNichtGefundenException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/domain/ArtikelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ArtikelService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/domain/BestellService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/BestellService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/domain/PersonenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/PersonenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/domain/ShopAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/domain/ShopAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/domain/ShopEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/domain/ShopEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/RMIServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/domain/HistorienService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/HistorienService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/ShopAPIImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/domain/WarenkorbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/domain/WarenkorbService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/persistence/FilePersistenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/persistence/FilePersistenceManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,28 +39,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "inlay.hints",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.EShopApplication">
     <configuration name="EShopApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.centerio.eshopfx.EShopApplication" />
@@ -161,11 +155,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Client/src/main/java/com/centerio/eshopfx/gui/controller/RegistrierenController.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

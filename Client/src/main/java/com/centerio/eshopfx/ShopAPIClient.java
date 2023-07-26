@@ -13,6 +13,11 @@ public class ShopAPIClient {
     private static ShopAPI shopAPI;
     private static final Logger logger = Logger.getLogger(ShopAPIClient.class.getName());
 
+    /**
+     * Verbindet den Client mit dem Remote-Object, damit dieser über das Remote-Interface die Methoden des Remote-Object aufrufen kann.
+     * @return
+     * @throws RemoteException
+     */
     public static ShopAPI getShopAPI() throws RemoteException {
         if (shopAPI == null) {
             try {

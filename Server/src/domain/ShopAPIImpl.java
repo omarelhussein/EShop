@@ -27,7 +27,12 @@ public class ShopAPIImpl implements ShopAPI {
     private final BestellService bestellService;
     private final List<ShopEventListener> listeners;
 
-
+    /**
+     * Konstruktor der API, hier werden Instanzen der einzelnen Services erstmals initialisiert.
+     * Unter anderem wird beim aufrufen des Konstruktors ein standard Mitarbeiter "Admin" und ein standard Kunde "kunde" erstellt.
+     * Außerdem beinhaltet der Konstruktor eine Liste an Listeners.
+     * @throws RemoteException
+     */
     public ShopAPIImpl() throws RemoteException {
         try {
             artikelService = ArtikelService.getInstance();
@@ -456,14 +461,26 @@ public class ShopAPIImpl implements ShopAPI {
 
     }
 
+    /**
+     * Gibt eine Ereignisliste zurück, welche die Personen-Ereignisse beinhaltet.
+     * @return
+     */
     public List<Ereignis> getUngefiltertePersonenhistorie() throws IOException {
         return HistorienService.getInstance().getUngefiltertPersonEreignishistorie();
     }
 
+    /**
+     * Gibt eine Ereignisliste zurück, welche die Artikel-Ereignisse beinhaltet.
+     * @return
+     */
     public List<Ereignis> getUngefilterteArtikelhistorie() throws IOException {
         return HistorienService.getInstance().getUngefiltertArtikelEreignishistorie();
     }
 
+    /**
+     * Gibt eine Ereignisliste zurück, welche die Warenkorb-Ereignisse beinhaltet.
+     * @return
+     */
     public List<Ereignis> getUngefilterteWarenkorbhistorie() throws IOException {
         return HistorienService.getInstance().getUngefiltertWarenkorbEreignishistorie();
     }
