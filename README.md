@@ -1,4 +1,5 @@
-                          ## Aufbau des Projekts
+## Aufbau des Projekts
+
 Das Projekt besteht aus 3 Modulen:
 - `Common` - Enthält die gemeinsamen Klassen, die von Server und Client verwendet werden.
 - `Server` - Enthält die Server-Anwendung.
